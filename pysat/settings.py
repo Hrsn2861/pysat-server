@@ -25,7 +25,9 @@ SECRET_KEY = '@6#zx5!+lwh(+hq1*iyw&nf$lsl!e442_*o8scg56pqz7j!_28'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+# TODO
+# ALLOWED_HOSTS should be changed into ['pysat-web.CTRL.secoder.local'] after the project published
 
 
 # Application definition
