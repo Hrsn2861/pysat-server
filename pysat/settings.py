@@ -75,8 +75,16 @@ WSGI_APPLICATION = 'pysat.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'pysat',
+        'PORT': 3306,
+        "HOST": 'database.CTRL.secoder.local',
+        'USER': 'ctrl',
+        'PASSWORD': 'ctrl666',
+        'OPTIONS': {
+            'autocommit': True,
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        }
     }
 }
 

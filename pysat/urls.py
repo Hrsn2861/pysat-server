@@ -16,6 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+import pysat.test as test
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', test.test),
 ]
