@@ -11,11 +11,11 @@ def test_database(request):
     # User(username="hrsn", password="I am stupid.", email="xxx@xxx.xxx", realname="Chen Haozhan", school="THU", permission=1).save()
 
     # find and modify user
-    for user in User.objects.filter(username="hrsn"):
-        user.password = "I am strong!"
-        user.save()
+    # for user in User.objects.filter(username="hrsn"):
+    #    user.password = "I am strong!"
+    #    user.save()
 
     # delete user
     # User.objects.filter(username='temp').delete()
 
-    return HttpResponse("")
+    return HttpResponse("Docker Success")
