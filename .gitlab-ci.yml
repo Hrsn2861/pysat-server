@@ -14,17 +14,6 @@ build:
     - export BUILD_IMAGE_PASSWORD=$CI_REGISTRY_PASSWORD
     - deployer build
 
-.test:
-  stage: test
-  before_script:
-    - pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements_dev.txt
-
-unit-test:
-  extends: .test
-
-style-test:
-  extends: .test
-
 deploy:
   stage: deploy
   script:
