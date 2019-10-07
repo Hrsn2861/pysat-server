@@ -11,7 +11,7 @@ RUN apt install libmariadb-dev
 
 COPY . $HOME
 
-EXPOSE 3027
+EXPOSE 80
 
 ENV PYTHONUNBUFFERED=true
 CMD ["/bin/sh", "config/run.sh"]
