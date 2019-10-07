@@ -21,4 +21,6 @@ import server.views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', server.views.test_database),
+    path('login/',server.views.login),
+    path('sign_up/',server.views.sign_up)
 ]
