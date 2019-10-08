@@ -20,24 +20,3 @@ def test_database(request):
     # User.objects.filter(username='temp').delete()
 
     return HttpResponse("Docker Success")
-
-def login(request):
-
-    # phonenumber = request.POST.get("phonenumber")
-    # password = request.POST.get("password")
-
-    data = {
-        'status_id' : 1,
-        'msg' : 'I am stupid.'
-    }
-
-    return HttpResponse(json.dumps(data))
-
-def sign_up(request):
-
-    data = {
-        'status_id' : 1,
-        'msg' : 'nothing wrong!'
-    }
-
-    return HttpResponse(json.dumps(data))
