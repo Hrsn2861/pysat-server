@@ -28,7 +28,10 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 # TODO
 # ALLOWED_HOSTS should be changed into ['pysat-web.CTRL.secoder.local'] after the project published
-
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_ALLOW_ALL = True
+# allow all headers
+CORS_ALLOW_HEADERS = ('*')
 
 # Application definition
 
@@ -39,12 +42,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'server'
+    'server',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
