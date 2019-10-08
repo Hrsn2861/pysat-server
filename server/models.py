@@ -1,5 +1,4 @@
 from django.db import models
-import datetime
 
 # Create your models here.
 
@@ -22,4 +21,5 @@ class User(models.Model):
 class EntryLog(models.Model):
     userid = models.IntegerField()
     key = models.CharField(max_length=128)
+    entrytime = models.DateTimeField()
     deadtime = models.DateTimeField()

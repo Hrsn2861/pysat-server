@@ -26,6 +26,7 @@ def getEntryLogByKey(key):
         ret = {
             'userid' : log.userid,
             'key' : log.key,
+            'entrytime' : log.entrytime,
             'deadtime' : log.deadtime
         }
     else:

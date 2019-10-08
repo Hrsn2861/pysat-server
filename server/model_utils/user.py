@@ -8,15 +8,16 @@ from django.contrib.auth.hashers import make_password, check_password
 def getFirstUserInList(users):
     if len(users) > 0:
         ret = {
-            'id': users[0].id,
-            'username': users[0].username,
-            'password': users[0].password,
-            'email': users[0].email,
-            'telphone': users[0].telphone,
-            'realname': users[0].realname,
-            'school': users[0].school,
-            'motto': users[0].motto,
-            'permission': users[0].permission,
+            'id' : users[0].id,
+            'username' : users[0].username,
+            'password' : users[0].password,
+            'email' : users[0].email,
+            'telphone' : users[0].telphone,
+            'realname' : users[0].realname,
+            'school' : users[0].school,
+            'motto' : users[0].motto,
+            'permission' : users[0].permission,
+            'valid' : users[0].valid
         }
         return ret
     else:
@@ -47,6 +48,8 @@ def signup(username, password, email, telphone, realname, school, permission = 1
 def signin(userid, password):
     user = getUser(userid)
     if user is None:
+        return False
+    if user['valid'] is not True:
         return False
     return check_password(password, user['password'])
 
