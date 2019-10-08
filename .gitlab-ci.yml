@@ -15,6 +15,8 @@ build:
     - deployer build
   only:
     - feature-be-cors
+    - dev
+    - master
 
 deploy:
   stage: deploy
@@ -22,3 +24,5 @@ deploy:
     - deployer dyno replace $CI_PROJECT_NAME "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" "$REGISTRY_USER" "$REGISTRY_PWD"
   only:
     - feature-be-cors
+    - dev
+    - master
