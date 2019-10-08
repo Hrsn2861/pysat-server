@@ -14,6 +14,8 @@ build:
     - export BUILD_IMAGE_PASSWORD=$CI_REGISTRY_PASSWORD
     - deployer build
   only:
+    - feature-be-cors
+    - dev
     - master
 
 deploy:
@@ -21,4 +23,6 @@ deploy:
   script:
     - deployer dyno replace $CI_PROJECT_NAME "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" "$REGISTRY_USER" "$REGISTRY_PWD"
   only:
+    - feature-be-cors
+    - dev
     - master
