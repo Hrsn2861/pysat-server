@@ -22,6 +22,8 @@ import server.posts.user as user
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', server.views.test_database),
+    
+    path('check_login/', user.check_login),
     path('login/', user.login),
     path('sign_up/', user.sign_up)
 ]
