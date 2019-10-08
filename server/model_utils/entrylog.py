@@ -21,7 +21,7 @@ def getEntryLogByKey(key):
     logs = EntryLog.objects.filter(key=key, deadtime__gt=datetime.datetime.now())
     if len(logs) > 0:
         log = logs[0]
-        log.deadtime = datetime.datetime.now() + datetime.date(day=7)
+        log.deadtime = datetime.datetime.now() + datetime.timedelta(days=7)
         log.save()
         ret = {
             'userid' : log.userid,
@@ -42,7 +42,7 @@ def addEntryLog(userid):
     key = None
     while key is None or getEntryLogByKey(key) is not None:
         key = make_entrykey()
-    EntryLog(userid=userid, key=key, deadtime=datetime.datetime.now()).save()
+    EntryLog(userid=userid, key=key, deadtime=datetime.datetime.now() + datetime.timedelta(days=7)).save()
 
     return key
 

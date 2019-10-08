@@ -39,7 +39,9 @@ def getUserByTelphone(telphone):
 
 
 def signup(username, password, email, telphone, realname, school, permission = 1):
-    User(username=username, password=make_password(password), email=email, telphone=telphone, realname=realname, school=school, permission=permission).save()
+    user = User(username=username, password=make_password(password), email=email, telphone=telphone, realname=realname, school=school, permission=permission)
+    user.save()
+    return user.id
 
 
 def signin(userid, password):
