@@ -1,4 +1,5 @@
 from django.db import models
+import datetime
 
 # Create your models here.
 
@@ -12,6 +13,11 @@ class User(models.Model):
     school = models.CharField(max_length=64)
 
     permission = models.IntegerField()
+
+    motto = models.CharField(max_length=256, default="")
+
+    valid = models.BooleanField(default=True)
+    
 
 class EntryLog(models.Model):
     userid = models.IntegerField()
