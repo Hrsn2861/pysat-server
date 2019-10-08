@@ -43,7 +43,7 @@ def addEntryLog(userid):
     key = None
     while key is None or getEntryLogByKey(key) is not None:
         key = make_entrykey()
-    EntryLog(userid=userid, key=key, deadtime=datetime.datetime.now() + datetime.timedelta(days=7)).save()
+    EntryLog(userid=userid, key=key, entrytime=datetime.datetime.now(), deadtime=datetime.datetime.now() + datetime.timedelta(days=7)).save()
 
     return key
 
