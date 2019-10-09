@@ -39,7 +39,7 @@ class AESCipher:
         try:
             text = a2b_hex(text)
             text = cryptor.decrypt(text)
-            text.rstrip(b'\0')
+            text = text.rstrip(b'\0')
             return text.decode('utf-8')
         except Error:
             return None
