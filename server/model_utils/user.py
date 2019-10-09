@@ -106,6 +106,36 @@ def user_verify(userid, verify_key):
     return False
 
 
+def user_count(manager=False, show_invalid=False):
+    condtions = {}
+    if manager:
+        condtions['permission__gt'] = 1
+    else:
+        condtions['permission'] = 1
+    if not show_invalid:
+        condtions['valid'] = True
+    return User.objects.filter(**condtions).count()
+
+
+def user_list(page, manager=False, show_invalid=False):
+    condtions = {}
+    if manager:
+        condtions['permission__gt'] = 1
+    else:
+        condtions['permission'] = 1
+    if not show_invalid:
+        condtions['valid'] = True
+    qs = User.objects.filter(**condtions).order_by('id')
+    users = qs[(page - 1) * 20 : page * 20]
+    ret = []
+    for user in users:
+        user = getFirstUserInList([user])
+        del user['password']
+        del user['verify']
+        ret.append(user)
+    return ret
+
+
 class UserInfoChecker:
     """UserInfo Checker
     """

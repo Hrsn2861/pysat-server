@@ -37,17 +37,22 @@ def getEntryLogByKey(key):
     return ret
 
 
-def addEntryLog(userid):
-    """Add an EntryLog into database.
-
-    Return a random key.
-    """
+def delEntryLog(userid):
     nowdate = datetime.datetime.now()
     logs = EntryLog.objects.filter(userid=userid, deadtime__gt=nowdate)
     for log in logs:
         log.deadtime = nowdate
         log.save()
 
+
+def addEntryLog(userid):
+    """Add an EntryLog into database.
+
+    Return a random key.
+    """
+    delEntryLog(userid)
+
+    nowdate = datetime.datetime.now()
     key = None
     while key is None or getEntryLogByKey(key) is not None:
         key = randkey()
