@@ -18,7 +18,7 @@ def randkey(length=128):
 def getEntryLogByKey(key):
     """Get the EntryLog whose entrykey is `key`.
     """
-    if len(key) != 128:
+    if key is None or len(key) != 128:
         return None
     logs = EntryLog.objects.filter(key=key, deadtime__gt=datetime.datetime.now())
     if logs is not None and logs.exists():

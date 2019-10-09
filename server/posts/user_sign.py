@@ -99,7 +99,7 @@ def signup(request):
         realname = request.GET.get('realname')
         school = request.GET.get('school')
 
-        if username is None or User.getUserByName(username) is not None:
+        if username is None or User.getUserByName(username) is not None or User.UserInfoChecker.check_username(username) is not True:
             data = {
                 'status' : 0,
                 'msg' : "Invalid username"

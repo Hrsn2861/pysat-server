@@ -1,6 +1,8 @@
 """
 """
 
+import re
+
 from server.models import User
 from server.model_utils.entrylog import randkey
 from django.contrib.auth.hashers import make_password, check_password
@@ -77,6 +79,7 @@ def modifyUser(userid, info):
     motto = info.get('motto')
     permission = info.get('permission')
     password = info.get('password')
+    verify = info.get('verify')
 
     if realname is not None:
         user.realname = realname
@@ -88,8 +91,19 @@ def modifyUser(userid, info):
         user.permission = permission
     if password is not None:
         user.password = make_password(password)
+    if verify is not None:
+        user.verify = verify
 
     user.save()
+
+
+def user_verify(userid, verify_key):
+    user = getUser(userid)
+    if user is not None and user['need_verify'] is True:
+        if verify_key == user['verify']:
+            modifyUser(userid, {'verify' : ''})
+            return True
+    return False
 
 
 class UserInfoChecker:
@@ -97,21 +111,77 @@ class UserInfoChecker:
     """
 
     @staticmethod
-    def check_password(password):
+    def check_username(username):
+        """检验用户名合理性
+
+        必须包含字母
+        只能包含字母与数字
+        长度在 4-16 位之间
+        """
+        if username is None:
+            return False
+        username = str(username)
+        if len(username) < 4 or len(username) > 16:
+            return False
+        if username.isdigit():
+            return False
+        if not username.isalnum():
+            return False
         return True
+
+    @staticmethod
+    def check_password(password):
+        """检验密码合理性
+
+        必须包含大写字母、小写字母、数字
+        特殊字符只支持 ~!@&%#_
+        长度在 6-20 位之间
+        """
+        if password is None:
+            return False
+        password = str(password)
+        if re.findall(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9~!@&%#_]{6,20}$', password):
+            return True
+        return False
 
     @staticmethod
     def check_email(email):
-        return True
+        """检验邮箱合理性
+        """
+        if email is None:
+            return False
+        email = str(email)
+        if re.findall(r'^\w+@(\w+.)+(com|cn|net)$', email):
+            return True
+        return False
 
     @staticmethod
     def check_realname(realname):
+        """检验姓名合理性
+        """
+        if realname is None:
+            return False
         return True
 
     @staticmethod
     def check_school(school):
+        """检验学校合理性
+        """
+        if school is None:
+            return False
         return True
 
     @staticmethod
     def check_telphone(telphone):
+        """检验电话合理性
+
+        十一位的纯数字
+        """
+        if telphone is None:
+            return False
+        telphone = str(telphone)
+        if len(telphone) != 11:
+            return False
+        if not telphone.isdigit():
+            return False
         return True
