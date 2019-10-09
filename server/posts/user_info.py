@@ -16,6 +16,7 @@ def user_info(request):
         if key is not None:
             log = Entrylog.getEntryLogByKey(key)
         else:
+
             log = None
             msg = 'Failed to get entry key'
 
@@ -37,8 +38,7 @@ def user_info(request):
                     target_user = User.getUserByName(target_username)
                     
                 else:
-                    target_user = None
-                    msg = "Failed to get username"
+                    target_user = user
 
                 if target_user is None:
                     status = 0
@@ -48,11 +48,6 @@ def user_info(request):
                 else:
                     status = 1
                     del target_user["password"]
-
-                    if(user["id"] == target_user["id"]):
-                        target_user["id"] = 0
-                    else:
-                        pass
                     msg = 'User found'
     
     else:
