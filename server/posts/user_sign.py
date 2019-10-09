@@ -4,49 +4,44 @@ import json
 import server.model_utils.user as User
 import server.model_utils.entrylog as EntryLog
 
+
+def user_verify(key):
+    if key is None:
+        return None
+    log = EntryLog.getEntryLogByKey(str(key))
+    if log is None:
+        return None
+    user = User.getUser(log['userid'])
+    if user is None:
+        return None
+    del user['password']
+    del user['verify']
+    return user
+
+
 def check_login(request):
-    msg = None
     if request.method == 'GET':
         key = request.GET.get('entrykey')
-        print(key)
-        if key is not None:
-            log = EntryLog.getEntryLogByKey(str(key))
-        else:
-            log = None
-            if msg is None:
-                msg = "Failed to get entry key"
-
-        if log is not None:
-            user = User.getUser(log['userid'])
-        else:
-            user = None
-            if msg is None:
-                msg = "Invalid entry key"
-        
+        user = user_verify(key)        
         if user is not None:
-            del user['password']
-            del user['verify']
             data = {
                 'status' : 1,
-                'user' : user
+                'user' : user,
+                'msg' : "Checked"
             }
-            msg = "Checked"
         else:
             data = {
                 'status' : 0,
-                'user' : None
+                'user' : None,
+                'msg' : "Invalid entry key"
             }
-            if msg is None:
-                msg = "Invalid entry key"
     else:
         data = {
             'status' : -1,
-            'user' : None
+            'user' : None,
+            'msg' : "Invalid request"
         }
-        if msg is None:
-            msg = "Invalid request"
 
-    data['msg'] = msg
     return HttpResponse(json.dumps(data))
 
 
@@ -99,7 +94,7 @@ def signup(request):
         realname = request.GET.get('realname')
         school = request.GET.get('school')
 
-        if username is None or User.getUserByName(username) is not None:
+        if username is None or User.getUserByName(username) is not None or User.UserInfoChecker.check_username(username) is not True:
             data = {
                 'status' : 0,
                 'msg' : "Invalid username"

@@ -18,7 +18,7 @@ def randkey(length=128):
 def getEntryLogByKey(key):
     """Get the EntryLog whose entrykey is `key`.
     """
-    if len(key) != 128:
+    if key is None or len(key) != 128:
         return None
     logs = EntryLog.objects.filter(key=key, deadtime__gt=datetime.datetime.now())
     if logs is not None and logs.exists():
@@ -37,17 +37,22 @@ def getEntryLogByKey(key):
     return ret
 
 
-def addEntryLog(userid):
-    """Add an EntryLog into database.
-
-    Return a random key.
-    """
+def delEntryLog(userid):
     nowdate = datetime.datetime.now()
     logs = EntryLog.objects.filter(userid=userid, deadtime__gt=nowdate)
     for log in logs:
         log.deadtime = nowdate
         log.save()
 
+
+def addEntryLog(userid):
+    """Add an EntryLog into database.
+
+    Return a random key.
+    """
+    delEntryLog(userid)
+
+    nowdate = datetime.datetime.now()
     key = None
     while key is None or getEntryLogByKey(key) is not None:
         key = randkey()
