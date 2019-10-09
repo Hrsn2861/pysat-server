@@ -8,6 +8,7 @@ import server.model_utils.entrylog as Entrylog
 def user_info(request):
 
     target_user = None
+    status = 0
     
     if request.method == 'GET':
         key = request.GET.get('key')
@@ -15,10 +16,10 @@ def user_info(request):
         log = Entrylog.getEntryLogByKey(key)
 
         # test
-        target_username = 'Xianyu'
-        log = {
-            "userid" : 59
-        }
+        # target_username = 'Xianyu'
+        # log = {
+        #     "userid" : 59
+        # }
 
         if log is None:
             status = 0
@@ -36,9 +37,11 @@ def user_info(request):
                 target_user = User.getUserByName(target_username)
 
                 if target_user is None:
+                    status = 0
                     msg = 'User not found' 
-                    
+
                 else:
+                    status = 1
                     if(user["id"] == target_user["id"]):
                         target_user["id"] = 0
                     else:
