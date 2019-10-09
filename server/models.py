@@ -16,6 +16,7 @@ class User(models.Model):
     motto = models.CharField(max_length=256, default="")
 
     valid = models.BooleanField(default=True)
+    verify = models.CharField(max_length=6, default="")
     
 
 class EntryLog(models.Model):

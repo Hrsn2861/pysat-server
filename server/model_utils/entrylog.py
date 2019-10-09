@@ -3,14 +3,14 @@
 * It contains some functions about EntryLog operation.
 """
 
-from server.models import EntryLog
 import datetime
 import random
+from server.models import EntryLog
 
 
-def make_entrykey():
+def randkey(length=128):
     key = ''
-    for i in range(128):
+    for _ in range(length):
         key += chr(random.randint(65, 90))
     return key
 
@@ -18,8 +18,10 @@ def make_entrykey():
 def getEntryLogByKey(key):
     """Get the EntryLog whose entrykey is `key`.
     """
+    if len(key) != 128:
+        return None
     logs = EntryLog.objects.filter(key=key, deadtime__gt=datetime.datetime.now())
-    if len(logs) > 0:
+    if logs is not None and logs.exists():
         log = logs[0]
         log.deadtime = datetime.datetime.now() + datetime.timedelta(days=7)
         log.save()
@@ -40,10 +42,21 @@ def addEntryLog(userid):
 
     Return a random key.
     """
+    nowdate = datetime.datetime.now()
+    logs = EntryLog.objects.filter(userid=userid, deadtime__gt=nowdate)
+    for log in logs:
+        log.deadtime = nowdate
+        log.save()
+
     key = None
     while key is None or getEntryLogByKey(key) is not None:
-        key = make_entrykey()
-    EntryLog(userid=userid, key=key, entrytime=datetime.datetime.now(), deadtime=datetime.datetime.now() + datetime.timedelta(days=7)).save()
+        key = randkey()
+
+    EntryLog(
+        userid=userid,
+        key=key,
+        entrytime=nowdate,
+        deadtime=nowdate + datetime.timedelta(days=7)
+    ).save()
 
     return key
-
