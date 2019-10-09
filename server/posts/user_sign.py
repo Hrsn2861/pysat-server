@@ -1,8 +1,13 @@
-from django.http import HttpResponse
+"""
+"""
+
 import json
+from django.http import HttpResponse
 
 import server.model_utils.user as User
 import server.model_utils.entrylog as EntryLog
+
+from server.utils.cipher import decrypt
 
 
 def user_verify(key):
@@ -49,6 +54,7 @@ def signin(request):
     if request.method == 'GET':
         identity = request.GET.get('identity')
         password = request.GET.get('password')
+        password = decrypt(password)
 
         user = User.getUserByName(identity)
         if user is None:
@@ -89,6 +95,7 @@ def signup(request):
     if request.method == 'GET':
         username = request.GET.get('username')
         password = request.GET.get('password')
+        password = decrypt(password)
         email = request.GET.get('email')
         telphone = request.GET.get('telphone')
         realname = request.GET.get('realname')
