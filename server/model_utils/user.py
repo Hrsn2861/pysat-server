@@ -2,6 +2,7 @@
 """
 
 from server.models import User
+from server.model_utils.entrylog import randkey
 from django.contrib.auth.hashers import make_password, check_password
 
 
@@ -17,8 +18,10 @@ def getFirstUserInList(users):
             'school' : users[0].school,
             'motto' : users[0].motto,
             'permission' : users[0].permission,
-            'valid' : users[0].valid
+            'valid' : users[0].valid,
+            'verify' : users[0].verify
         }
+        ret['need_verify'] = (True if users[0].verify is not "" else False)
         return ret
     else:
         return None
@@ -39,8 +42,17 @@ def getUserByTelphone(telphone):
     return getFirstUserInList(users)
 
 
-def signup(username, password, email, telphone, realname, school, permission = 1):
-    user = User(username=username, password=make_password(password), email=email, telphone=telphone, realname=realname, school=school, permission=permission)
+def signup(userinfo):
+    user = User(
+        username=userinfo['username'],
+        password=make_password(userinfo['password']),
+        email=userinfo['email'],
+        telphone=userinfo['telphone'],
+        realname=userinfo['realname'],
+        school=userinfo['school'],
+        permission=userinfo['permission'],
+        verify=randkey(length=6)
+    )
     user.save()
     return user.id
 

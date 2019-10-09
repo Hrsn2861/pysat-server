@@ -25,6 +25,7 @@ def check_login(request):
         
         if user is not None:
             del user['password']
+            del user['verify']
             data = {
                 'status' : 1,
                 'user' : user
@@ -129,7 +130,15 @@ def signup(request):
                 'msg' : "Invalid school"
             }
         else:
-            userid = User.signup(username=username, password=password, email=email, telphone=telphone, realname=realname, school=school, permission=1)
+            userid = User.signup({
+                'username' : username,
+                'password' : password,
+                'email':email,
+                'telphone':telphone,
+                'realname':realname,
+                'school':school,
+                'permission':1
+            })
             user = User.getUser(userid)
             if user is not None:
                 data = {
