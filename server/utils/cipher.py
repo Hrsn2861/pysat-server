@@ -43,6 +43,12 @@ class AESCipher:
             return text.decode('utf-8')
         except Error:
             return None
+        except UnicodeDecodeError:
+            return None
+        except ValueError:
+            return None
+        else:
+            return None
         return None
 
 
