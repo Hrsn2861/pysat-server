@@ -23,8 +23,8 @@ import server.posts.user_list as user_list
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', server.views.test_database),
-    
+    path('', server.views.test),
+
     path('check_login/', user_sign.check_login),
     path('signin/', user_sign.signin),
     path('signup/', user_sign.signup),
