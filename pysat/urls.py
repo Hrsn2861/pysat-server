@@ -17,13 +17,17 @@ from django.contrib import admin
 from django.urls import path
 
 import server.views
-import server.posts.user as user
+import server.posts.user_sign as user_sign
+import server.posts.user_info as user_info
+import server.posts.user_list as user_list
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', server.views.test_database),
-    
-    path('check_login/', user.check_login),
-    path('login/', user.login),
-    path('sign_up/', user.sign_up)
+    path('', server.views.test),
+
+    path('check_login/', user_sign.check_login),
+    path('signin/', user_sign.signin),
+    path('signup/', user_sign.signup),
+    path('userinfo/', user_info.user_info),
+    path('userlist/', user_list.user_list)
 ]

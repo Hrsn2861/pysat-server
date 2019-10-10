@@ -26,8 +26,7 @@ SECRET_KEY = '@6#zx5!+lwh(+hq1*iyw&nf$lsl!e442_*o8scg56pqz7j!_28'
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-# TODO
-# ALLOWED_HOSTS should be changed into ['pysat-web.CTRL.secoder.local'] after the project published
+
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
 # allow all headers
