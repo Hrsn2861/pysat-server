@@ -110,3 +110,10 @@ venv.bak/
 *.ntvs*
 *.njsproj
 *.sln
+
+
+# Unittest / Coverage report
+.coverage
+.pytest_cache/
+coverage-reports/
+xunit-reports/
