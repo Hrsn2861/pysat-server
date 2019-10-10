@@ -26,6 +26,7 @@ build:
 
 unit-test:
   extends: .test
+  # allow_failure: true
   script:
     - coverage run -m pytest --junit-xml=xunit-reports/xunit-result.xml
     - BACKEND_RET=$?
