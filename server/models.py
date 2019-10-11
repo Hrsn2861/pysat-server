@@ -5,29 +5,53 @@ from django.db import models
 
 # Create your models here.
 
+
+class Config(models.Model):
+    """Config
+    """
+    name = models.CharField(max_length=32)
+    value = models.CharField(max_length=128)
+
+
 class User(models.Model):
     """User
     """
     username = models.CharField(max_length=32)
     password = models.CharField(max_length=128)
-    email = models.CharField(max_length=64)
-    telphone = models.CharField(max_length=11)
+    phone = models.CharField(max_length=11)
 
-    realname = models.CharField(max_length=32)
-    school = models.CharField(max_length=64)
+    email = models.CharField(max_length=64, default="")
+    email_verify = models.CharField(max_length=64, default="")
 
-    permission = models.IntegerField()
-
+    realname = models.CharField(max_length=32, default="")
+    school = models.CharField(max_length=64, default="")
     motto = models.CharField(max_length=256, default="")
 
-    valid = models.BooleanField(default=True)
-    verify = models.CharField(max_length=6, default="")
+    permission = models.IntegerField(default=1)
+
+
+class Session(models.Model):
+    """Session
+    """
+    token = models.CharField(max_length=128)
+    ip = models.CharField(max_length=64)
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
 
 
 class EntryLog(models.Model):
     """EntryLog
     """
-    userid = models.IntegerField()
-    key = models.CharField(max_length=128)
-    entrytime = models.DateTimeField()
-    deadtime = models.DateTimeField()
+    session_id = models.IntegerField()
+    user_id = models.IntegerField()
+    login_time = models.DateTimeField()
+    logout_time = models.DateTimeField()
+
+
+class VerifyCode(models.Model):
+    """VerifyCode
+    """
+    session_id = models.IntegerField()
+    phone = models.CharField(max_length=11)
+    code = models.CharField(max_length=8)
+    send_time = models.DateTimeField()

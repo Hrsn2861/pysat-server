@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'pysat.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'pysat',
+        'NAME': 'ctrl_pysat',
         'PORT': 3306,
         "HOST": 'database.CTRL.secoder.local',
         'USER': 'ctrl',
