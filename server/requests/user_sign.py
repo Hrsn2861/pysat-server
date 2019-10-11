@@ -10,21 +10,22 @@ import server.utils.models.entrylog as EntryLog
 
 from server.utils.params import check_params, ParamType
 from server.utils.cipher import decrypt
+from server.utils.request import get_ip
 
 @csrf_exempt
 def signin(request):
     """process the request of signing in
     """
     if request.method == 'POST':
+        ip_address = get_ip(request)
+
         token = request.POST.get('token')
-        ip_address = request.POST.get('ip')
         username = request.POST.get('username')
         password = request.POST.get('password')
         password = decrypt(password)
 
         error = check_params({
             ParamType.Token : token,
-            ParamType.IPAddr : ip_address,
             ParamType.Username : username,
             ParamType.Password : password
         })
@@ -50,8 +51,9 @@ def signup(request):
     """process the request of signing up
     """
     if request.method == 'POST':
+        ip_address = get_ip(request)
+
         token = request.POST.get('token')
-        ip_address = request.POST.get('ip')
         username = request.POST.get('username')
         password = request.POST.get('password')
         password = decrypt(password)
@@ -59,7 +61,6 @@ def signup(request):
 
         error = check_params({
             ParamType.Token : token,
-            ParamType.IPAddr : ip_address,
             ParamType.Username : username,
             ParamType.Password : password,
             ParamType.Phone : phone
@@ -99,12 +100,11 @@ def signout(request):
     """process the request of signing out
     """
     if request.method == 'POST':
-        token = request.POST.get('token')
-        ip_address = request.POST.get('ip')
+        ip_address = get_ip(request)
 
+        token = request.POST.get('token')
         error = check_params({
-            ParamType.Token : token,
-            ParamType.IPAddr : ip_address
+            ParamType.Token : token
         })
         if error is not None:
             return error

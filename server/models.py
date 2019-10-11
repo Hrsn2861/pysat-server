@@ -38,3 +38,12 @@ class EntryLog(models.Model):
     user_id = models.IntegerField()
     login_time = models.DateTimeField()
     logout_time = models.DateTimeField()
+
+
+class VerifyCode(models.Model):
+    """VerifyCode
+    """
+    session_id = models.IntegerField()
+    phone = models.CharField(max_length=11)
+    code = models.CharField(max_length=8)
+    send_time = models.DateTimeField()

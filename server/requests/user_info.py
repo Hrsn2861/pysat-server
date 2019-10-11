@@ -1,62 +1,42 @@
-from django.http import HttpResponse
-import json
+"""requests: user/info
+"""
 
-import server.model_utils.user as User
-import server.model_utils.entrylog as Entrylog
+from django.views.decorators.csrf import csrf_exempt
 
-def user_info(request):
+import server.utils.models.user as User
+import server.utils.models.session as Session
+import server.utils.response as Response
 
-    target_user = None
-    status = 0
-    
+from server.utils.params import check_params, ParamType
+from server.utils.request import get_ip
+
+@csrf_exempt
+def get_info(request):
+    """process the request of getting user's info
+    """
     if request.method == 'GET':
-        key = request.GET.get('entrykey')
-        target_username = request.GET.get("username")
+        ip_address = get_ip(request)
 
-        if key is not None:
-            log = Entrylog.getEntryLogByKey(key)
+        token = request.GET.get('token')
+        username = request.GET.get('username')
+
+        error = check_params({
+            ParamType.Token : token,
+            ParamType.UsernameForInfo : username
+        })
+        if error is not None:
+            return error
+
+        session_id = Session.get_session_id(token, ip_address)
+        if session_id is None:
+            return Response.error_response("NoSession")
+
+        if username is None:
+            user = User.get_user_by_session(session_id)
         else:
-
-            log = None
-            msg = 'Failed to get entry key'
-
-        if log is None:
-            status = 0
-            if msg is None:
-                msg = 'User logged out'
-
-        else:            
-            userid = log['userid']                                  #这个是用户的id            
-            user = User.getUser(userid)                             #用户
-
-            if user is None:
-                msg = 'User login error'
-                status = 0
-            
-            else:
-                if target_username is not None:
-                    target_user = User.getUserByName(target_username)
-                    
-                else:
-                    target_user = user
-
-                if target_user is None:
-                    status = 0
-                    if msg is None:
-                        msg = 'User not found' 
-
-                else:
-                    status = 1
-                    del target_user["password"]
-                    msg = 'User found'
-    
-    else:
-        status = 0
-        msg = 'Invalid request'
-    
-    data = {
-        'status': status,
-        'msg': msg,
-        'user': target_user
-    }
-    return HttpResponse(json.dumps(data))
+            user = User.get_user_by_username(username)
+        if user is None:
+            return Response.error_response("NoUser")
+        user = User.user_filter(user)
+        return Response.success_response({'user' : user})
+    return Response.invalid_request()

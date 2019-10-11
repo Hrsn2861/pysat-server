@@ -19,6 +19,7 @@ from django.urls import path
 import server.views
 import server.requests.session as session
 import server.requests.user_sign as user_sign
+import server.requests.user_info as user_info
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,6 +30,8 @@ urlpatterns = [
 
     path('user/sign/login', user_sign.signin),
     path('user/sign/register', user_sign.signup),
-    path('user/sign/logout', user_sign.signout)
+    path('user/sign/logout', user_sign.signout),
+
+    path('user/info/get', user_info.get_info)
 
 ]

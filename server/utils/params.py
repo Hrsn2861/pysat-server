@@ -41,7 +41,8 @@ class ParamType(Enum):
     """param types for function `check_params`
     """
     Token = ("Token", True, "string")
-    IPAddr = ("IP", True, "string")
     Username = ("Username", True, "string")
     Password = ("Password", True, "string")
     Phone = ("Phone", True, "integer")
+
+    UsernameForInfo = ("Username", False, "string")
