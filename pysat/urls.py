@@ -31,6 +31,7 @@ urlpatterns = [
     path('user/sign/login', user_sign.signin),
     path('user/sign/register', user_sign.signup),
     path('user/sign/logout', user_sign.signout),
+    path('user/sign/verify', user_sign.verify_phone),
 
     path('user/info/get', user_info.get_info)
 

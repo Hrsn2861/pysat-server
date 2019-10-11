@@ -1,8 +1,8 @@
 """check params for request
 """
 
-import server.utils.response as Response
 from enum import Enum
+import server.utils.response as Response
 
 def check_str_as_bool(value):
     """check `value` if it's boolean
@@ -44,5 +44,6 @@ class ParamType(Enum):
     Username = ("Username", True, "string")
     Password = ("Password", True, "string")
     Phone = ("Phone", True, "integer")
+    CAPTCHA = ("CAPTCHA", True, "string")
 
     UsernameForInfo = ("Username", False, "string")

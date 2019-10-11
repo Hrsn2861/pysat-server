@@ -3,19 +3,10 @@
 * It contains some functions about session operation.
 """
 
-import random
-from django.utils import timezone
 
 from server.models import Session
-
-
-def randkey(length=128):
-    """generate a random key
-    """
-    key = ''
-    for _ in range(length):
-        key += chr(random.randint(65, 90))
-    return key
+from server.utils.utils import randkey
+from server.utils.utils import getdate_now, getdate_later
 
 
 def get_session_id(token, ip_address):
@@ -23,11 +14,10 @@ def get_session_id(token, ip_address):
     """
     if not isinstance(token, str) or not isinstance(ip_address, str):
         return None
-    nowdate = timezone.now()
-    sessions = Session.objects.filter(token=token, ip=ip_address, end_time__gt=nowdate)
+    sessions = Session.objects.filter(token=token, ip=ip_address, end_time__gt=getdate_now())
     if sessions.exists():
         session = sessions.last()
-        session.end_time = nowdate + timezone.timedelta(days=7)
+        session.end_time = getdate_later()
         session.save()
         return session.id
     return None
@@ -63,13 +53,11 @@ def add_session(ip_address):
     while token is None or get_session_id(token, ip_address) is not None:
         token = randkey()
 
-    nowdate = timezone.now()
-
     Session(
         token=token,
         ip=ip_address,
-        start_time=nowdate,
-        end_time=nowdate + timezone.timedelta(days=7)
+        start_time=getdate_now(),
+        end_time=getdate_later()
     ).save()
 
     return token
@@ -80,7 +68,7 @@ def disconnect(token, ip_address):
     """
     if not isinstance(token, str) or not isinstance(ip_address, str):
         return False
-    nowdate = timezone.now()
+    nowdate = getdate_now()
     sessions = Session.objects.filter(token=token, ip=ip_address, end_time__gt=nowdate)
     if sessions.exists():
         session = sessions.last()

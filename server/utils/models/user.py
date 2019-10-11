@@ -268,7 +268,6 @@ class UserInfoChecker:
         """检验 param 中的参数
         """
         for (func, name), value in params.items():
-            print("check " + name + " " + value + " " + str(func(value)))
             if func(value) is not True:
                 return Response.error_response("Illegal" + name)
         return None

@@ -5,6 +5,14 @@ from django.db import models
 
 # Create your models here.
 
+
+class Config(models.Model):
+    """Config
+    """
+    name = models.CharField(max_length=32)
+    value = models.CharField(max_length=128)
+
+
 class User(models.Model):
     """User
     """
