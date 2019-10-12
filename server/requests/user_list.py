@@ -1,46 +1,68 @@
-from django.http import HttpResponse
+"""requests: user/list
+"""
+
+from django.views.decorators.csrf import csrf_exempt
 import json
 
-import server.model_utils.user as User
-from server.posts.user_sign import user_verify
+import server.utils.models.user as User
+import server.utils.models.session as Session
+import server.utils.response as Response
+
+from server.utils.params import check_params, ParamType
+from server.utils.request import get_ip
 
 
-def user_list(request):
-
-    result = None
-    status = 0
-    
+def user_list_get(request):
+    """process the request of getting user's info
+    """
     if request.method == 'GET':
-        key = request.GET.get('key')
-        page = str(request.GET.get("page"))
-        if not page.isdigit():
-            page = 1
-        else:
-            page = int(page)
-        if page < 0:
+        ip_address = get_ip(request)
+
+        token = request.GET.get('token')
+        show_invalid = request.GET.get('show_invalid')
+        manager_first = request.GET.get('manager_first')
+        page = request.GET.get('page')
+
+        print(ip_address,token,show_invalid,manager_first,page)
+
+        if page is None:
             page = 1
 
-        if request.GET.get("manager") is not None:
-            manager = True
-        else:
-            manager = False
+        error = check_params({
+            ParamType.Token : token,
+            ParamType.ShowInvalidForUserList : show_invalid,
+            ParamType.ManagerFirstForUserList : manager_first,
+            ParamType.PageForUserList : page
+        })
+        if error is not None:
+            return error
+        
+        session_id = Session.get_session_id(token, ip_address)
+        if session_id is None:
+            return Response.error_response("NoSession")
 
-        me = user_verify(key)
-        if me is None:
-            status = 0
-            msg = 'User login error.'
+        buf_userlist = User.user_list(page, show_invalid, manager_first)
+        userlist = []
+
+        for user in buf_userlist:
+            userlist.append({
+                'username' : user['username'],
+                'motto' : user['motto'],
+                'permission' : user['permission']
+            })
+
+        data = {
+            'tot_count' : User.user_count(show_invalid),
+            'now_count' : len(userlist),
+            'userlist' : userlist,
+        }
+        
+        if len(buf_userlist) == 0 or buf_userlist is None:
+            return Response.error_response("NoUser")
         else:
-            result = {}
-            result['count'] = User.user_count()
-            result['list'] = User.user_list(page, manager, me['permission'] > 1)
-            msg = 'Get.'
-    else:
-        status = -1
-        msg = 'Invalid request'
-    
-    data = {
-        'status': status,
-        'msg': msg,
-        'data': result
-    }
-    return HttpResponse(json.dumps(data))
+            return Response.success_response(data)
+    return Response.invalid_request()
+        
+        
+        
+

@@ -47,3 +47,7 @@ class ParamType(Enum):
     CAPTCHA = ("CAPTCHA", True, "string")
 
     UsernameForInfo = ("Username", False, "string")
+    
+    ShowInvalidForUserList = ("show_invalid", True, "boolean")
+    ManagerFirstForUserList = ("manager_first", True, "boolean")
+    PageForUserList = ("page", True, "boolean")
