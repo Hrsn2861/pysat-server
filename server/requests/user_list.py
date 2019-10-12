@@ -23,8 +23,6 @@ def user_list_get(request):
         manager_first = request.GET.get('manager_first')
         page = request.GET.get('page')
 
-        print(ip_address,token,show_invalid,manager_first,page)
-
         if page is None:
             page = 1
 
@@ -42,6 +40,15 @@ def user_list_get(request):
             return Response.error_response("NoSession")
 
         buf_userlist = User.user_list(page, show_invalid, manager_first)
+        
+        # buf_userlist = [
+        #     {
+        #         'username' : 'username',
+        #         'motto' : 'I am stupid.',
+        #         'permission' : 1
+        #     }
+        # ]
+        
         userlist = []
 
         for user in buf_userlist:

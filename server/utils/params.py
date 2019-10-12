@@ -31,9 +31,9 @@ def check_params(params):
 
         if need is True and value is None:
             return Response.error_response("Invalid" + name)
-        if param_type == 'boolean' and check_str_as_bool(value) is None:
+        if param_type == 'boolean' and check_str_as_bool(value) is False:
             return Response.error_response("Invalid" + name)
-        if param_type == 'integer' and check_str_as_int(value) is None:
+        if param_type == 'integer' and check_str_as_int(value) is False:
             return Response.error_response("Invalid" + name)
     return None
 
@@ -50,4 +50,4 @@ class ParamType(Enum):
     
     ShowInvalidForUserList = ("show_invalid", True, "boolean")
     ManagerFirstForUserList = ("manager_first", True, "boolean")
-    PageForUserList = ("page", True, "boolean")
+    PageForUserList = ("page", True, "integer")
