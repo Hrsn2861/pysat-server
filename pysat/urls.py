@@ -35,6 +35,6 @@ urlpatterns = [
     path('user/sign/verify', user_sign.verify_phone),
 
     path('user/info/get', user_info.get_info),
-    path('user/list',user_list.user_list_get)
+    path('user/list', user_list.user_list_get)
 
 ]
