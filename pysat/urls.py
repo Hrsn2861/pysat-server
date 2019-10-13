@@ -20,6 +20,7 @@ import server.views
 import server.requests.session as session
 import server.requests.user_sign as user_sign
 import server.requests.user_info as user_info
+import server.requests.user_list as user_list
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,6 +34,7 @@ urlpatterns = [
     path('user/sign/logout', user_sign.signout),
     path('user/sign/verify', user_sign.verify_phone),
 
-    path('user/info/get', user_info.get_info)
+    path('user/info/get', user_info.get_info),
+    path('user/list', user_list.user_list_get)
 
 ]
