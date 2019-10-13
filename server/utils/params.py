@@ -51,3 +51,9 @@ class ParamType(Enum):
     ShowInvalidForUserList = ("show_invalid", True, "boolean")
     ManagerFirstForUserList = ("manager_first", True, "boolean")
     PageForUserList = ("page", True, "integer")
+
+    ModifyUsername = ('username', True, 'string')
+    ModifyRealname = ('realname', False, 'string')
+    ModifySchool = ('school', False, 'string')
+    ModifyMotto = ('motto', False, 'string')
+    ModifyPermission = ('permission', False, 'integer')
