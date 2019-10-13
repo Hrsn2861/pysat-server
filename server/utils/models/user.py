@@ -172,7 +172,7 @@ def user_count(show_invalid=False):
 def user_list(page, show_invalid=False, manager_first=False):
     """get user list
     """
-    if not isinstance(page):
+    if not isinstance(page, int):
         return []
 
     if show_invalid is True:
