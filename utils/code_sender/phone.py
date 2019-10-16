@@ -1,7 +1,7 @@
 """send a message to phone
 """
 
-from server.utils.models.user import UserInfoChecker
+from utils.checker import UserInfoChecker
 
 def send(phone, msg):
     """send msg
@@ -17,4 +17,4 @@ def send_verify_code(phone, code):
     """
     if not isinstance(code, str):
         return False
-    return send(phone, "Verify Code is " + code)
+    return send(phone, 'Verify Code is ' + code)

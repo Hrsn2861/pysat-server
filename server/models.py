@@ -12,46 +12,26 @@ class Config(models.Model):
     name = models.CharField(max_length=32)
     value = models.CharField(max_length=128)
 
-
-class User(models.Model):
-    """User
+class ConfigHelper:
+    """get config from database
     """
-    username = models.CharField(max_length=32)
-    password = models.CharField(max_length=128)
-    phone = models.CharField(max_length=11)
 
-    email = models.CharField(max_length=64, default="")
-    email_verify = models.CharField(max_length=64, default="")
+    @staticmethod
+    def get_config(name, default_value=""):
+        """get config
 
-    realname = models.CharField(max_length=32, default="")
-    school = models.CharField(max_length=64, default="")
-    motto = models.CharField(max_length=256, default="")
+        if the config does not exist, it will add `default_value` into database, and return it.
+        """
+        configs = Config.objects.filter(name=name)
+        if configs.exists():
+            config = configs.last()
+            return config.value
+        Config(name=name, value=default_value).save()
+        return default_value
 
-    permission = models.IntegerField(default=1)
-
-
-class Session(models.Model):
-    """Session
-    """
-    token = models.CharField(max_length=128)
-    ip = models.CharField(max_length=64)
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
-
-
-class EntryLog(models.Model):
-    """EntryLog
-    """
-    session_id = models.IntegerField()
-    user_id = models.IntegerField()
-    login_time = models.DateTimeField()
-    logout_time = models.DateTimeField()
-
-
-class VerifyCode(models.Model):
-    """VerifyCode
-    """
-    session_id = models.IntegerField()
-    phone = models.CharField(max_length=11)
-    code = models.CharField(max_length=8)
-    send_time = models.DateTimeField()
+    @staticmethod
+    def get_phone_verify_able():
+        """get the phone verify config
+        """
+        text = ConfigHelper.get_config(name='phone_verify_able', default_value="false")
+        return text == 'true'

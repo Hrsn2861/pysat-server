@@ -1,7 +1,7 @@
 """send an email
 """
 
-from server.utils.models.user import UserInfoChecker
+from utils.checker import UserInfoChecker
 
 def send(email, msg):
     """send msg

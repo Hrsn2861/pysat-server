@@ -13,7 +13,7 @@ def django_db_setup():
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'ctrl_test_pysat',
         'PORT': 3306,
-        "HOST": 'database.CTRL.secoder.local',
+        'HOST': 'database.CTRL.secoder.local',
         'USER': 'ctrl',
         'PASSWORD': 'ctrl666'
     }

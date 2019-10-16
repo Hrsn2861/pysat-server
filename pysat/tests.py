@@ -2,9 +2,9 @@
 """
 
 from django.test import TestCase
+import pytest
 
-# Create your tests here.
-
+@pytest.mark.django_db
 class TestServer(TestCase):
     """
     TestCase for pysat server
