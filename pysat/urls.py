@@ -23,7 +23,7 @@ import server.requests.user_info as user_info
 import server.requests.user_list as user_list
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # path('admin/', admin.site.urls),
     path('', server.views.test),
 
     path('session/start', session.start_session),
@@ -36,7 +36,8 @@ urlpatterns = [
     path('user/sign/modify', user_sign.change_password),
 
     path('user/info/get', user_info.get_info),
-    path('user/list/get', user_list.user_list_get),
-    path('user/info/modify', user_info.modify_info)
+    path('user/info/modify', user_info.modify_info),
+    path('user/info/setphone', user_info.set_phone),
 
+    path('user/list/get', user_list.user_list_get)
 ]
