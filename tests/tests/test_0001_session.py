@@ -22,6 +22,8 @@ class TestSession(TestCase):
         """
         response = self.client.post('/session/start')
         self.assertEqual(response.status_code, 200)
+        data = analyse_response(response)
+        self.assertEqual(data.get('status'), 1) 
 
     def test_0002_startsession_as_get(self):
         """
@@ -40,4 +42,4 @@ class TestSession(TestCase):
         response = self.client.get('/session/check', data={'token' : token})
         self.assertEqual(response.status_code, 200)
         data = analyse_response(response)
-        self.assertEqual(data.get('status'), 1)
+        self.assertEqual(data.get('msg'), 'Success')
