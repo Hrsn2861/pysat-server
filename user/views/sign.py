@@ -127,10 +127,10 @@ def retrieve(package):
         user = UserHelper.get_user_by_username(username)
 
     if user is None:
-        return Response.error_response('NoUser')
+        return Response.error_response('No User')
 
     if phone != str(user.get("phone")):
-        return Response.error_response('WrongPhoneNumber')
+        return Response.error_response('Phone Number Error')
 
     code = VerifyHelper.add_code(session, phone)
     if ConfigHelper.get_phone_verify_able():
@@ -138,3 +138,33 @@ def retrieve(package):
     else:
         EmailSender.send("chenxu17@mails.tsinghua.edu.cn", phone + "::" + code)
     return Response.checked_response("Success")
+
+def forget_password(package):
+    """provess the request of forgetting the password
+    """
+    session = package.get('session')
+    params = package.get('params')
+    username = params.get(ParamType.Username)
+    password = params.get(ParamType.Password)
+    captcha = params.get(ParamType.CAPTCHA)
+
+    user = UserHelper.get_user_by_username(username)
+
+    if user is None:
+        return Response.error_response('No User')
+
+    phone = user['phone']
+    code = VerifyHelper.get_latest_code(session, phone)
+
+    if code is None:
+        return Response.error_response('GUXYNB')
+
+    if code['code'] != captcha:
+        return Response.error_response('CAPTCHA Error')
+
+    info = {
+        'password' : password
+    }
+
+    UserHelper.modify_user(user['id'], info)
+    return Response.success_response(None)
