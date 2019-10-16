@@ -3,7 +3,7 @@
 
 from django.http import HttpResponse
 
-from server.utils.request import get_ip
+from utils.request import get_ip
 
 # Create your views here.
 

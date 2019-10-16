@@ -24,13 +24,13 @@ def make_response(status, msg, data):
 def invalid_request():
     """make an 'invalid request' response
     """
-    return make_response(status=-1, msg="InvalidRequest", data=None)
+    return make_response(status=-1, msg='InvalidRequest', data=None)
 
 
 def success_response(data):
     """make a success response
     """
-    return make_response(status=1, msg="Success", data=data)
+    return make_response(status=1, msg='Success', data=data)
 
 
 def checked_response(msg):
