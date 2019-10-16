@@ -2,7 +2,6 @@
 """
 
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.hashers import make_password, check_password
 
 import server.utils.response as Response
 import server.utils.models.user as User
@@ -89,27 +88,6 @@ def verify_phone(request):
             EmailSender.send("chenxu17@mails.tsinghua.edu.cn", phone + "::" + code)
         return Response.checked_response("Success")
     return Response.invalid_request()
-import base64
-import binascii
-import functools
-import hashlib
-import importlib
-import warnings
-from collections import OrderedDict
-
-from django.conf import settings
-from django.core.exceptions import ImproperlyConfigured
-from django.core.signals import setting_changed
-from django.dispatch import receiver
-from django.utils.crypto import (
-    constant_time_compare, get_random_string, pbkdf2,
-)
-from django.utils.module_loading import import_string
-from django.utils.translation import gettext_noop as _
-
-UNUSABLE_PASSWORD_PREFIX = '!'  # This will never be a valid encoded hash
-UNUSABLE_PASSWORD_SUFFIX_LENGTH = 40  # number of random chars to add after UNUSABLE_PASSWORD_PREFIX
-
 
 @csrf_exempt
 def signup(request):
@@ -232,7 +210,7 @@ def change_password(request):
         if user is None:
             return Response.error_response('NoUser')
         
-        if not check_password(user['password'], oldpassword):
+        if not User.signin_check_password(user, oldpassword):
             return Response.error_response('Wrong password')
 
         info = {
