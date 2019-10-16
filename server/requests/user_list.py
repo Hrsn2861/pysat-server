@@ -2,7 +2,6 @@
 """
 
 from django.views.decorators.csrf import csrf_exempt
-import json
 
 import server.utils.models.user as User
 import server.utils.models.session as Session
@@ -11,7 +10,7 @@ import server.utils.response as Response
 from server.utils.params import check_params, ParamType
 from server.utils.request import get_ip
 
-
+@csrf_exempt
 def user_list_get(request):
     """process the request of getting user's info
     """
@@ -34,21 +33,13 @@ def user_list_get(request):
         })
         if error is not None:
             return error
-        
+
         session_id = Session.get_session_id(token, ip_address)
         if session_id is None:
             return Response.error_response("NoSession")
 
         buf_userlist = User.user_list(page, show_invalid, manager_first)
-        
-        # buf_userlist = [
-        #     {
-        #         'username' : 'username',
-        #         'motto' : 'I am stupid.',
-        #         'permission' : 1
-        #     }
-        # ]
-        
+
         userlist = []
 
         for user in buf_userlist:
@@ -63,13 +54,8 @@ def user_list_get(request):
             'now_count' : len(userlist),
             'userlist' : userlist,
         }
-        
-        if len(buf_userlist) == 0 or buf_userlist is None:
-            return Response.error_response("NoUser")
-        else:
-            return Response.success_response(data)
-    return Response.invalid_request()
-        
-        
-        
 
+        if buf_userlist or buf_userlist is None:
+            return Response.error_response("NoUser")
+        return Response.success_response(data)
+    return Response.invalid_request()

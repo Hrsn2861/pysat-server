@@ -25,6 +25,7 @@ def get_info(request):
             ParamType.Token : token,
             ParamType.UsernameForInfo : username
         })
+        ## userinfo
         if error is not None:
             return error
 
@@ -106,8 +107,7 @@ def modify_info(request):
         User.modify_user(user.get('id'), info)
 
         return Response.success_response(None)
-    else:
-        return Response.invalid_request()
+    return Response.invalid_request()
 
 @csrf_exempt
 def set_phone(request):
