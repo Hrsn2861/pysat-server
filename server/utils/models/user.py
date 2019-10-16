@@ -1,4 +1,4 @@
-"""
+"""user helper
 """
 
 import re
@@ -143,6 +143,7 @@ def modify_user(user_id, info):
     motto = info.get('motto')
     permission = info.get('permission')
     password = info.get('password')
+    phone = info.get('phone')
 
     if isinstance(realname, str):
         user.realname = realname
@@ -154,6 +155,8 @@ def modify_user(user_id, info):
         user.permission = permission
     if UserInfoChecker.check_password(password):
         user.password = make_password(password)
+    if UserInfoChecker.check_phone(phone):
+        user.phone = phone
 
     user.save()
     return True

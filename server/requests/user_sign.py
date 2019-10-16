@@ -35,6 +35,7 @@ def signin(request):
             ParamType.Username : username,
             ParamType.Password : password
         })
+        ## signin
         if error is not None:
             return error
 
@@ -66,6 +67,7 @@ def verify_phone(request):
             ParamType.Token : token,
             ParamType.Phone : phone
         })
+        ## verify
         if error is not None:
             return error
 
@@ -157,6 +159,7 @@ def signout(request):
         error = check_params({
             ParamType.Token : token
         })
+        ## ???
         if error is not None:
             return error
 
@@ -170,12 +173,16 @@ def signout(request):
 
 @csrf_exempt
 def change_password(request):
+    """process the request of changing password
+    """
     if request.method == "POST":
         ip_address = get_ip(request)
 
         token = request.POST.get('token')
         oldpassword = request.POST.get('oldpassword')
+        oldpassword = decrypt(oldpassword)
         newpassword = request.POST.get('newpassword')
+        newpassword = decrypt(newpassword)
 
         error = check_params({
             ParamType.Password : oldpassword,
@@ -190,26 +197,16 @@ def change_password(request):
 
         if error is not None:
             return error
-        
+
         session_id = Session.get_session_id(token, ip_address)
         if session_id is None:
             return Response.error_response('NoSession')
-        
+
         user = User.get_user_by_session(session_id)
-        
-        # test
-        # user = {
-        #     "username" : 'test',
-        #     'realname' : 'realname',
-        #     'school' : 'tsinghua',
-        #     'motto' : 'I am stupid.',
-        #     'permission' : "1",
-        #     'password' : make_password('Ab112233')
-        # }
-        
+
         if user is None:
             return Response.error_response('NoUser')
-        
+
         if not User.signin_check_password(user, oldpassword):
             return Response.error_response('Wrong password')
 

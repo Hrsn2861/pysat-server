@@ -28,18 +28,19 @@ def check_session(request):
     """
     if request.method == 'GET':
         ip_address = get_ip(request)
-        
+
         token = request.GET.get('token')
         error = check_params({
             ParamType.Token : token
         })
+
         if error is not None:
             return error
 
         session_id = Session.get_session_id(token, ip_address)
         if session_id is None:
             return Response.error_response("NoSession")
-        
+
         user = User.get_user_by_session(session_id)
         user = User.user_filter(user)
         return Response.success_response({'user' : user})

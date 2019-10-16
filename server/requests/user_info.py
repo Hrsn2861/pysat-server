@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 import server.utils.models.user as User
 import server.utils.models.session as Session
+import server.utils.models.verifycode as VerifyCode
 import server.utils.response as Response
 
 from server.utils.params import check_params, ParamType
@@ -24,6 +25,7 @@ def get_info(request):
             ParamType.Token : token,
             ParamType.UsernameForInfo : username
         })
+        ## userinfo
         if error is not None:
             return error
 
@@ -58,24 +60,14 @@ def modify_info(request):
         session_id = Session.get_session_id(token, ip_address)
         if session_id is None:
             return Response.error_response("NoSession")
-        
+
         if username is None:
             user = User.get_user_by_session(session_id)
         else:
             user = User.get_user_by_username(username)
 
-        # test
-        # user = {
-        #     "username" : 'test',
-        #     'realname' : 'realname',
-        #     'school' : 'tsinghua',
-        #     'motto' : 'I am stupid.',
-        #     'permission' : "1"
-        # }
-        
         if user is None:
             return Response.error_response("NoUser")
-        user = User.user_filter(user)
 
         if realname is None:
             realname = user.get("realname")
@@ -115,6 +107,46 @@ def modify_info(request):
         User.modify_user(user.get('id'), info)
 
         return Response.success_response(None)
-    else:
-        return Response.invalid_request()
+    return Response.invalid_request()
 
+@csrf_exempt
+def set_phone(request):
+    """process the request of modifying user's phone
+    """
+    if request.method == 'POST':
+        ip_address = get_ip(request)
+
+        token = request.POST.get('token')
+        phone = request.POST.get('phone')
+        code = request.POST.get('CAPTCHA')
+
+        session_id = Session.get_session_id(token, ip_address)
+        if session_id is None:
+            return Response.error_response("NoSession")
+
+        user = User.get_user_by_session(session_id)
+        if user is None:
+            return Response.error_response("NoUser")
+
+        error = check_params({
+            ParamType.Token : token,
+            ParamType.Phone : phone,
+            ParamType.CAPTCHA : code
+        })
+
+        if error is None:
+            error = User.UserInfoChecker.check({
+                (User.UserInfoChecker.check_phone, "Phone") : phone
+            })
+
+        if error is not None:
+            return error
+
+        if not VerifyCode.check_code(session_id, phone, code):
+            return Response.error_response("CAPTCHA Error")
+
+        User.modify_user(user['id'], {'phone' : phone})
+
+        return Response.checked_response("Success")
+
+    return Response.invalid_request()
