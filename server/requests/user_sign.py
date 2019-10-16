@@ -2,6 +2,7 @@
 """
 
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.hashers import make_password, check_password
 
 import server.utils.response as Response
 import server.utils.models.user as User
@@ -88,6 +89,26 @@ def verify_phone(request):
             EmailSender.send("chenxu17@mails.tsinghua.edu.cn", phone + "::" + code)
         return Response.checked_response("Success")
     return Response.invalid_request()
+import base64
+import binascii
+import functools
+import hashlib
+import importlib
+import warnings
+from collections import OrderedDict
+
+from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
+from django.core.signals import setting_changed
+from django.dispatch import receiver
+from django.utils.crypto import (
+    constant_time_compare, get_random_string, pbkdf2,
+)
+from django.utils.module_loading import import_string
+from django.utils.translation import gettext_noop as _
+
+UNUSABLE_PASSWORD_PREFIX = '!'  # This will never be a valid encoded hash
+UNUSABLE_PASSWORD_SUFFIX_LENGTH = 40  # number of random chars to add after UNUSABLE_PASSWORD_PREFIX
 
 
 @csrf_exempt
@@ -167,4 +188,59 @@ def signout(request):
 
         EntryLog.del_entrylog(session_id=session_id)
         return Response.checked_response("Logout")
+    return Response.invalid_request()
+
+@csrf_exempt
+def change_password(request):
+    if request.method == "POST":
+        ip_address = get_ip(request)
+
+        token = request.POST.get('token')
+        oldpassword = request.POST.get('oldpassword')
+        newpassword = request.POST.get('newpassword')
+
+        error = check_params({
+            ParamType.Password : oldpassword,
+            ParamType.Password : newpassword
+        })
+
+        if error is None:
+            error = User.UserInfoChecker.check({
+                (User.UserInfoChecker.check_password, "oldpassword") : oldpassword,
+                (User.UserInfoChecker.check_password, "newpassword") : newpassword
+            })
+
+        if error is not None:
+            return error
+        
+        session_id = Session.get_session_id(token, ip_address)
+        if session_id is None:
+            return Response.error_response('NoSession')
+        
+        user = User.get_user_by_session(session_id)
+        
+        # test
+        # user = {
+        #     "username" : 'test',
+        #     'realname' : 'realname',
+        #     'school' : 'tsinghua',
+        #     'motto' : 'I am stupid.',
+        #     'permission' : "1",
+        #     'password' : make_password('Ab112233')
+        # }
+        
+        if user is None:
+            return Response.error_response('NoUser')
+        
+        if not check_password(user['password'], oldpassword):
+            return Response.error_response('Wrong password')
+
+        info = {
+            'password' : newpassword
+        }
+        user_id = user.get('id')
+        User.modify_user(user_id, info)
+
+        return Response.success_response(None)
+
     return Response.invalid_request()
