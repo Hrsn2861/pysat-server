@@ -37,5 +37,11 @@ urlpatterns = [
     ], [
         ParamType.OldPassword,
         ParamType.NewPassword
+    ])),
+    path('retrieve', view_maker(sign.retrieve, 'POST', [
+        ParamType.Username,
+        ParamType.Phone
+    ], [
+        ParamType.Username
     ]))
 ]

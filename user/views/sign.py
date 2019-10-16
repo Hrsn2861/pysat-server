@@ -112,3 +112,29 @@ def change_password(package):
     UserHelper.modify_user(user_id, info)
 
     return Response.success_response(None)
+
+def retrieve(package):
+    """process the request of retrieving
+    """
+    session = package.get('session')
+    params = package.get("params")
+    username = params.get(ParamType.Username)
+    phone = params.get(ParamType.Phone)
+
+    if username is None:
+        user = package.get('user')
+    else:
+        user = UserHelper.get_user_by_username(username)
+
+    if user is None:
+        return Response.error_response('NoUser')
+
+    if phone != str(user.get("phone")):
+        return Response.error_response('WrongPhoneNumber')
+
+    code = VerifyHelper.add_code(session, phone)
+    if ConfigHelper.get_phone_verify_able():
+        PhoneSender.send_verify_code(phone, code)
+    else:
+        EmailSender.send("chenxu17@mails.tsinghua.edu.cn", phone + "::" + code)
+    return Response.checked_response("Success")
