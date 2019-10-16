@@ -89,7 +89,6 @@ def verify_phone(request):
         return Response.checked_response("Success")
     return Response.invalid_request()
 
-
 @csrf_exempt
 def signup(request):
     """process the request of signing up
@@ -167,4 +166,59 @@ def signout(request):
 
         EntryLog.del_entrylog(session_id=session_id)
         return Response.checked_response("Logout")
+    return Response.invalid_request()
+
+@csrf_exempt
+def change_password(request):
+    if request.method == "POST":
+        ip_address = get_ip(request)
+
+        token = request.POST.get('token')
+        oldpassword = request.POST.get('oldpassword')
+        newpassword = request.POST.get('newpassword')
+
+        error = check_params({
+            ParamType.Password : oldpassword,
+            ParamType.Password : newpassword
+        })
+
+        if error is None:
+            error = User.UserInfoChecker.check({
+                (User.UserInfoChecker.check_password, "oldpassword") : oldpassword,
+                (User.UserInfoChecker.check_password, "newpassword") : newpassword
+            })
+
+        if error is not None:
+            return error
+        
+        session_id = Session.get_session_id(token, ip_address)
+        if session_id is None:
+            return Response.error_response('NoSession')
+        
+        user = User.get_user_by_session(session_id)
+        
+        # test
+        # user = {
+        #     "username" : 'test',
+        #     'realname' : 'realname',
+        #     'school' : 'tsinghua',
+        #     'motto' : 'I am stupid.',
+        #     'permission' : "1",
+        #     'password' : make_password('Ab112233')
+        # }
+        
+        if user is None:
+            return Response.error_response('NoUser')
+        
+        if not User.signin_check_password(user, oldpassword):
+            return Response.error_response('Wrong password')
+
+        info = {
+            'password' : newpassword
+        }
+        user_id = user.get('id')
+        User.modify_user(user_id, info)
+
+        return Response.success_response(None)
+
     return Response.invalid_request()

@@ -33,6 +33,7 @@ urlpatterns = [
     path('user/sign/register', user_sign.signup),
     path('user/sign/logout', user_sign.signout),
     path('user/sign/verify', user_sign.verify_phone),
+    path('user/sign/modify', user_sign.change_password),
 
     path('user/info/get', user_info.get_info),
     path('user/list/get', user_list.user_list_get),
