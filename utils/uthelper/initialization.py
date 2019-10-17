@@ -22,6 +22,12 @@ class Initialization:
         return session
 
     @staticmethod
+    def disconnect():
+        """disconnect session for test
+        """
+        return SessionHelper.disconnect(Initialization.TOKEN, Initialization.IPADDR)
+
+    @staticmethod
     def register(username, password, phone, permission=8):
         """register
         """
@@ -37,7 +43,7 @@ class Initialization:
     def login(user_id, session):
         """login
         """
-        EntryLogHelper.add_entrylog(session, user_id)
+        return EntryLogHelper.add_entrylog(session, user_id)
 
     @staticmethod
     def make_package(params):

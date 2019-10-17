@@ -117,3 +117,4 @@ venv.bak/
 .pytest_cache/
 coverage-reports/
 xunit-reports/
+covhtml/

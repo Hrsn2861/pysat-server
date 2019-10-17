@@ -5,7 +5,7 @@ import utils.response as Response
 def start_session():
     """do nothing here
     """
-    return
+    return Response.failed_response('Error')
 
 def check_session(package):
     """process the request of check session
