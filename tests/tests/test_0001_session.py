@@ -6,8 +6,6 @@ import pytest
 
 from utils.response import analyse_response
 
-from session.models import SessionHelper
-
 TOKEN = None
 
 @pytest.mark.django_db

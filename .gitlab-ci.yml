@@ -43,7 +43,7 @@ style-test:
   extends: .test
   # allow_failure: true
   script:
-    - pylint --load-plugins=pylint_django pysat server user session
+    - pylint --load-plugins=pylint_django pysat server user session utils tests
     - BACKEND_RET=$?
     - exit $BACKEND_RET
 

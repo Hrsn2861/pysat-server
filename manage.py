@@ -1,3 +1,5 @@
+"""manage.py for django project
+"""
 #!/usr/bin/env python
 import os
 import sys

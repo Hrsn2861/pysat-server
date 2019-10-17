@@ -14,14 +14,12 @@ def check_str_as_bool(value):
         return True
     return False
 
-
 def check_str_as_int(value):
     """check `value` if it's integer
     """
     if value.isdigit():
         return True
     return False
-
 
 def check_params(params):
     """check params for request
@@ -39,14 +37,6 @@ def check_params(params):
             if param_type == 'integer' and check_str_as_int(value) is False:
                 return Response.error_response('Invalid ' + name)
     return None
-
-'''
-    ModifyUsername = ('username', True, 'string')
-    ModifyRealname = ('realname', False, 'string')
-    ModifySchool = ('school', False, 'string')
-    ModifyMotto = ('motto', False, 'string')
-    ModifyPermission = ('permission', False, 'integer')
-'''
 
 class ParamType(Enum):
     """params for requests

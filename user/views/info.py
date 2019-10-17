@@ -4,6 +4,7 @@
 import utils.response as Response
 
 from utils.params import ParamType
+from utils.permission import PermissionManager
 from user.models import UserHelper
 from user.models import VerifyHelper
 
@@ -35,14 +36,18 @@ def modify_info(package):
     else:
         user = UserHelper.get_user_by_username(username)
     if user is None:
-        return Response.error_response("No User")
+        return Response.error_response('No User')
 
     info = {
-        "realname" : realname,
-        "school" : school,
-        "motto" : motto,
-        "permission" : int(permission)
+        'realname' : realname,
+        'school' : school,
+        'motto' : motto
     }
+    if permission is not None:
+        info['permission'] = int(permission)
+    action = PermissionManager.modify_to_action(package.get('user'), user, info)
+    if not PermissionManager.check_user(package.get('user'), action):
+        return Response.error_response('Access Denied')
     UserHelper.modify_user(user.get('id'), info)
     return Response.success_response(None)
 
