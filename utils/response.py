@@ -1,8 +1,7 @@
 """to package the data
 """
-
+import json
 from django.http import JsonResponse
-
 
 def make_response(status, msg, data):
     """make response
@@ -49,3 +48,10 @@ def failed_response(msg):
     """make a failed response
     """
     return make_response(status=-1, msg=msg, data=None)
+
+def analyse_response(response):
+    """transform response into dict
+    """
+    data = response.content
+    data = json.loads(data)
+    return data
