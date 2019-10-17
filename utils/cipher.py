@@ -55,3 +55,10 @@ def decrypt(text):
     if text is None:
         return None
     return AESCipher.cipher.decrypt(text)
+
+def encrypt(text):
+    """encrypt
+    """
+    if text is None or not isinstance(text, str):
+        return None
+    return AESCipher.cipher.encrypt(text)

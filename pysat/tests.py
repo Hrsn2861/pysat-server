@@ -4,10 +4,10 @@ from django.test import TestCase
 
 import utils.response as Response
 from utils.views import view_base
-from utils.cipher import AESCipher, decrypt
+from utils.cipher import encrypt, decrypt
 from utils.request import get_ip
-from utils.uthelper.garbage import Garbage
-from utils.uthelper.initialization import Initialization
+from utils.tests.garbage import Garbage
+from utils.tests.initialization import Initialization
 from user.models import EntryLogHelper
 
 class TestPySAT(TestCase):
@@ -38,9 +38,10 @@ class TestUtils(TestCase):
         """
         Test for `cipher.py`
         """
-        cipher = AESCipher.cipher
         text = 'HelloWorld'
-        encrypttext = cipher.encrypt(text)
+        encrypttext = encrypt(None)
+        self.assertEqual(encrypttext, None)
+        encrypttext = encrypt(text)
         decrypttext = decrypt(encrypttext)
         self.assertEqual(decrypttext, text)
         failedtext = decrypt('helloworld')
@@ -78,23 +79,3 @@ class TestUtils(TestCase):
         self.assertEqual(get_ip(test), 'IP')
         test.META['HTTP_X_FORWARDED_FOR'] = 'IP2'
         self.assertEqual(get_ip(test), 'IP2')
-
-class TestInitialization(TestCase):
-    """
-    Test for `utils.tests.initialization`
-    """
-
-    def test_0001(self):
-        """
-        Test
-        """
-        session = Initialization.start_session()
-        self.assertNotEqual(session, None)
-        user = Initialization.register('test', 'Test666', '110', 8)
-        self.assertNotEqual(user, None)
-        log1 = Initialization.login(user, session)
-        log2 = EntryLogHelper.get_entrylog_by_user(user)
-        Initialization.disconnect()
-        self.assertEqual(log1, log2 is not None)
-        package = Initialization.make_package(None)
-        self.assertNotEqual(package, None)
