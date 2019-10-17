@@ -5,29 +5,33 @@ from django.db import models
 
 # Create your models here.
 
-class User(models.Model):
-    """User
+
+class Config(models.Model):
+    """Config
     """
-    username = models.CharField(max_length=32)
-    password = models.CharField(max_length=128)
-    email = models.CharField(max_length=64)
-    telphone = models.CharField(max_length=11)
+    name = models.CharField(max_length=32)
+    value = models.CharField(max_length=128)
 
-    realname = models.CharField(max_length=32)
-    school = models.CharField(max_length=64)
-
-    permission = models.IntegerField()
-
-    motto = models.CharField(max_length=256, default="")
-
-    valid = models.BooleanField(default=True)
-    verify = models.CharField(max_length=6, default="")
-
-
-class EntryLog(models.Model):
-    """EntryLog
+class ConfigHelper:
+    """get config from database
     """
-    userid = models.IntegerField()
-    key = models.CharField(max_length=128)
-    entrytime = models.DateTimeField()
-    deadtime = models.DateTimeField()
+
+    @staticmethod
+    def get_config(name, default_value=""):
+        """get config
+
+        if the config does not exist, it will add `default_value` into database, and return it.
+        """
+        configs = Config.objects.filter(name=name)
+        if configs.exists():
+            config = configs.last()
+            return config.value
+        Config(name=name, value=default_value).save()
+        return default_value
+
+    @staticmethod
+    def get_phone_verify_able():
+        """get the phone verify config
+        """
+        text = ConfigHelper.get_config(name='phone_verify_able', default_value="false")
+        return text == 'true'
