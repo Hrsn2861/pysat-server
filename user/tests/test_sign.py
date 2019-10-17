@@ -28,4 +28,3 @@ class TestUserSignByRequest(TestCase):
         """
         Initialization.register(self, 'testuser', 'Test666', '11011011011')
         Initialization.login(self, 'testuser', 'Test666')
-

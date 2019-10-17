@@ -7,8 +7,6 @@ from utils.views import view_base
 from utils.cipher import encrypt, decrypt
 from utils.request import get_ip
 from utils.tests.garbage import Garbage
-from utils.tests.initialization import Initialization
-from user.models import EntryLogHelper
 
 class TestPySAT(TestCase):
     """
