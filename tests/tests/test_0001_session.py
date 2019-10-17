@@ -2,13 +2,11 @@
 """
 
 from django.test import TestCase
-import pytest
 
 from utils.response import analyse_response
 
 TOKEN = None
 
-@pytest.mark.django_db
 class TestSession(TestCase):
     """
     Test session for pysat server session
