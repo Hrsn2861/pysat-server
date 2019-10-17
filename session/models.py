@@ -59,14 +59,14 @@ class SessionHelper:
         return None
 
     @staticmethod
-    def add_session(ip_address):
+    def add_session(ip_address, default_token=None):
         """add a session into database
 
         return token
         """
         if not isinstance(ip_address, str):
             return None
-        token = None
+        token = default_token
         while token is None or SessionHelper.get_session_id(token, ip_address) is not None:
             token = randkey()
         Session(

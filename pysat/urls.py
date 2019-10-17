@@ -23,6 +23,7 @@ import user.urls
 
 urlpatterns = [
     path('', views.test),
+    path('myip', views.test_ip),
 
     url(r'^session/', include(session.urls)),
     url(r'^user/', include(user.urls))

@@ -13,3 +13,9 @@ def test(request):
     """
     print(get_ip(request))
     return HttpResponse("Test Success")
+
+def test_ip(request):
+    """
+    Test IP
+    """
+    return HttpResponse(get_ip(request))
