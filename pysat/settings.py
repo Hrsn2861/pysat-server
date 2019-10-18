@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'server',
     'session',
     'user',
+    'mail',
     'corsheaders'
 ]
 
