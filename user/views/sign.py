@@ -7,7 +7,6 @@ import utils.code_sender.email as EmailSender
 
 from utils import getdate_now
 from utils.params import ParamType
-from utils.checker import UserInfoChecker
 from user.models import UserHelper
 from user.models import VerifyHelper
 from user.models import EntryLogHelper
@@ -74,7 +73,6 @@ def signup(package):
         'phone' : phone,
         'permission' : 1
     })
-    user = UserHelper.get_user(user_id)
     EntryLogHelper.add_entrylog(session, user_id)
     return Response.checked_response('Signup Success')
 
