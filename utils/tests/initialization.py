@@ -31,8 +31,8 @@ class Initialization:
         testcase.assertEqual(ret, True)
 
     @staticmethod
-    def register(testcase, username, password, phone, permission=8):
-        """register
+    def verifyphone(testcase, phone):
+        """send verify code
         """
         response = testcase.client.post('/user/sign/verify', {
             'token' : testcase.token,
@@ -46,7 +46,13 @@ class Initialization:
         verifycode = VerifyHelper.get_latest_code(session, phone)
         testcase.assertNotEqual(verifycode, None)
         code = verifycode.get('code')
+        return code
 
+    @staticmethod
+    def register(testcase, username, password, phone, permission=8):
+        """register
+        """
+        code = Initialization.verifyphone(testcase, phone)
         response = testcase.client.post('/user/sign/register', {
             'token' : testcase.token,
             'username' : username,
@@ -75,3 +81,12 @@ class Initialization:
         testcase.assertEqual(response.status_code, 200)
         data = analyse_response(response)
         testcase.assertEqual(data.get('status'), 1)
+
+    @staticmethod
+    def logout(testcase):
+        """register
+        """
+        response = testcase.client.post('/user/sign/logout', {
+            'token' : testcase.token
+        })
+        testcase.assertEqual(response.status_code, 200)

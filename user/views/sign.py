@@ -36,9 +36,6 @@ def verify_phone(package):
     params = package.get('params')
     phone = params.get(ParamType.Phone)
 
-    if not UserInfoChecker.check_phone(phone):
-        return Response.error_response('IllegalPhone')
-
     lastcode = VerifyHelper.get_latest_code(session, phone)
     nowdate = getdate_now()
     if lastcode is not None and (nowdate.timestamp() - lastcode['time'].timestamp()) < 60:
@@ -78,10 +75,8 @@ def signup(package):
         'permission' : 1
     })
     user = UserHelper.get_user(user_id)
-    if user is not None:
-        EntryLogHelper.add_entrylog(session, user_id)
-        return Response.checked_response('Signup Success')
-    return Response.failed_response('System Error')
+    EntryLogHelper.add_entrylog(session, user_id)
+    return Response.checked_response('Signup Success')
 
 def signout(package):
     """process the request of signing out
