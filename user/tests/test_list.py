@@ -3,6 +3,7 @@
 from django.test import TestCase
 
 from utils.tests.initialization import Initialization
+from utils.response import analyse_response
 
 class TestUserListByRequest(TestCase):
     """
@@ -23,3 +24,14 @@ class TestUserListByRequest(TestCase):
         """This will be called after test
         """
         Initialization.disconnect(self)
+
+    def test0001(self):
+        """Test request for list info
+        """
+        response = self.client.get('/user/list/get', {
+            'token' : self.token,
+            "show_invalid" : 'true',
+            'manager_first' : 'true'
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(analyse_response(response).get('msg'), 'Success')
