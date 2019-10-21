@@ -72,6 +72,20 @@ class TestUserInfoByRequest(TestCase):
         self.assertEqual(msg, 'Success')
 
     def test0005(self):
+        """test user info modify_info with error
+        """
+        response = self.client.post('/user/info/modify', {
+            'token' : self.token,
+            'username'  : 'NoUser',
+            'realname' : 'realtestname',
+            'school' : 'tsinghua',
+            'motto' : 'I am stupid'
+        })
+        self.assertEqual(response.status_code, 200)
+        msg = analyse_response(response).get('msg')
+        self.assertEqual(msg, 'No User')
+
+    def test0006(self):
         """test user info set_phone
         """
         response = self.client.post('/user/info/setphone', {

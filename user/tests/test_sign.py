@@ -88,3 +88,78 @@ class TestUserSignByRequest(TestCase):
         })
         self.assertEqual(response.status_code, 200)
         self.assertEqual(analyse_response(response).get('msg'), 'RequestTooFrequently')
+
+    def test_0005(self):
+        """
+        Test for change password
+        """
+        response = self.client.post('/user/sign/modify', {
+            'token': self.token,
+            'oldpassword' : encrypt("Test666"),
+            'newpassword' : encrypt('Stupid123')
+        })
+        self.assertEqual(response.status_code, 200)
+        data = analyse_response(response)
+        self.assertEqual(data.get('msg'), 'Success')
+
+    def test_0006(self):
+        """
+        Test for change password error cases
+        """
+        response = self.client.post('/user/sign/modify', {
+            'token': self.token,
+            'oldpassword' : encrypt("WrongPassword233"),
+            'newpassword' : encrypt('Stupid123')
+        })
+        self.assertEqual(response.status_code, 200)
+        data = analyse_response(response)
+        self.assertEqual(data.get('msg'), 'Old Password Error')
+
+    def test_0007(self):
+        """
+        Test for retrieve
+        """
+        response = self.client.post('/user/sign/retrieve', {
+            'token' : self.token,
+            'username' : 'testuser',
+            'phone'  : '11011011011'
+        })
+        self.assertEqual(response.status_code, 200)
+        data = analyse_response(response)
+        self.assertEqual(data.get('msg'), 'Success')
+
+    def test_0008(self):
+        """
+        Test fot retrieve error cases
+        """
+        response = self.client.post('/user/sign/retrieve', {
+            'token' : self.token,
+            'username' : 'NoUser',
+            'phone' : '11011011011'
+        })
+        self.assertEqual(response.status_code, 200)
+        data = analyse_response(response)
+        self.assertEqual(data.get('msg'), 'No User')
+
+        response = self.client.post('/user/sign/retrieve', {
+            'token' : self.token,
+            'username' : 'testuser',
+            'phone' : '11011211211'
+        })
+        self.assertEqual(response.status_code, 200)
+        data = analyse_response(response)
+        self.assertEqual(data.get('msg'), 'Phone Number Error')
+
+    def test_0009(self):
+        """
+        Test for forget password
+        """
+        response = self.client.post('/user/sign/passwd', {
+            'token' : self.token,
+            'username' : 'testuser',
+            'password' : encrypt('NewPassword233'),
+            'CAPTCHA' : 'GUXYNB'
+        })
+        self.assertEqual(response.status_code, 200)
+        data = analyse_response(response)
+        self.assertEqual(data.get('msg'), 'GUXYNB')
