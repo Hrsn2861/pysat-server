@@ -7,13 +7,17 @@ from utils import getdate_now, getdate_none
 class Program(models.Model):
     """Program Model
     """
+    name = models.CharField(max_length=128)
     author = models.IntegerField()
     code = models.TextField()
+    doc = models.TextField()
     submit_time = models.DateTimeField()
-    judge = models.IntegerField()
     status = models.IntegerField()
+    judge = models.IntegerField()
     judge_time = models.DateTimeField()
     upload_time = models.DateTimeField()
+    downloads = models.IntegerField()
+    likes = models.IntegerField()
 
     class Meta:
         verbose_name = 'program'
@@ -35,27 +39,35 @@ class ProgramHelper:
             upload_time = None
         return {
             'id' : program.id,
+            'name' : program.name,
             'author' : program.author,
-            'content' : program.content,
+            'code' : program.code,
+            'doc' : program.doc,
             'submit_time' : program.submit_time,
-            'judge' : program.judge,
             'status' : program.status,
+            'judge' : program.judge,
             'judge_time' : judge_time,
-            'upload_time' : upload_time
+            'upload_time' : upload_time,
+            'downloads' : program.downloads,
+            'likes' : program.likes
         }
 
     @staticmethod
-    def add_program(author, code):
+    def add_program(author, name, code, doc):
         """add program
         """
         Program(
             author=author,
+            name=name,
             code=code,
+            doc=doc,
             submit_time=getdate_now(),
             judge=0,
             status=0,
             judge_time=getdate_none(),
-            upload_time=getdate_none()
+            upload_time=getdate_none(),
+            downloads=0,
+            likes=0
         ).save()
         return True
 
