@@ -63,3 +63,5 @@ class ParamType(Enum):
     SchoolForModify = ('School', 'school', False, False, 'string', UserInfoType.School)
     MottoForModify = ('Motto', 'motto', False, False, 'string', UserInfoType.Pass)
     PermissionForModify = ('Permission', 'permission', False, False, 'integer', UserInfoType.Pass)
+
+    MailId = ('Id', 'id', False, True, 'integer', UserInfoType.Pass)
