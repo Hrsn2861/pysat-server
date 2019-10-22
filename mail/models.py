@@ -150,7 +150,7 @@ class MailHelper:
             return []
         params = MailHelper.get_filter(user_id, mail_type, mail_folder)
         qs = Mail.objects.filter(**params)
-        qs = qs.order_by('id')
+        qs = qs.order_by('-id')
         mails = qs[(page - 1) * 20 : page * 20]
         ret = []
         for mail in mails:
