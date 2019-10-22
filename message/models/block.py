@@ -3,7 +3,7 @@
 from django.db import models
 
 from user.models import UserHelper
-from . import ChatHelper
+from .chat import ChatHelper
 
 class Block(models.Model):
     """Program Like Model

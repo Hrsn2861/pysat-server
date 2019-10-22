@@ -3,7 +3,7 @@
 from django.db import models
 
 from utils import getdate_now
-from . import ChatHelper
+from .chat import ChatHelper
 
 class Message(models.Model):
     """Message Model
