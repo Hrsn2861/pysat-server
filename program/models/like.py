@@ -28,3 +28,10 @@ class LikeHelper:
         """add a like log
         """
         Like(user_id=user_id, program_id=program_id).save()
+
+    @staticmethod
+    def count_like(program_id):
+        """count like of program
+        """
+        likes = Like.objects.filter(program_id=program_id)
+        return likes.count()

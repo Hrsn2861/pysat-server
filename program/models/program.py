@@ -3,6 +3,7 @@
 from django.db import models
 
 from utils import getdate_now, getdate_none
+from program.models import ProgramLikeHelper
 
 class Program(models.Model):
     """Program Model
@@ -155,5 +156,19 @@ class ProgramHelper:
 
         program.status = 3
         program.upload_time = getdate_now()
+        program.save()
+        return True
+
+    @staticmethod
+    def like_program(prog_id):
+        """when the program is liked
+        """
+        progs = Program.objects.filter(id=prog_id)
+        if progs.exists():
+            program = progs.last()
+        else:
+            return False
+
+        program.likes = ProgramLikeHelper.count_like(prog_id)
         program.save()
         return True

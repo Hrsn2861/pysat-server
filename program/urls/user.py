@@ -13,4 +13,8 @@ urlpatterns = [
         ParamType.ProgramCode,
         ParamType.ProgramDoc
     ], action=ActionType.SubmitProgram)),
+
+    path('like', view_maker(user.like, 'POST', [
+        ParamType.ProgramId
+    ], action=ActionType.UserLike))
 ]
