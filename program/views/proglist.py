@@ -21,7 +21,12 @@ def onstar_list(package):
     progs_list = ProgramHelper.get_onstar_programs(page, listtype)
 
     if len(progs_list) == 0:
-        return Response.checked_response('No Program')
+        data = {
+            'tot_count' : 0,
+            'now_count' : 0,
+            'codelist' : []
+        }
+        return Response.success_response(data)
 
     codelist = []
     for prog in progs_list:
@@ -51,7 +56,12 @@ def mylist(package):
     progs_list = ProgramHelper.get_user_programs(user_id, page, 0)
 
     if len(progs_list) == 0:
-        return Response.checked_response('No Program')
+        data = {
+            'tot_count' : 0,
+            'now_count' : 0,
+            'codelist' : []
+        }
+        return Response.success_response(data)
 
     username = user.get('username')
     codelist = []
@@ -80,7 +90,12 @@ def inqueue_list(package):
     progs_list = ProgramHelper.get_inqueue_programs(page, 0)
 
     if len(progs_list) == 0:
-        return Response.checked_response('No Program')
+        data = {
+            'tot_count' : 0,
+            'now_count' : 0,
+            'codelist' : []
+        }
+        return Response.success_response(data)
 
     codelist = []
     for prog in progs_list:
@@ -107,7 +122,12 @@ def judge_list(package):
     progs_list = ProgramHelper.get_judge_programs(page, 0)
 
     if len(progs_list) == 0:
-        return Response.checked_response('No Program')
+        data = {
+            'tot_count' : 0,
+            'now_count' : 0,
+            'codelist' : []
+        }
+        return Response.success_response(data)
 
     codelist = []
     for prog in progs_list:
