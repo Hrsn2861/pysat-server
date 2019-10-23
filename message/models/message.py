@@ -4,7 +4,7 @@ from django.db import models
 from django.utils import timezone
 
 from user.models import UserHelper
-from utils import getdate_now
+from utils import getdate_now, date_to_string
 from .chat import ChatHelper
 
 class Message(models.Model):
@@ -76,6 +76,6 @@ class MessageHelper:
                 'id' : message.id,
                 'username' : usernames[message.sender],
                 'content' : message.content,
-                'send_time' : message.send_time
+                'send_time' : date_to_string(message.send_time)
             })
         return messages

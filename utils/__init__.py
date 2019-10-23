@@ -26,3 +26,10 @@ def getdate_none():
     """get later time
     """
     return timezone.datetime(year=2000, month=1, day=1)
+
+def date_to_string(date):
+    """transform a date into string
+    """
+    if data is None:
+        return '-'
+    return date.strftime('%Y-%m-%d %H:%M:%S')

@@ -2,7 +2,7 @@
 """
 from django.db import models
 
-from utils import getdate_now, getdate_none
+from utils import getdate_now, getdate_none, date_to_string
 
 class Program(models.Model):
     """Program Model
@@ -43,11 +43,11 @@ class ProgramHelper:
             'author' : program.author,
             'code' : program.code,
             'doc' : program.doc,
-            'submit_time' : program.submit_time,
+            'submit_time' : date_to_string(program.submit_time),
             'status' : program.status,
             'judge' : program.judge,
-            'judge_time' : judge_time,
-            'upload_time' : upload_time,
+            'judge_time' : date_to_string(judge_time),
+            'upload_time' : date_to_string(upload_time),
             'downloads' : program.downloads,
             'likes' : program.likes
         }
