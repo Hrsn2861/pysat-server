@@ -18,7 +18,7 @@ urlpatterns = [
         ParamType.ProgramId
     ], action=ActionType.UserLike)),
 
-    path('download', view_maker(user.download, 'POST', [
+    path('download', view_maker(user.download, 'GET', [
         ParamType.ProgramId
     ], action=ActionType.UserDownload))
 ]

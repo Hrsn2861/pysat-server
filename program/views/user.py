@@ -25,11 +25,11 @@ def like(package):
     prog_id = (int)(params.get(ParamType.ProgramId))
     program = ProgramHelper.get_program(prog_id)
 
-    if program.get('status') != 3:
-        return Response.error_response('Program not valid')
-
     if program is None:
         return Response.error_response('No Program')
+
+    if program.get('status') != 3:
+        return Response.error_response('Program not valid')
 
     user_id = user.get('id')
 

@@ -94,7 +94,7 @@ class ProgramHelper:
     def add_program(author, name, code, doc):
         """add program
         """
-        Program(
+        program = Program(
             author=author,
             name=name,
             code=code,
@@ -106,8 +106,9 @@ class ProgramHelper:
             upload_time=getdate_none(),
             downloads=0,
             likes=0
-        ).save()
-        return True
+        )
+        program.save()
+        return program.id
 
     @staticmethod
     def get_program(prog_id):
@@ -159,19 +160,19 @@ class ProgramHelper:
 
     @staticmethod
     def get_onstar_programs(page, listtype):
-        """get status ==3 programs
+        """get status == 3 programs
         """
         return ProgramHelper.get_programs({'status' : 3}, page, listtype)
 
     @staticmethod
     def get_inqueue_programs(page, listtype):
-        """get status ==3 programs
+        """get status == 2 programs
         """
         return ProgramHelper.get_programs({'status' : 2}, page, listtype)
 
     @staticmethod
     def get_judge_programs(page, listtype):
-        """get status ==3 programs
+        """get status == 0 programs
         """
         return ProgramHelper.get_programs({'status' : 0}, page, listtype)
 
