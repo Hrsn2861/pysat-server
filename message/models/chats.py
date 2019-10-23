@@ -39,6 +39,7 @@ class ChatsHelper:
                 unread = 0
             chats.append({
                 'user' : others,
-                'unread' : unread
+                'unread' : unread,
+                'time' : chat.latest_time
             })
         return chats
