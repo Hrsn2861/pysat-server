@@ -137,7 +137,10 @@ def judge_list(package):
         codelist.append(info)
 
     data = {
-        'tot_count' : ProgramHelper.get_programs_count({'status' : 0}),
+        'tot_count' : ProgramHelper.get_programs_count({
+            'status__gt' : -1,
+            'status__lt' : 3
+            }),
         'now_count' : len(progs_list),
         'codelist' : codelist
     }
