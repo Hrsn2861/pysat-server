@@ -9,8 +9,8 @@ def getlist(package):
     """process the request of getting user's info
     """
     params = package.get('params')
-    show_invalid = params.get(ParamType.ShowInvalid)
-    manager_first = params.get(ParamType.ManagerFirst)
+    show_invalid = params.get(ParamType.ShowInvalid) == 'true'
+    manager_first = params.get(ParamType.ManagerFirst) == 'true'
     page = params.get(ParamType.Page)
 
     if page is None:
