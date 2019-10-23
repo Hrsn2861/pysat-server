@@ -53,6 +53,20 @@ class ProgramHelper:
         }
 
     @staticmethod
+    def prog_filter(program):
+        """match the list data
+        """
+        if program is None:
+            return None
+        del program['submit_time']
+        del program['status']
+        del program['judge']
+        del program['judge_time']
+        del program['code']
+        del program['doc']
+        return program
+
+    @staticmethod
     def judge_program(prog_id, status, admin_id):
         """judge program
         """
@@ -106,11 +120,18 @@ class ProgramHelper:
         return qs.count()
 
     @staticmethod
-    def get_programs(params, page):
+    def get_programs(params, page, listtype):
         """get programs with params
         """
         qs = Program.objects.filter(**params)
-        qs = qs.order_by('-id')
+        if listtype == 0:
+            qs = qs.order_by('-id')
+        elif listtype == 1:
+            qs = qs.order_by('-downloads')
+        elif listtype == 2:
+            qs = qs.order_by('-likes')
+        else:
+            return None
         programs = qs[(page - 1) * 20 : page * 20]
         ret = []
         for program in programs:
@@ -124,10 +145,16 @@ class ProgramHelper:
         return ProgramHelper.get_programs_count({'author' : user_id})
 
     @staticmethod
-    def get_user_programs(user_id, page):
+    def get_user_programs(user_id, page, listtype):
         """get user's programs
         """
-        return ProgramHelper.get_programs({'author' : user_id}, page)
+        return ProgramHelper.get_programs({'author' : user_id}, page, listtype)
+
+    @staticmethod
+    def get_onstar_programs(page, listtype):
+        """get status ==3 programs
+        """
+        return ProgramHelper.get_programs({'code' : 'GUXYNB'}, page, listtype)
 
     @staticmethod
     def judging(prog_id):

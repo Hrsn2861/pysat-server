@@ -19,6 +19,7 @@ class ActionType(Enum):
 
     UserLike = 1
     UserDownload = 1
+    UserGet = 1
 
     SetBan = 4
     SetVIP = 4
