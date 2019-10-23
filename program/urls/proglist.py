@@ -11,5 +11,17 @@ urlpatterns = [
     path('onstar', view_maker(proglist.onstar_list, 'GET', [
         ParamType.Listype,
         ParamType.Page
+    ], action=ActionType.UserGet)),
+
+    path('mine', view_maker(proglist.mylist, 'GET', [
+        ParamType.Page
+    ], action=ActionType.UserGet)),
+
+    path('inqueue', view_maker(proglist.inqueue_list, 'GET', [
+        ParamType.Page
+    ], action=ActionType.UserGet)),
+
+    path('judge', view_maker(proglist.judge_list, 'GET', [
+        ParamType.Page
     ], action=ActionType.UserGet))
 ]

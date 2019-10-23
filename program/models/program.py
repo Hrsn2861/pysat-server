@@ -53,18 +53,18 @@ class ProgramHelper:
         }
 
     @staticmethod
-    def prog_filter(program):
+    def prog_filter(program, username):
         """match the list data
         """
-        if program is None:
-            return None
-        del program['submit_time']
-        del program['status']
-        del program['judge']
-        del program['judge_time']
-        del program['code']
-        del program['doc']
-        return program
+        info = {
+            'id' : program.get('id'),
+            'name' : program.get('name'),
+            'author' : username,
+            'downloads' : program.get('downloads'),
+            'likes' : program.get('likes'),
+            'upload_time' : program.get('upload_time')
+        }
+        return info
 
     @staticmethod
     def judge_program(prog_id, status, admin_id):
@@ -131,7 +131,7 @@ class ProgramHelper:
         elif listtype == 2:
             qs = qs.order_by('-likes')
         else:
-            return None
+            return []
         programs = qs[(page - 1) * 20 : page * 20]
         ret = []
         for program in programs:
@@ -154,7 +154,20 @@ class ProgramHelper:
     def get_onstar_programs(page, listtype):
         """get status ==3 programs
         """
-        return ProgramHelper.get_programs({'code' : 'GUXYNB'}, page, listtype)
+        return ProgramHelper.get_programs({'status' : 3}, page, listtype)
+
+    @staticmethod
+    def get_inqueue_programs(page, listtype):
+        """get status ==3 programs
+        """
+        return ProgramHelper.get_programs({'status' : 2}, page, listtype)
+
+    @staticmethod
+    def get_judge_programs(page, listtype):
+        """get status ==3 programs
+        """
+        return ProgramHelper.get_programs({'status' : 0}, page, listtype)
+
 
     @staticmethod
     def judging(prog_id):
