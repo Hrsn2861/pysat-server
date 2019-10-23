@@ -30,6 +30,6 @@ def getdate_none():
 def date_to_string(date):
     """transform a date into string
     """
-    if data is None:
+    if date is None:
         return '-'
-    return date.strftime('%Y-%m-%d %H:%M:%S')
+    return (date + timezone.timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S')
