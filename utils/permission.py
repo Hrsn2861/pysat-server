@@ -40,6 +40,8 @@ class PermissionManager:
     def check_user(user, action):
         """check if user is allowed to do someaction
         """
+        if user is None:
+            return False
         if 'permission' not in user:
             return False
         permission = user.get('permission')
