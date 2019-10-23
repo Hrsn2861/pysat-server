@@ -30,7 +30,7 @@ def onstar_list(package):
 
     codelist = []
     for prog in progs_list:
-        username = UserHelper.get_user(prog.get('id')).get('username')
+        username = UserHelper.get_user(prog.get('author')).get('username')
         info = ProgramHelper.prog_filter(prog, username, True)
         codelist.append(info)
 
