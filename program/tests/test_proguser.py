@@ -4,7 +4,6 @@ from django.test import TestCase
 
 from utils.tests.initialization import Initialization
 from utils.response import analyse_response
-from user.models import UserHelper
 from program.models import ProgramHelper
 
 class TestProgUserByRequest(TestCase):

@@ -160,19 +160,19 @@ class ProgramHelper:
 
     @staticmethod
     def get_onstar_programs(page, listtype):
-        """get status ==3 programs
+        """get status == 3 programs
         """
         return ProgramHelper.get_programs({'status' : 3}, page, listtype)
 
     @staticmethod
     def get_inqueue_programs(page, listtype):
-        """get status ==3 programs
+        """get status == 2 programs
         """
         return ProgramHelper.get_programs({'status' : 2}, page, listtype)
 
     @staticmethod
     def get_judge_programs(page, listtype):
-        """get status ==3 programs
+        """get status == 0 programs
         """
         return ProgramHelper.get_programs({'status' : 0}, page, listtype)
 
