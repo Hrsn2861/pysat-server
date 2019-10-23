@@ -24,8 +24,7 @@ def judge(package):
     """
     user = package.get('user')
     params = package.get('params')
-    program_id = int(params.get(ParamType.ProgramId)
-)
+    program_id = int(params.get(ParamType.ProgramId))
     if ProgramHelper.judging(program_id, user.get('id')) is False:
         return Response.error_response('No Program')
 
