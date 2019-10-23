@@ -53,6 +53,27 @@ class ProgramHelper:
         }
 
     @staticmethod
+    def prog_filter(program, username, is_upload):
+        """match the list data
+        """
+        info = {
+            'id' : program.get('id'),
+            'name' : program.get('name'),
+            'author' : username,
+            'downloads' : program.get('downloads'),
+            'likes' : program.get('likes'),
+            'upload_time' : program.get('upload_time'),
+            'submit_time' : program.get('submit_time')
+        }
+        if is_upload:
+            del info['submit_time']
+        else:
+            del info['upload_time']
+            del info['likes']
+            del info['downloads']
+        return info
+
+    @staticmethod
     def judge_program(prog_id, status, admin_id):
         """judge program
         """
@@ -106,11 +127,18 @@ class ProgramHelper:
         return qs.count()
 
     @staticmethod
-    def get_programs(params, page):
+    def get_programs(params, page, listtype):
         """get programs with params
         """
         qs = Program.objects.filter(**params)
-        qs = qs.order_by('-id')
+        if listtype == 0:
+            qs = qs.order_by('-id')
+        elif listtype == 1:
+            qs = qs.order_by('-downloads')
+        elif listtype == 2:
+            qs = qs.order_by('-likes')
+        else:
+            return []
         programs = qs[(page - 1) * 20 : page * 20]
         ret = []
         for program in programs:
@@ -124,10 +152,29 @@ class ProgramHelper:
         return ProgramHelper.get_programs_count({'author' : user_id})
 
     @staticmethod
-    def get_user_programs(user_id, page):
+    def get_user_programs(user_id, page, listtype):
         """get user's programs
         """
-        return ProgramHelper.get_programs({'author' : user_id}, page)
+        return ProgramHelper.get_programs({'author' : user_id}, page, listtype)
+
+    @staticmethod
+    def get_onstar_programs(page, listtype):
+        """get status ==3 programs
+        """
+        return ProgramHelper.get_programs({'status' : 3}, page, listtype)
+
+    @staticmethod
+    def get_inqueue_programs(page, listtype):
+        """get status ==3 programs
+        """
+        return ProgramHelper.get_programs({'status' : 2}, page, listtype)
+
+    @staticmethod
+    def get_judge_programs(page, listtype):
+        """get status ==3 programs
+        """
+        return ProgramHelper.get_programs({'status' : 0}, page, listtype)
+
 
     @staticmethod
     def judging(prog_id):
@@ -155,5 +202,30 @@ class ProgramHelper:
 
         program.status = 3
         program.upload_time = getdate_now()
+        program.save()
+        return True
+
+    @staticmethod
+    def set_likes(prog_id, like_count):
+        """when the program is liked
+        """
+        progs = Program.objects.filter(id=prog_id)
+        if progs.exists():
+            program = progs.last()
+        else:
+            return False
+
+        program.likes = like_count
+        program.save()
+        return True
+
+    @staticmethod
+    def set_downloads(prog_id, download_count):
+        """when the program is
+        """
+        progs = Program.objects.filter(id=prog_id)
+        program = progs.last()
+
+        program.downloads = download_count
         program.save()
         return True

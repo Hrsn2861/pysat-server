@@ -17,6 +17,10 @@ class ActionType(Enum):
     AdminUploadProgram = 4
     AdminJudge = 4
 
+    UserLike = 1
+    UserDownload = 1
+    UserGet = 1
+
     SetBan = 4
     SetVIP = 4
     SetManager = 8

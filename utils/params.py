@@ -73,3 +73,5 @@ class ParamType(Enum):
 
     ProgramId = ('Program ID', 'codeid', False, True, 'integer', UserInfoType.Pass)
     ProgramJudge = ('Program Judge', 'judge', False, True, 'integer', UserInfoType.Pass)
+
+    Listype = ('List Type', 'type', False, True, 'integer', UserInfoType.Pass)

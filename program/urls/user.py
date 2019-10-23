@@ -13,4 +13,12 @@ urlpatterns = [
         ParamType.ProgramCode,
         ParamType.ProgramDoc
     ], action=ActionType.SubmitProgram)),
+
+    path('like', view_maker(user.like, 'POST', [
+        ParamType.ProgramId
+    ], action=ActionType.UserLike)),
+
+    path('download', view_maker(user.download, 'POST', [
+        ParamType.ProgramId
+    ], action=ActionType.UserDownload))
 ]
