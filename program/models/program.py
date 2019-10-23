@@ -174,7 +174,10 @@ class ProgramHelper:
     def get_judge_programs(page, listtype):
         """get status == 0 programs
         """
-        return ProgramHelper.get_programs({'status' : 0}, page, listtype)
+        return ProgramHelper.get_programs({
+            'status__gt' : -1,
+            'status__lt' : 3
+            }, page, listtype)
 
 
     @staticmethod
