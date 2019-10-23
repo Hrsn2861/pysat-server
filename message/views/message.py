@@ -43,6 +43,8 @@ def send(package):
         return Response.error_response("Error Username")
     content = params.get(ParamType.Content)
     MessageHelper.send_message(user['id'], friend['id'], content)
+    chat_id = ChatHelper.get_chat(user['id'], friend['id'])
+    ChatHelper.add_message(chat_id, user['id'])
     return Response.checked_response('SendSuccess')
 
 def undo(package):
