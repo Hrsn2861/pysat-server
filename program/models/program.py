@@ -94,7 +94,7 @@ class ProgramHelper:
     def add_program(author, name, code, doc):
         """add program
         """
-        Program(
+        program = Program(
             author=author,
             name=name,
             code=code,
@@ -106,8 +106,9 @@ class ProgramHelper:
             upload_time=getdate_none(),
             downloads=0,
             likes=0
-        ).save()
-        return True
+        )
+        program.save()
+        return program.id
 
     @staticmethod
     def get_program(prog_id):

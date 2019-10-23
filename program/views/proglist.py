@@ -57,6 +57,8 @@ def mylist(package):
     codelist = []
     for prog in progs_list:
         info = ProgramHelper.prog_filter(prog, username, False)
+        del info['author']
+        info.update({'status' : prog.get('status')})
         codelist.append(info)
 
     data = {
