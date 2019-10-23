@@ -2,6 +2,7 @@
 """
 from django.db import models
 
+from utils import date_to_string
 from user.models import UserHelper
 from .block import BlockHelper
 from .chat import Chat
@@ -40,6 +41,6 @@ class ChatsHelper:
             chats.append({
                 'user' : others,
                 'unread' : unread,
-                'time' : chat.latest_time
+                'time' : date_to_string(chat.latest_time)
             })
         return chats
