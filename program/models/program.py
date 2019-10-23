@@ -53,7 +53,7 @@ class ProgramHelper:
         }
 
     @staticmethod
-    def prog_filter(program, username):
+    def prog_filter(program, username, is_upload):
         """match the list data
         """
         info = {
@@ -62,8 +62,15 @@ class ProgramHelper:
             'author' : username,
             'downloads' : program.get('downloads'),
             'likes' : program.get('likes'),
-            'upload_time' : program.get('upload_time')
+            'upload_time' : program.get('upload_time'),
+            'submit_time' : program.get('submit_time')
         }
+        if is_upload:
+            del info['submit_time']
+        else:
+            del info['upload_time']
+            del info['likes']
+            del info['downloads']
         return info
 
     @staticmethod

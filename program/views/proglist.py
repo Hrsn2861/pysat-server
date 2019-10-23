@@ -26,7 +26,7 @@ def onstar_list(package):
     codelist = []
     for prog in progs_list:
         username = UserHelper.get_user(prog.get('id')).get('username')
-        info = ProgramHelper.prog_filter(prog, username)
+        info = ProgramHelper.prog_filter(prog, username, True)
         codelist.append(info)
 
     data = {
@@ -56,7 +56,7 @@ def mylist(package):
     username = user.get('username')
     codelist = []
     for prog in progs_list:
-        info = ProgramHelper.prog_filter(prog, username)
+        info = ProgramHelper.prog_filter(prog, username, False)
         codelist.append(info)
 
     data = {
@@ -82,8 +82,8 @@ def inqueue_list(package):
 
     codelist = []
     for prog in progs_list:
-        username = UserHelper.get_user(prog.get('id')).get('username')
-        info = ProgramHelper.prog_filter(prog, username)
+        username = UserHelper.get_user(prog.get('author')).get('username')
+        info = ProgramHelper.prog_filter(prog, username, False)
         codelist.append(info)
 
     data = {
@@ -109,12 +109,13 @@ def judge_list(package):
 
     codelist = []
     for prog in progs_list:
-        username = UserHelper.get_user(prog.get('id')).get('username')
-        info = ProgramHelper.prog_filter(prog, username)
+        username = UserHelper.get_user(prog.get('author')).get('username')
+        info = ProgramHelper.prog_filter(prog, username, False)
+        info.update({'status' : prog.get('status')})
         codelist.append(info)
 
     data = {
-        'tot_count' : ProgramHelper.get_programs_count({'status' : 2}),
+        'tot_count' : ProgramHelper.get_programs_count({'status' : 0}),
         'now_count' : len(progs_list),
         'codelist' : codelist
     }
