@@ -15,10 +15,6 @@ class TestSessionByRequest(TestCase):
         """
         Test Start Session with Wrong-Request-Method
         """
-        response = self.client.get('/session/start')
-        self.assertEqual(response.status_code, 200)
-        data = analyse_response(response)
-        self.assertEqual(data.get('status'), -1)
 
     def test_0002_checksession_error(self):
         """

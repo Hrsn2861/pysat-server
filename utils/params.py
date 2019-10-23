@@ -65,3 +65,7 @@ class ParamType(Enum):
     PermissionForModify = ('Permission', 'permission', False, False, 'integer', UserInfoType.Pass)
 
     MailId = ('Id', 'id', False, True, 'integer', UserInfoType.Pass)
+
+    ProgramName = ('Program Name', 'codename', False, True, 'string', UserInfoType.Pass)
+    ProgramCode = ('Program Code', 'code', False, True, 'string', UserInfoType.Pass)
+    ProgramDoc = ('Program Document', 'readme', False, False, 'string', UserInfoType.Pass)

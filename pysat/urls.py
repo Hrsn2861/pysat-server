@@ -20,7 +20,7 @@ import pysat.views as views
 
 import session.urls
 import user.urls
-import mail.urls
+import program.urls
 
 urlpatterns = [
     path('', views.test),
@@ -28,5 +28,5 @@ urlpatterns = [
 
     url(r'^session/', include(session.urls)),
     url(r'^user/', include(user.urls)),
-    url(r'^mail/', include(mail.urls))
+    url(r'^program/', include(program.urls))
 ]
