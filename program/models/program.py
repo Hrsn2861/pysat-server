@@ -53,6 +53,23 @@ class ProgramHelper:
         }
 
     @staticmethod
+    def judge_program(prog_id, status, admin_id):
+        """judge program
+        """
+        progs = Program.objects.filter(id=prog_id)
+        if progs.exists():
+            program = progs.last()
+        else:
+            return False
+
+        program.judge = admin_id
+        program.status = status
+        program.judge_time = getdate_now()
+
+        program.save()
+        return True
+
+    @staticmethod
     def add_program(author, name, code, doc):
         """add program
         """
@@ -111,3 +128,32 @@ class ProgramHelper:
         """get user's programs
         """
         return ProgramHelper.get_programs({'author' : user_id}, page)
+
+    @staticmethod
+    def judging(prog_id):
+        """when the prgram is judging
+        """
+        progs = Program.objects.filter(id=prog_id)
+        if progs.exists():
+            program = progs.last()
+        else:
+            return False
+
+        program.status = 1
+        program.save()
+        return True
+
+    @staticmethod
+    def upload(prog_id):
+        """when the prgram is uploaded
+        """
+        progs = Program.objects.filter(id=prog_id)
+        if progs.exists():
+            program = progs.last()
+        else:
+            return False
+
+        program.status = 3
+        program.upload_time = getdate_now()
+        program.save()
+        return True
