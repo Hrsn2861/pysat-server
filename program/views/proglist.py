@@ -53,7 +53,7 @@ def mylist(package):
         page = 1
 
     user_id = user.get('id')
-    progs_list = ProgramHelper.get_user_programs(user_id, page, 0)
+    progs_list = ProgramHelper.get_user_programs(user_id, page, 3)
 
     if len(progs_list) == 0:
         data = {
@@ -87,7 +87,7 @@ def inqueue_list(package):
 
     if page is None or page == 0:
         page = 1
-    progs_list = ProgramHelper.get_inqueue_programs(page, 0)
+    progs_list = ProgramHelper.get_inqueue_programs(page, 3)
 
     if len(progs_list) == 0:
         data = {
@@ -119,7 +119,7 @@ def judge_list(package):
 
     if page is None or page == 0:
         page = 1
-    progs_list = ProgramHelper.get_judge_programs(page, 0)
+    progs_list = ProgramHelper.get_judge_programs(page, 3)
 
     if len(progs_list) == 0:
         data = {

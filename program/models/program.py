@@ -133,11 +133,13 @@ class ProgramHelper:
         """
         qs = Program.objects.filter(**params)
         if listtype == 0:
-            qs = qs.order_by('-id')
+            qs = qs.order_by('-upload_time')
         elif listtype == 1:
             qs = qs.order_by('-downloads')
         elif listtype == 2:
             qs = qs.order_by('-likes')
+        elif listtype == 3:
+            qs = qs.order_by('-id')
         else:
             return []
         programs = qs[(page - 1) * 20 : page * 20]
