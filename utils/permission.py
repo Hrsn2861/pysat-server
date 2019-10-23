@@ -15,6 +15,7 @@ class ActionType(Enum):
     SubmitProgram = 1
 
     AdminUploadProgram = 4
+    AdminJudge = 4
 
     SetBan = 4
     SetVIP = 4

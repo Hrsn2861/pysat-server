@@ -10,5 +10,9 @@ from program.views import admin
 urlpatterns = [
     path('upload', view_maker(admin.upload, 'POST', [
         ParamType.ProgramId
-    ], action=ActionType.AdminUploadProgram))
+    ], action=ActionType.AdminUploadProgram)),
+    path('judge', view_maker(admin.judge, 'POST', [
+        ParamType.ProgramId,
+        ParamType.ProgramJudge
+    ], action=ActionType.AdminJudge))
 ]

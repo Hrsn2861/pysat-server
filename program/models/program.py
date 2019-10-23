@@ -53,6 +53,19 @@ class ProgramHelper:
         }
 
     @staticmethod
+    def judge_program(judge, prog_id):
+        """judge program
+        """
+        if judge > 1 or judge is 0:
+            return False
+        program = ProgramHelper.get_program(prog_id)
+        if program is None:
+            return False
+        program['judge'] = judge
+        program['judge_time'] = getdate_now()
+        return True
+
+    @staticmethod
     def add_program(author, name, code, doc):
         """add program
         """

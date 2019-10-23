@@ -71,3 +71,4 @@ class ParamType(Enum):
     ProgramDoc = ('Program Document', 'readme', False, False, 'string', UserInfoType.Pass)
 
     ProgramId = ('Program ID', 'codeid', False, True, 'string', UserInfoType.Pass)
+    ProgramJudge = ('Program Judge', 'judge', False, True, 'integer', UserInfoType.Pass)
