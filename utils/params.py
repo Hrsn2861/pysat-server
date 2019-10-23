@@ -55,6 +55,9 @@ class ParamType(Enum):
     Phone = ('Phone', 'phone', False, True, 'string', UserInfoType.Phone)
     CAPTCHA = ('CAPTCHA', 'CAPTCHA', False, True, 'string', UserInfoType.Pass)
 
+    Id = ('Id', 'id', False, True, 'integer', UserInfoType.Pass)
+    Content = ('Content', 'content', False, True, 'string', UserInfoType.Pass)
+
     ShowInvalid = ('ShowInvalidParam', 'show_invalid', False, True, 'boolean', UserInfoType.Pass)
     ManagerFirst = ('ManagerFirstParam', 'manager_first', False, True, 'boolean', UserInfoType.Pass)
     Page = ('Page', 'page', False, False, 'integer', UserInfoType.Pass)
@@ -64,11 +67,9 @@ class ParamType(Enum):
     MottoForModify = ('Motto', 'motto', False, False, 'string', UserInfoType.Pass)
     PermissionForModify = ('Permission', 'permission', False, False, 'integer', UserInfoType.Pass)
 
-    MailId = ('Id', 'id', False, True, 'integer', UserInfoType.Pass)
-
     ProgramName = ('Program Name', 'codename', False, True, 'string', UserInfoType.Pass)
     ProgramCode = ('Program Code', 'code', False, True, 'string', UserInfoType.Pass)
     ProgramDoc = ('Program Document', 'readme', False, False, 'string', UserInfoType.Pass)
 
-    ProgramId = ('Program ID', 'codeid', False, True, 'string', UserInfoType.Pass)
+    ProgramId = ('Program ID', 'codeid', False, True, 'integer', UserInfoType.Pass)
     ProgramJudge = ('Program Judge', 'judge', False, True, 'integer', UserInfoType.Pass)
