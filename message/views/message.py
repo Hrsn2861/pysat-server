@@ -21,6 +21,7 @@ def get_list(package):
     page = int(page)
     chat = ChatHelper.get_chat(user['id'], friend['id'])
     if chat:
+        ChatHelper.do_read(chat, user['id'])
         count = MessageHelper.get_messages_count(chat)
         messages = MessageHelper.get_messages(chat, page)
         data = {
