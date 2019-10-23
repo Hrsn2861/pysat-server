@@ -4,6 +4,7 @@ from django.urls import path
 
 from utils.views import view_maker
 from utils.params import ParamType
+from utils.permission import ActionType
 
 from user.views import sign
 
@@ -37,18 +38,18 @@ urlpatterns = [
     ], [
         ParamType.OldPassword,
         ParamType.NewPassword
-    ])),
+    ], action=ActionType.ModifyMyInfo)),
     path('retrieve', view_maker(sign.retrieve, 'POST', [
         ParamType.Username,
         ParamType.Phone
     ], [
         ParamType.Username
-    ])),
+    ], action=ActionType.ModifyMyInfo)),
     path('passwd', view_maker(sign.forget_password, 'POST', [
         ParamType.Username,
         ParamType.Password,
         ParamType.CAPTCHA
     ], [
         ParamType.Password
-    ]))
+    ], action=ActionType.ModifyMyInfo))
 ]
