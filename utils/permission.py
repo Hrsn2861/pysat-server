@@ -12,6 +12,8 @@ class ActionType(Enum):
     GetUserList = 1
     GetAllUserList = 4
 
+    SubmitProgram = 1
+
     SetBan = 4
     SetVIP = 4
     SetManager = 8

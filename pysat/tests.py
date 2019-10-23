@@ -3,7 +3,6 @@
 from django.test import TestCase
 
 import utils.response as Response
-from utils.views import view_base
 from utils.cipher import encrypt, decrypt
 from utils.request import get_ip
 from utils.tests.garbage import Garbage
@@ -29,8 +28,6 @@ class TestUtils(TestCase):
         """
         Test for `views.py`
         """
-        response = view_base(None, None, 'METHOD', [], [])
-        self.assertEqual(response.status_code, 200)
 
     def test_0002(self):
         """
