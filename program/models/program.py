@@ -53,16 +53,27 @@ class ProgramHelper:
         }
 
     @staticmethod
-    def judge_program(judge, prog_id):
+    def judge_program(prog_id, status, admin_id):
         """judge program
         """
-        if judge > 1 or judge is 0:
+        if not isinstance(prog_id, int):
             return False
-        program = ProgramHelper.get_program(prog_id)
-        if program is None:
+        if not isinstance(status, int):
             return False
-        program['judge'] = judge
-        program['judge_time'] = getdate_now()
+        if not isinstance(admin_id, int):
+            return False
+
+        progs = Program.objects.filter(id=prog_id)
+        if progs.exists():
+            program = progs.last()
+        else:
+            return False
+
+        program.judge = admin_id
+        program.status = status
+        program.judge_time = getdate_now()
+
+        program.save()
         return True
 
     @staticmethod
@@ -124,3 +135,39 @@ class ProgramHelper:
         """get user's programs
         """
         return ProgramHelper.get_programs({'author' : user_id}, page)
+
+    @staticmethod
+    def judging(prog_id, admin_id):
+        """when the prgram is judging
+        """
+        if not isinstance(prog_id, int):
+            return False
+        if not isinstance(admin_id, int):
+            return False
+        progs = Program.objects.filter(id=prog_id)
+        if progs.exists():
+            program = progs.last()
+        else:
+            return False
+
+        program.judge = admin_id
+        program.status = 1
+        program.save()
+        return True
+
+    @staticmethod
+    def upload(prog_id):
+        """when the prgram is uploaded
+        """
+        if not isinstance(prog_id, int):
+            return False
+        progs = Program.objects.filter(id=prog_id)
+        if progs.exists():
+            program = progs.last()
+        else:
+            return False
+
+        program.status = 3
+        program.upload_time = getdate_now()
+        program.save()
+        return True

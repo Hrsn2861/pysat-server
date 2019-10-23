@@ -14,5 +14,8 @@ urlpatterns = [
     path('judge', view_maker(admin.judge, 'POST', [
         ParamType.ProgramId,
         ParamType.ProgramJudge
-    ], action=ActionType.AdminJudge))
+    ], action=ActionType.AdminJudge)),
+    path('download', view_maker(admin.download, 'GET', [
+        ParamType.ProgramId
+    ], action=ActionType.AdminUploadProgram))
 ]
