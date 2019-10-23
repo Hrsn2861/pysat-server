@@ -56,13 +56,6 @@ class ProgramHelper:
     def judge_program(prog_id, status, admin_id):
         """judge program
         """
-        if not isinstance(prog_id, int):
-            return False
-        if not isinstance(status, int):
-            return False
-        if not isinstance(admin_id, int):
-            return False
-
         progs = Program.objects.filter(id=prog_id)
         if progs.exists():
             program = progs.last()
@@ -137,20 +130,15 @@ class ProgramHelper:
         return ProgramHelper.get_programs({'author' : user_id}, page)
 
     @staticmethod
-    def judging(prog_id, admin_id):
+    def judging(prog_id):
         """when the prgram is judging
         """
-        if not isinstance(prog_id, int):
-            return False
-        if not isinstance(admin_id, int):
-            return False
         progs = Program.objects.filter(id=prog_id)
         if progs.exists():
             program = progs.last()
         else:
             return False
 
-        program.judge = admin_id
         program.status = 1
         program.save()
         return True
@@ -159,8 +147,6 @@ class ProgramHelper:
     def upload(prog_id):
         """when the prgram is uploaded
         """
-        if not isinstance(prog_id, int):
-            return False
         progs = Program.objects.filter(id=prog_id)
         if progs.exists():
             program = progs.last()
