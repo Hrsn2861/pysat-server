@@ -3,7 +3,6 @@
 from django.db import models
 
 from utils import getdate_now, getdate_none
-from program.models import ProgramLikeHelper
 
 class Program(models.Model):
     """Program Model
@@ -160,7 +159,7 @@ class ProgramHelper:
         return True
 
     @staticmethod
-    def like_program(prog_id):
+    def set_likes(prog_id, like_count):
         """when the program is liked
         """
         progs = Program.objects.filter(id=prog_id)
@@ -169,6 +168,17 @@ class ProgramHelper:
         else:
             return False
 
-        program.likes = ProgramLikeHelper.count_like(prog_id)
+        program.likes = like_count
+        program.save()
+        return True
+
+    @staticmethod
+    def set_downloads(prog_id, download_count):
+        """when the program is
+        """
+        progs = Program.objects.filter(id=prog_id)
+        program = progs.last()
+
+        program.downloads = download_count
         program.save()
         return True

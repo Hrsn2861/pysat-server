@@ -28,3 +28,10 @@ class DownloadLogHelper:
         """add a download log
         """
         DownloadLog(user_id=user_id, program_id=program_id).save()
+
+    @staticmethod
+    def count_downloadlog(program_id):
+        """count downloads
+        """
+        logs = DownloadLog.objects.filter(program_id=program_id)
+        return logs.count()

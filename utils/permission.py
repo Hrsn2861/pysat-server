@@ -18,6 +18,7 @@ class ActionType(Enum):
     AdminJudge = 4
 
     UserLike = 1
+    UserDownload = 1
 
     SetBan = 4
     SetVIP = 4
