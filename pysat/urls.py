@@ -20,10 +20,15 @@ import pysat.views as views
 
 import session.urls
 import user.urls
+import program.urls
+import message.urls
 
 urlpatterns = [
     path('', views.test),
+    path('myip', views.test_ip),
 
     url(r'^session/', include(session.urls)),
-    url(r'^user/', include(user.urls))
+    url(r'^user/', include(user.urls)),
+    url(r'^program/', include(program.urls)),
+    url(r'^message/', include(message.urls))
 ]

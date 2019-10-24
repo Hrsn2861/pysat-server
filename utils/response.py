@@ -6,12 +6,10 @@ from django.http import JsonResponse
 def make_response(status, msg, data):
     """make response
     """
-    if not isinstance(status, int):
-        return None
-    if status not in [1, 0, -1]:
-        return None
-    if not isinstance(msg, str):
-        return None
+    if not isinstance(status, int) or status not in [1, 0, -1] or not isinstance(msg, str):
+        status = -1
+        msg = 'Error'
+        data = None
     package = {
         'status' : status,
         'msg' : msg,

@@ -7,7 +7,6 @@ import utils.code_sender.email as EmailSender
 
 from utils import getdate_now
 from utils.params import ParamType
-from utils.checker import UserInfoChecker
 from user.models import UserHelper
 from user.models import VerifyHelper
 from user.models import EntryLogHelper
@@ -35,9 +34,6 @@ def verify_phone(package):
     session = package.get('session')
     params = package.get('params')
     phone = params.get(ParamType.Phone)
-
-    if not UserInfoChecker.check_phone(phone):
-        return Response.error_response('IllegalPhone')
 
     lastcode = VerifyHelper.get_latest_code(session, phone)
     nowdate = getdate_now()
@@ -77,11 +73,8 @@ def signup(package):
         'phone' : phone,
         'permission' : 1
     })
-    user = UserHelper.get_user(user_id)
-    if user is not None:
-        EntryLogHelper.add_entrylog(session, user_id)
-        return Response.checked_response('Signup Success')
-    return Response.failed_response('System Error')
+    EntryLogHelper.add_entrylog(session, user_id)
+    return Response.checked_response('Signup Success')
 
 def signout(package):
     """process the request of signing out

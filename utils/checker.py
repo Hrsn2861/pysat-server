@@ -21,7 +21,7 @@ class UserInfoChecker:
             return False
         if re.findall(r'^(?=.*[a-zA-Z])[a-zA-Z0-9]{4,16}$', username):
             return True
-        return True
+        return False
 
     @staticmethod
     def check_password(password):

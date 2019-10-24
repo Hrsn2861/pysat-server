@@ -45,6 +45,7 @@ def modify_info(package):
     }
     if permission is not None:
         info['permission'] = int(permission)
+    info = {k : v for k, v in info.items() if v is not None}
     action = PermissionManager.modify_to_action(package.get('user'), user, info)
     if not PermissionManager.check_user(package.get('user'), action):
         return Response.error_response('Access Denied')

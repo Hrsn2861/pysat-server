@@ -12,6 +12,15 @@ class ActionType(Enum):
     GetUserList = 1
     GetAllUserList = 4
 
+    SubmitProgram = 1
+
+    AdminUploadProgram = 4
+    AdminJudge = 4
+
+    UserLike = 1
+    UserDownload = 1
+    UserGet = 1
+
     SetBan = 4
     SetVIP = 4
     SetManager = 8
@@ -38,6 +47,8 @@ class PermissionManager:
     def check_user(user, action):
         """check if user is allowed to do someaction
         """
+        if user is None:
+            return False
         if 'permission' not in user:
             return False
         permission = user.get('permission')

@@ -2,7 +2,7 @@
 """
 from django.db import models
 
-from utils import getdate_now
+from utils import getdate_now, randkey
 from utils.checker import UserInfoChecker
 
 class VerifyCode(models.Model):
@@ -62,13 +62,16 @@ class VerifyHelper:
         return True
 
     @staticmethod
-    def add_code(session_id, phone):
+    def add_code(session_id, phone, default_code='GUXYNB'):
         """get the EntryLog by session_id.
         """
         if not VerifyHelper.del_codes(session_id, phone):
             return None
 
-        code = 'GUXYNB' # randkey(length=6)
+        if default_code is None:
+            code = randkey(length=6)
+        else:
+            code = default_code
         VerifyCode(
             session_id=session_id,
             phone=phone,

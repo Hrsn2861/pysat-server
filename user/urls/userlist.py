@@ -4,6 +4,7 @@ from django.urls import path
 
 from utils.views import view_maker
 from utils.params import ParamType
+from utils.permission import ActionType
 
 from user.views import userlist
 
@@ -12,5 +13,5 @@ urlpatterns = [
         ParamType.ShowInvalid,
         ParamType.ManagerFirst,
         ParamType.Page
-    ]))
+    ], action=ActionType.GetAllUserList))
 ]
