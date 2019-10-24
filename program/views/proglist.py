@@ -4,10 +4,14 @@ import utils.response as Response
 from utils.params import ParamType
 from program.models import ProgramHelper
 from user.models import UserHelper
+from program.models import ProgramLikeHelper
+from program.models import DownloadLogHelper
 
 def onstar_list(package):
     """All on star files
     """
+    user = package.get('user')
+    user_id = user.get('id')
     params = package.get('params')
     listtype = (int)(params.get(ParamType.Listype))
 
@@ -32,6 +36,14 @@ def onstar_list(package):
     for prog in progs_list:
         username = UserHelper.get_user(prog.get('author')).get('username')
         info = ProgramHelper.prog_filter(prog, username, True)
+
+        liked = ProgramLikeHelper.check_like(user_id, prog.get('id'))
+        downloaded = DownloadLogHelper.check_download(user_id, prog.get('id'))
+
+        info.update({
+            'liked' : liked,
+            'downloaded' : downloaded
+        })
         codelist.append(info)
 
     data = {
