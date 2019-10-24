@@ -51,5 +51,5 @@ urlpatterns = [
         ParamType.CAPTCHA
     ], [
         ParamType.Password
-    ], action=ActionType.ModifyMyInfo))
+    ]))
 ]
