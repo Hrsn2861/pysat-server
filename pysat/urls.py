@@ -23,6 +23,7 @@ import session.urls
 import user.urls
 import program.urls
 import message.urls
+import school.urls
 
 urlpatterns = [
     path('', views.test),
@@ -32,5 +33,6 @@ urlpatterns = [
     url(r'^session/', include(session.urls)),
     url(r'^user/', include(user.urls)),
     url(r'^program/', include(program.urls)),
-    url(r'^message/', include(message.urls))
+    url(r'^message/', include(message.urls)),
+    url(r'^school/', include(school.urls))
 ]

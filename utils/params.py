@@ -75,3 +75,6 @@ class ParamType(Enum):
     ProgramJudge = ('Program Judge', 'judge', False, True, 'integer', UserInfoType.Pass)
 
     Listype = ('List Type', 'type', False, True, 'integer', UserInfoType.Pass)
+
+    SchoolForCreate = ('School Name', 'schoolname', False, True, 'string', UserInfoType.School)
+    SchoolDescription = ('School Description', 'schooldescription', False, False, 'string', UserInfoType.Pass)
