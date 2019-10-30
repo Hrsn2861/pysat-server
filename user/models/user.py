@@ -81,6 +81,15 @@ class UserHelper:
         return UserHelper.queryset_to_user(users)
 
     @staticmethod
+    def get_name_by_id(user_id):
+        """get username by userid
+        """
+        user = UserHelper.get_user(user_id)
+        if user is None:
+            return '-'
+        return user['username']
+
+    @staticmethod
     def get_user_by_username(username):
         """get user by `username`
         """
