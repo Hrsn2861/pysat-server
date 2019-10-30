@@ -3,7 +3,7 @@
 from django.db import models
 
 from utils import getdate_now
-from school.models import SchoolHelper
+from school.models.school import SchoolHelper
 
 class Subject(models.Model):
     """Subject
