@@ -8,7 +8,7 @@ from school.models.school import SchoolHelper
 class Subject(models.Model):
     """Subject
     """
-    title = models.CharField(maxlen=256)
+    title = models.CharField(max_length=256)
     description = models.TextField()
     school_id = models.IntegerField()
     create_time = models.DateTimeField()

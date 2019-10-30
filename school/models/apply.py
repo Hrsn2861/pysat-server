@@ -10,7 +10,7 @@ class SchoolApply(models.Model):
     """
     user_id = models.IntegerField()
     school_id = models.IntegerField()
-    message = models.CharField(maxlen=256)
+    message = models.CharField(max_length=256)
     apply_time = models.DateTimeField()
     judge = models.IntegerField(default=0)
     status = models.IntegerField(default=0)
