@@ -116,6 +116,7 @@ Thumbs.db
 # Editor directories and files
 .idea
 .vscode
+.vs
 *.suo
 *.ntvs*
 *.njsproj
