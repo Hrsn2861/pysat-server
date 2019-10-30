@@ -15,7 +15,6 @@ urlpatterns = [
     path('modify', view_maker(info.modify_info, 'POST', [
         ParamType.UsernameWithDefault,
         ParamType.RealnameForModify,
-        ParamType.Schoolid,
         ParamType.MottoForModify,
         ParamType.PermissionForModify
     ], [

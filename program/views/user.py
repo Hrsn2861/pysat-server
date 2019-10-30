@@ -15,6 +15,7 @@ def submit(package):
     program_code = params.get(ParamType.ProgramCode)
     program_doc = params.get(ParamType.ProgramDoc)
     program_school = int(params.get(ParamType.Schoolid))
+
     program_subject = int(params.get(ParamType.Theme))
     ProgramHelper.add_program(
         user['id'], program_name, program_code,

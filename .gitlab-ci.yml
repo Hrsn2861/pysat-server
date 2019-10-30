@@ -28,6 +28,7 @@ unit-test:
   extends: .test
   # allow_failure: true
   script:
+    - python manage.py migrate
     - coverage run -m pytest --junit-xml=xunit-reports/xunit-result.xml
     - BACKEND_RET=$?
     - coverage xml -o coverage-reports/coverage.xml
