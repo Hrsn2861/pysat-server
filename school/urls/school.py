@@ -12,7 +12,7 @@ urlpatterns = [
     path('create', view_maker(school.create_school, 'POST', [
         ParamType.Id,
         ParamType.SchoolForCreate,
-        ParamType.SchoolDescription
+        ParamType.Description
     ], [
         ParamType.Id,
         ParamType.SchoolForCreate
