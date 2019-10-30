@@ -76,7 +76,13 @@ class ParamType(Enum):
     ProgramId = ('Program ID', 'codeid', False, True, 'integer', UserInfoType.Pass)
     ProgramJudge = ('Program Judge', 'judge', False, True, 'integer', UserInfoType.Pass)
 
-    Listype = ('List Type', 'type', False, False, 'integer', UserInfoType.Pass)
+    Listype = ('List Type', 'type', False, True, 'integer', UserInfoType.Pass)
+
+    SchoolName = ('School Name', 'schoolname', False, True, 'string', UserInfoType.Pass)
+    Description = ('Description', 'description', False, False, 'string', UserInfoType.Pass)
+    ApplyMessage = ('Apply Message', 'reason', False, True, 'string', UserInfoType.Pass)
+
+    SchoolIdWithoutDefault = ('School Id', 'schoolid', False, True, 'integer', UserInfoType.Pass)
     Mine = ('List Mine', 'mine', False, True, 'boolean', UserInfoType.Pass)
     Schoolid = ('Schoolid', 'schoolid', False, False, 'integer', UserInfoType.Pass)
     StatusUp = ('Status Upper Limit', 'statusup', False, False, 'integer', UserInfoType.Pass)
