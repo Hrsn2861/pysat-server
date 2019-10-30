@@ -107,7 +107,8 @@ def view_maker(func, method, paramlist=None, checklist=None, action=None):
                 'method' : method,
                 'paramlist' : paramlist,
                 'checklist' : checklist,
-                'action' : action
+                'action' : action,
+                'file' : request.FILES.get('file', None)
             }
             for check in checks:
                 package, error = check(package)

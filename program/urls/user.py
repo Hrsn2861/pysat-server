@@ -11,7 +11,9 @@ urlpatterns = [
     path('submit', view_maker(user.submit, 'POST', [
         ParamType.ProgramName,
         ParamType.ProgramCode,
-        ParamType.ProgramDoc
+        ParamType.ProgramDoc,
+        ParamType.SubmitSchoolid,
+        ParamType.SubmitTheme
     ], action=ActionType.SubmitProgram)),
 
     path('like', view_maker(user.like, 'POST', [
