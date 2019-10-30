@@ -34,4 +34,4 @@ class TestUserListByRequest(TestCase):
             'manager_first' : 'true'
         })
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(analyse_response(response).get('msg'), 'Success')
+        self.assertEqual(analyse_response(response).get('msg'), 'Access Denied')

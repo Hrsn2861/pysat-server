@@ -82,3 +82,6 @@ class ParamType(Enum):
     StatusUp = ('Status Upper Limit', 'statusup', False, False, 'integer', UserInfoType.Pass)
     StatusDown = ("Status Lower Limit", 'statuslow', False, False, 'integer', UserInfoType.Pass)
     Theme = ('Theme', 'theme', False, False, 'integer', UserInfoType.Pass)
+
+    SubmitTheme = ('Theme', 'theme', False, True, 'integer', UserInfoType.Pass)
+    SubmitSchoolid = ('Schoolid', 'schoolid', False, True, 'integer', UserInfoType.Pass)
