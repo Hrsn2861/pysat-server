@@ -7,7 +7,7 @@ class ActionType(Enum):
     """
     GetUserInfo = 1
     ModifyMyInfo = 1
-    ModifyUserInfo = 8
+    ModifyUserInfo = 5
 
     GetUserList = 1
     GetAllUserList = 4
@@ -22,15 +22,14 @@ class ActionType(Enum):
     UserGet = 1
 
     SetBan = 4
-    SetVIP = 4
-    SetManager = 8
 
     UselessAction = 512
     BannedAction = 512
 
     BannedUser = 0
     NormalUser = 1
-    VIPUser = 2
+    Teacher = 2
+    Master = 3
     Manager = 4
     SuperManager = 8
 
@@ -63,8 +62,10 @@ class PermissionManager:
             return ActionType.SuperManager
         if PermissionManager.check_permission(permission, ActionType.Manager):
             return ActionType.Manager
-        if PermissionManager.check_permission(permission, ActionType.VIPUser):
-            return ActionType.VIPUser
+        if PermissionManager.check_permission(permission, ActionType.Teacher):
+            return ActionType.Teacher
+        if PermissionManager.check_permission(permission, ActionType.Master):
+            return ActionType.Master
         if PermissionManager.check_permission(permission, ActionType.NormalUser):
             return ActionType.NormalUser
         return ActionType.BannedUser
@@ -80,9 +81,7 @@ class PermissionManager:
         if ActionType.SuperManager in [old_identity, new_identity]:
             return ActionType.BannedAction
         if ActionType.Manager in [old_identity, new_identity]:
-            return ActionType.SetManager
-        if ActionType.VIPUser in [old_identity, new_identity]:
-            return ActionType.SetVIP
+            return ActionType.SuperManager
         return ActionType.SetBan
 
     @staticmethod
