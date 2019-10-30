@@ -33,6 +33,6 @@ urlpatterns = [
     url(r'^user/', include(user.urls)),
     url(r'^program/', include(program.urls)),
     url(r'^message/', include(message.urls)),
-    url(r'^school/', include(school.urls))
+    url(r'^school/', include(school.urls)),
     url(r'^file/', include(file.urls))
 ]
