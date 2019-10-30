@@ -8,20 +8,13 @@ from utils.permission import ActionType
 from program.views import proglist
 
 urlpatterns = [
-    path('onstar', view_maker(proglist.onstar_list, 'GET', [
+    path('get', view_maker(proglist.get_program_list, 'GET', [
+        ParamType.Mine,
+        ParamType.Schoolid,
+        ParamType.StatusUp,
+        ParamType.StatusDown,
         ParamType.Listype,
-        ParamType.Page
-    ], action=ActionType.UserGet)),
-
-    path('mine', view_maker(proglist.mylist, 'GET', [
-        ParamType.Page
-    ], action=ActionType.UserGet)),
-
-    path('inqueue', view_maker(proglist.inqueue_list, 'GET', [
-        ParamType.Page
-    ], action=ActionType.UserGet)),
-
-    path('judge', view_maker(proglist.judge_list, 'GET', [
+        ParamType.Theme,
         ParamType.Page
     ], action=ActionType.UserGet))
 ]

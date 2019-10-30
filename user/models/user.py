@@ -17,7 +17,6 @@ class User(models.Model):
     email_verify = models.CharField(max_length=64, default='')
 
     realname = models.CharField(max_length=32, default='')
-    school = models.CharField(max_length=64, default='')
     motto = models.CharField(max_length=256, default='')
 
     permission = models.IntegerField(default=1)
@@ -46,7 +45,6 @@ class UserHelper:
                 'email' : user.email,
                 'email_verify' : user.email_verify,
                 'realname' : user.realname,
-                'school' : user.school,
                 'motto' : user.motto,
                 'permission' : user.permission,
             }
@@ -79,6 +77,15 @@ class UserHelper:
             return None
         users = User.objects.filter(id=user_id)
         return UserHelper.queryset_to_user(users)
+
+    @staticmethod
+    def get_name_by_id(user_id):
+        """get username by userid
+        """
+        user = UserHelper.get_user(user_id)
+        if user is None:
+            return '-'
+        return user['username']
 
     @staticmethod
     def get_user_by_username(username):
@@ -163,24 +170,27 @@ class UserHelper:
             return False
 
         realname = info.get('realname')
-        school = info.get('school')
+        # school = info.get('school')
+        # schoolid = info.get('schoolid')
         motto = info.get('motto')
-        permission = info.get('permission')
+        # permission = info.get('permission')
         password = info.get('password')
         phone = info.get('phone')
 
         if isinstance(realname, str):
             user.realname = realname
-        if isinstance(school, str):
-            user.school = school
+        # if isinstance(school, str):
+        #     user.school = school
         if isinstance(motto, str):
             user.motto = motto
-        if isinstance(permission, int):
-            user.permission = permission
+        # if isinstance(permission, int):
+        #    user.permission = permission
         if UserInfoChecker.check_password(password):
             user.password = make_password(password)
         if UserInfoChecker.check_phone(phone):
             user.phone = phone
+        # if isinstance(schoolid, int):
+        #     user.schoolid = schoolid
 
         user.save()
         return True

@@ -44,12 +44,12 @@ urlpatterns = [
         ParamType.Phone
     ], [
         ParamType.Username
-    ], action=ActionType.ModifyMyInfo)),
+    ])),
     path('passwd', view_maker(sign.forget_password, 'POST', [
         ParamType.Username,
         ParamType.Password,
         ParamType.CAPTCHA
     ], [
         ParamType.Password
-    ], action=ActionType.ModifyMyInfo))
+    ]))
 ]

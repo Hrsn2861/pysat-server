@@ -3,6 +3,8 @@
 from django.db import models
 
 from utils import getdate_now, getdate_none, date_to_string
+from school.models import SubjectHelper
+from school.models import SchoolHelper
 
 class Program(models.Model):
     """Program Model
@@ -18,6 +20,8 @@ class Program(models.Model):
     upload_time = models.DateTimeField()
     downloads = models.IntegerField()
     likes = models.IntegerField()
+    schoolid = models.IntegerField(default=0)
+    subjectid = models.IntegerField(default=0)
 
     class Meta:
         verbose_name = 'program'
@@ -25,6 +29,7 @@ class Program(models.Model):
         get_latest_by = 'id'
 
 class ProgramHelper:
+    #pylint: disable-msg=too-many-public-methods
     """Program Helper
     """
     @staticmethod
@@ -49,11 +54,13 @@ class ProgramHelper:
             'judge_time' : date_to_string(judge_time),
             'upload_time' : date_to_string(upload_time),
             'downloads' : program.downloads,
-            'likes' : program.likes
+            'likes' : program.likes,
+            'schoolid' : program.schoolid,
+            "subjectid" : program.subjectid
         }
 
     @staticmethod
-    def prog_filter(program, username, is_upload):
+    def prog_filter(program, username, downloaded, liked):
         """match the list data
         """
         info = {
@@ -63,14 +70,14 @@ class ProgramHelper:
             'downloads' : program.get('downloads'),
             'likes' : program.get('likes'),
             'upload_time' : program.get('upload_time'),
-            'submit_time' : program.get('submit_time')
+            'submit_time' : program.get('submit_time'),
+            'school' : SchoolHelper.get_school(program.get('schoolid')).get('schoolname'),
+            'theme' : SubjectHelper.get_subject(program.get('subjectid')).get('title'),
+            'status' : program.get('status'),
+            'judge_time' : program.get('judge_time'),
+            'downloaded' : downloaded,
+            'liked' : liked
         }
-        if is_upload:
-            del info['submit_time']
-        else:
-            del info['upload_time']
-            del info['likes']
-            del info['downloads']
         return info
 
     @staticmethod
@@ -91,7 +98,8 @@ class ProgramHelper:
         return True
 
     @staticmethod
-    def add_program(author, name, code, doc):
+    def add_program(author, name, code, doc, schoolid, subjectid):
+        # pylint: disable-msg=too-many-arguments
         """add program
         """
         program = Program(
@@ -105,7 +113,9 @@ class ProgramHelper:
             judge_time=getdate_none(),
             upload_time=getdate_none(),
             downloads=0,
-            likes=0
+            likes=0,
+            schoolid=schoolid,
+            subjectid=subjectid
         )
         program.save()
         return program.id
@@ -155,22 +165,46 @@ class ProgramHelper:
         return ProgramHelper.get_programs_count({'author' : user_id})
 
     @staticmethod
+    def get_school_programs_count(schoolid):
+        """get school's programs count
+        """
+        return ProgramHelper.get_programs_count({'schoolid' : schoolid})
+
+    @staticmethod
+    def get_subject_programs_count(subjectid):
+        """get subject's programs count
+        """
+        return ProgramHelper.get_programs_count({'subjectid' : subjectid})
+
+    @staticmethod
     def get_user_programs(user_id, page, listtype):
         """get user's programs
         """
         return ProgramHelper.get_programs({'author' : user_id}, page, listtype)
 
     @staticmethod
-    def get_onstar_programs(page, listtype):
-        """get status == 3 programs
+    def get_school_programs(schoolid, page, listtype):
+        """get school's programs
         """
-        return ProgramHelper.get_programs({'status' : 3}, page, listtype)
+        return ProgramHelper.get_programs({'schoolid' : schoolid}, page, listtype)
+
+    @staticmethod
+    def get_subject_programs(subjectid, page, listtype):
+        """get subject's programs
+        """
+        return ProgramHelper.get_programs({'subjectid' : subjectid}, page, listtype)
+
+    @staticmethod
+    def get_onstar_programs(page, listtype):
+        """get status == 5 programs
+        """
+        return ProgramHelper.get_programs({'status' : 5}, page, listtype)
 
     @staticmethod
     def get_inqueue_programs(page, listtype):
-        """get status == 2 programs
+        """get status == 4 programs
         """
-        return ProgramHelper.get_programs({'status' : 2}, page, listtype)
+        return ProgramHelper.get_programs({'status' : 4}, page, listtype)
 
     @staticmethod
     def get_judge_programs(page, listtype):
@@ -181,6 +215,57 @@ class ProgramHelper:
             'status__lt' : 3
             }, page, listtype)
 
+    @staticmethod
+    def get_programs_between_status(status_up, status_low, page, listtype):
+        """get programs by status list
+        """
+        return ProgramHelper.get_programs({
+            'status__gt' : status_low,
+            'status__lt' : status_up
+        }, page, listtype)
+
+    @staticmethod
+    def get_programs_school(stauts_up, status_low, schoolid, subjectid, page, listtype):
+        # pylint: disable-msg=too-many-arguments
+        """get programs by status list with school and subject
+        """
+        fillter_dict = {
+            'status__gt' : status_low,
+            'status__lt' : stauts_up,
+            'schoolid' : schoolid,
+            'subjectid' : subjectid
+        }
+        if schoolid is None:
+            del fillter_dict['schoolid']
+        if subjectid is None:
+            del fillter_dict['subjectid']
+        return ProgramHelper.get_programs(fillter_dict, page, listtype)
+
+    @staticmethod
+    def get_programs_school_count(stauts_up, status_low, schoolid, subjectid):
+        # pylint: disable-msg=too-many-arguments
+        """get programs by status list with school and subject
+        """
+        fillter_dict = {
+            'status__gt' : status_low,
+            'status__lt' : stauts_up,
+            'schoolid' : schoolid,
+            'subjectid' : subjectid
+        }
+        if schoolid is None:
+            del fillter_dict['schoolid']
+        if subjectid is None:
+            del fillter_dict['subjectid']
+        return ProgramHelper.get_programs_count(fillter_dict)
+
+    @staticmethod
+    def get_programs_between_status_count(stauts_up, status_low):
+        """get programs by status list
+        """
+        return ProgramHelper.get_programs_count({
+            'status__gt' : status_low,
+            'status__lt' : stauts_up
+        })
 
     @staticmethod
     def judging(prog_id):
@@ -216,10 +301,7 @@ class ProgramHelper:
         """when the program is liked
         """
         progs = Program.objects.filter(id=prog_id)
-        if progs.exists():
-            program = progs.last()
-        else:
-            return False
+        program = progs.last()
 
         program.likes = like_count
         program.save()

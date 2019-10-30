@@ -64,10 +64,10 @@ class Initialization:
         data = analyse_response(response)
         testcase.assertEqual(data.get('status'), 1)
 
-        user = UserHelper.get_user_by_username(username)
-        UserHelper.modify_user(user['id'], {'permission' : permission})
-        user = UserHelper.get_user_by_username(username)
-        testcase.assertEqual(user['permission'], permission)
+        # user = UserHelper.get_user_by_username(username)
+        # UserHelper.modify_user(user['id'], {'permission' : permission})
+        # user = UserHelper.get_user_by_username(username)
+        # testcase.assertEqual(user['permission'], permission)
 
     @staticmethod
     def login(testcase, username, password):
