@@ -33,7 +33,9 @@ class TestProgUserByRequest(TestCase):
             'token' : self.token,
             'codename' : 'Test codename',
             'code' : 'Test code',
-            'readme' : 'Test readme'
+            'readme' : 'Test readme',
+            'theme' : 1,
+            'schoolid' : 1
         })
         self.assertEqual(response.status_code, 200)
         response = analyse_response(response)
@@ -42,7 +44,7 @@ class TestProgUserByRequest(TestCase):
     def test_0002(self):
         """Test like user without permission
         """
-        prog_id = ProgramHelper.add_program('1', 'Testname', 'GUXYNB', 'readme')
+        prog_id = ProgramHelper.add_program('1', 'Testname', 'GUXYNB', 'readme', 1, 1)
         response = self.client.post('/program/user/like', {
             'token' : self.token,
             'codeid' : prog_id
@@ -54,7 +56,7 @@ class TestProgUserByRequest(TestCase):
     def test_0003(self):
         """Test download
         """
-        prog_id = ProgramHelper.add_program('1', 'Testname', 'GUXYNB', 'readme')
+        prog_id = ProgramHelper.add_program('1', 'Testname', 'GUXYNB', 'readme',1 ,1)
         response = self.client.get('/program/user/download', {
             'token' : self.token,
             'codeid' : prog_id

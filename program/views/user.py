@@ -14,7 +14,12 @@ def submit(package):
     program_name = params.get(ParamType.ProgramName)
     program_code = params.get(ParamType.ProgramCode)
     program_doc = params.get(ParamType.ProgramDoc)
-    ProgramHelper.add_program(user['id'], program_name, program_code, program_doc)
+    program_school = int(params.get(ParamType.Schoolid))
+    program_subject = int(params.get(ParamType.Theme))
+    ProgramHelper.add_program(
+        user['id'], program_name, program_code,
+        program_doc, program_school, program_subject
+        )
     return Response.checked_response('Submit Success')
 
 def like(package):
