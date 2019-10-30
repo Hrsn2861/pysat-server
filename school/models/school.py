@@ -66,3 +66,18 @@ class SchoolHelper:
         for school in qs:
             schools.append(SchoolHelper.school_to_dict(school))
         return schools
+
+    @staticmethod
+    def get_school(school_id):
+        """get school
+        """
+        schools = School.objects.filter(id=school_id)
+        if schools.exists():
+            school = schools.last()
+            return {
+                'id' : school_id,
+                'schoolname' : school.schoolname,
+                'description' : school.description,
+                'creator' : UserHelper.get_name_by_id(school.creator)
+            }
+        return None
