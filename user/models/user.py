@@ -17,7 +17,6 @@ class User(models.Model):
     email_verify = models.CharField(max_length=64, default='')
 
     realname = models.CharField(max_length=32, default='')
-    school = models.CharField(max_length=64, default='')
     motto = models.CharField(max_length=256, default='')
 
     permission = models.IntegerField(default=1)
@@ -46,7 +45,6 @@ class UserHelper:
                 'email' : user.email,
                 'email_verify' : user.email_verify,
                 'realname' : user.realname,
-                'school' : user.school,
                 'motto' : user.motto,
                 'permission' : user.permission,
             }
@@ -172,7 +170,6 @@ class UserHelper:
             return False
 
         realname = info.get('realname')
-        school = info.get('school')
         motto = info.get('motto')
         permission = info.get('permission')
         password = info.get('password')
@@ -180,8 +177,6 @@ class UserHelper:
 
         if isinstance(realname, str):
             user.realname = realname
-        if isinstance(school, str):
-            user.school = school
         if isinstance(motto, str):
             user.motto = motto
         if isinstance(permission, int):

@@ -76,6 +76,8 @@ class ParamType(Enum):
 
     Listype = ('List Type', 'type', False, True, 'integer', UserInfoType.Pass)
 
-    SchoolName = ('School Name', 'schoolname', False, True, 'string', UserInfoType.School)
+    SchoolName = ('School Name', 'schoolname', False, True, 'string', UserInfoType.Pass)
     Description = ('Description', 'description', False, False, 'string', UserInfoType.Pass)
-    ApplyMessage = ('Apply Message', 'message', False, True, 'string', UserInfoType.Pass)
+    ApplyMessage = ('Apply Message', 'reason', False, True, 'string', UserInfoType.Pass)
+
+    SchoolIdWithoutDefault = ('School Id', 'schoolid', False, True, 'integer', UserInfoType.Pass)

@@ -19,7 +19,6 @@ def create_school(package):
         user = UserHelper.get_user_by_username(user_name)
     if user is None:
         return Response.error_response("No User")
-    if school_name is None:
-        return Response.error_response("No School Name")
-    school_id = SchoolHelper.add_school(user.id, school_name, description)
+
+    school_id = SchoolHelper.add_school(user.get('id'), school_name, description)
     return Response.success_response({'school_id' : school_id})
