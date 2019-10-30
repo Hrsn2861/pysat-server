@@ -17,20 +17,22 @@ from django.urls import path
 from django.conf.urls import url, include
 
 import pysat.views as views
-import file.views as f_views
 
 import session.urls
 import user.urls
 import program.urls
 import message.urls
+import school.urls
+import file.urls
 
 urlpatterns = [
     path('', views.test),
     path('myip', views.test_ip),
-    path('file_test', f_views.upload_file_test),
 
     url(r'^session/', include(session.urls)),
     url(r'^user/', include(user.urls)),
     url(r'^program/', include(program.urls)),
-    url(r'^message/', include(message.urls))
+    url(r'^message/', include(message.urls)),
+    url(r'^school/', include(school.urls)),
+    url(r'^file/', include(file.urls))
 ]
