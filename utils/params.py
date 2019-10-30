@@ -76,5 +76,6 @@ class ParamType(Enum):
 
     Listype = ('List Type', 'type', False, True, 'integer', UserInfoType.Pass)
 
-    SchoolForCreate = ('School Name', 'schoolname', False, True, 'string', UserInfoType.School)
+    SchoolName = ('School Name', 'schoolname', False, True, 'string', UserInfoType.School)
     Description = ('Description', 'description', False, False, 'string', UserInfoType.Pass)
+    ApplyMessage = ('Apply Message', 'message', False, True, 'string', UserInfoType.Pass)

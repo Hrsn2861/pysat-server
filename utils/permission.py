@@ -34,6 +34,7 @@ class ActionType(Enum):
     SuperManager = 8
 
     CreateSchool = 8
+    ApplyForSchool = 1
 
 class PermissionManager:
     """Permission Manager
