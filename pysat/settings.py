@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'message',
     'program',
     'school',
+    'file',
     'corsheaders'
 ]
 

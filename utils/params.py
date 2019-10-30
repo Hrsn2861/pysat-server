@@ -17,9 +17,11 @@ def check_str_as_bool(value):
 def check_str_as_int(value):
     """check `value` if it's integer
     """
-    if value.isdigit():
-        return True
-    return False
+    try:
+        value = int(value)
+        return isinstance(value, int)
+    except ValueError:
+        return False
 
 def check_params(params):
     """check params for request
@@ -74,4 +76,12 @@ class ParamType(Enum):
     ProgramId = ('Program ID', 'codeid', False, True, 'integer', UserInfoType.Pass)
     ProgramJudge = ('Program Judge', 'judge', False, True, 'integer', UserInfoType.Pass)
 
-    Listype = ('List Type', 'type', False, True, 'integer', UserInfoType.Pass)
+    Listype = ('List Type', 'type', False, False, 'integer', UserInfoType.Pass)
+    Mine = ('List Mine', 'mine', False, True, 'boolean', UserInfoType.Pass)
+    Schoolid = ('Schoolid', 'schoolid', False, False, 'integer', UserInfoType.Pass)
+    StatusUp = ('Status Upper Limit', 'statusup', False, False, 'integer', UserInfoType.Pass)
+    StatusDown = ("Status Lower Limit", 'statuslow', False, False, 'integer', UserInfoType.Pass)
+    Theme = ('Theme', 'theme', False, False, 'integer', UserInfoType.Pass)
+
+    SubmitTheme = ('Theme', 'theme', False, True, 'integer', UserInfoType.Pass)
+    SubmitSchoolid = ('Schoolid', 'schoolid', False, True, 'integer', UserInfoType.Pass)
