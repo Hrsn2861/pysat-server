@@ -2,7 +2,7 @@
 """
 from django.db import models
 
-from user.models import User, UserHelper
+from user.models.user import User, UserHelper
 
 class Permission(models.Model):
     """VerifyCode
