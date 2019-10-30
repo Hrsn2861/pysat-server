@@ -1,11 +1,21 @@
-def upload_file_test(request): 
+"""
+module for uploading file
+"""
+import os
+from django.http import HttpResponse
 
-    if request.method == "POST":    # 请求方法为POST时，进行处理 
-        myFile = request.FILES.get("myfile", None)    # 获取上传的文件，如果没有文件，则默认为None 
-        if not myFile: 
-            return HttpResponse("no files for upload!") 
-        destination = open(os.path.join("C:\\Users\\Administration\\Desktop",myFile.name),'wb+')    # 打开特定的文件进行二进制的写操作 
-        for chunk in myFile.chunks():      # 分块写入文件 
-            destination.write(chunk) 
-        destination.close() 
-        return HttpResponse("upload over!")
+
+def upload_file_test(request):
+    """
+    method for uploading
+    """
+    if request.method == 'POST':
+        my_file = request.FILES.get('file', None)
+        if not my_file:
+            return HttpResponse('no files for upload!')
+        destination = open(os.path.join('C:\\Users\\Administrator\\Desktop', my_file.name), 'wb+')
+        for chunk in my_file.chunks():
+            destination.write(chunk)
+        destination.close()
+        return HttpResponse('upload over!')
+    return None
