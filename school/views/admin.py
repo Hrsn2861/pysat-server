@@ -32,3 +32,12 @@ def approve(package):
 
     SchoolApplyHelper.judge_apply(apply_id, userid, status)
     return Response.checked_response('Approve Successed')
+
+def get_apply_list(package):
+    """ Processing the request of getting apply list
+    """
+    user = package.get('user')
+    user_id = user.get('id')
+    
+    school_id = 1
+    apply_list = SchoolApplyHelper.get_applies
