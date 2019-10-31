@@ -50,7 +50,31 @@ class PermissionHelper:
             return perm.permission
         if school_id == 0:
             return user['permission']
+        return -1
+
+    @staticmethod
+    def get_user_school(user_id):
+        """get user's school
+        """
+        perms = Permission.objects.filter(user_id=user_id, school_id__gt=0)
+        if perms.exists():
+            return perms.last().school_id
         return 0
+
+    @staticmethod
+    def user_quit_school(user_id):
+        """quit school
+        """
+        perms = Permission.objects.filter(user_id=user_id, school_id__gt=0)
+        for perm in perms:
+            perm.delete()
+
+    @staticmethod
+    def user_join_school(user_id, school_id):
+        """ join school
+        """
+        PermissionHelper.user_quit_school(user_id)
+        PermissionHelper.set_permission(user_id, school_id, 1)
 
     @staticmethod
     def set_user_permission(user_id, permission):
