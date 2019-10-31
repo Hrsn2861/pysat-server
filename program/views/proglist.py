@@ -18,7 +18,7 @@ def get_program_list(package):
     params = package.get('params')
     user = package.get('user')
     mine = params.get(ParamType.Mine)
-    schoolid = params.get(ParamType.Schoolid)
+    schoolid = params.get(ParamType.School)
     status_up = params.get(ParamType.StatusUp)
     status_low = params.get(ParamType.StatusDown)
     subjectid = params.get(ParamType.Theme)

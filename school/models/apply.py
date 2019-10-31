@@ -37,6 +37,32 @@ class SchoolApplyHelper:
         return True
 
     @staticmethod
+    def apply_to_dict(apply):
+        """apply to dict
+        """
+        if apply is None:
+            return None
+        data = {
+            'id' : apply.id,
+            'userid' : apply.user_id,
+            'schoolid' : apply.school_id,
+            'message' : apply.message,
+            'apply_time' : apply.apply_time,
+            'judge' : apply.judge,
+            'status' : apply.status
+        }
+        return data
+
+    @staticmethod
+    def get_apply(user_id, school_id):
+        """get apply
+        """
+        apply = SchoolApply.objects.filter(user_id=user_id, school_id=school_id)
+        if apply is None:
+            return None
+        return SchoolApplyHelper.apply_to_dict(apply.last())
+
+    @staticmethod
     def get_applies_filter(school_id, listtype):
         """get school's applies filter
 
