@@ -96,3 +96,5 @@ class ParamType(Enum):
     Approve = ('Approve', 'approve', False, True, 'boolean', UserInfoType.Pass)
     SourceStatus = ('Source Status', 'source', False, True, 'integer', UserInfoType.Pass)
     TargetStatus = ('Target Status', 'target', False, True, 'integer', UserInfoType.Pass)
+
+    ApplyListType = ('Apply List Type', 'listtype', False, False, 'integer', UserInfoType.Pass)

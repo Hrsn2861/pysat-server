@@ -12,5 +12,9 @@ urlpatterns = [
     path('approve', view_maker(admin.approve, 'POST', [
         ParamType.Username,
         ParamType.Approve
-    ], action=ActionType.Approve))
+    ], action=ActionType.Approve)),
+    path('applylist', view_maker(admin.get_apply_list, 'POST', [
+        ParamType.ApplyListType,
+        ParamType.Page
+    ], action=ActionType.GetApplyList))
 ]
