@@ -16,6 +16,7 @@ class ActionType(Enum):
 
     AdminUploadProgram = 4
     AdminJudge = 4
+    AdminChangeStatus = 2
 
     UserLike = 1
     UserDownload = 1

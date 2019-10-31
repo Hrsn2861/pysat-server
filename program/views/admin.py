@@ -66,3 +66,7 @@ def download(package):
     }
 
     return Response.success_response(info)
+
+def change_status(package):
+    """proecess the request of change status
+    """

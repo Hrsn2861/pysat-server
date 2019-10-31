@@ -88,8 +88,8 @@ def get_program_list(package):
         return Response.error_response('Invalid School')
 
     user_id = user.get('id')
-    progs_list = ProgramHelper.get_programs_between_status(
-        status_up, status_low, page, listtype
+    progs_list = ProgramHelper.get_programs_school(
+        status_up, status_low, schoolid, subjectid, page, listtype
         )
 
     if len(progs_list) == 0:

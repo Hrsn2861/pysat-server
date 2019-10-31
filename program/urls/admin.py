@@ -17,5 +17,10 @@ urlpatterns = [
     ], action=ActionType.AdminJudge)),
     path('download', view_maker(admin.download, 'GET', [
         ParamType.ProgramId
-    ], action=ActionType.AdminUploadProgram))
+    ], action=ActionType.AdminUploadProgram)),
+    path('status', view_maker(admin.change_status, 'POST', [
+        ParamType.ProgramId,
+        ParamType.SourceStatus,
+        ParamType.TargetStatus
+    ], action=ActionType.AdminChangeStatus))
 ]
