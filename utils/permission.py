@@ -36,6 +36,8 @@ class ActionType(Enum):
     CreateSchool = 8
     ApplyForSchool = 1
 
+    Approve = 2
+
 class PermissionManager:
     """Permission Manager
     """
