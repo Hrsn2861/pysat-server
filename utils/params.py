@@ -94,3 +94,5 @@ class ParamType(Enum):
     SubmitSchoolid = ('Schoolid', 'schoolid', False, True, 'integer', UserInfoType.Pass)
 
     Approve = ('Approve', 'approve', False, True, 'boolean', UserInfoType.Pass)
+    SourceStatus = ('Source Status', 'source', False, True, 'integer', UserInfoType.Pass)
+    TargetStatus = ('Target Status', 'target', False, True, 'integer', UserInfoType.Pass)

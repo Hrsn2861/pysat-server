@@ -63,6 +63,18 @@ class ProgramHelper:
     def prog_filter(program, username, downloaded, liked):
         """match the list data
         """
+        school = SchoolHelper.get_school(program.get('schoolid'))
+        if school is None:
+            schoolname = None
+        else:
+            schoolname = school.get('schoolname')
+        if program.get('schoolid') == 0:
+            schoolname = '在野'
+        subject = SubjectHelper.get_subject(program.get('subjectid'))
+        if subject is None:
+            subjectname = None
+        else:
+            subjectname = subject.get('title')
         info = {
             'id' : program.get('id'),
             'name' : program.get('name'),
@@ -71,8 +83,8 @@ class ProgramHelper:
             'likes' : program.get('likes'),
             'upload_time' : program.get('upload_time'),
             'submit_time' : program.get('submit_time'),
-            'school' : SchoolHelper.get_school(program.get('schoolid')).get('schoolname'),
-            'theme' : SubjectHelper.get_subject(program.get('subjectid')).get('title'),
+            'school' : schoolname,
+            'theme' : subjectname,
             'status' : program.get('status'),
             'judge_time' : program.get('judge_time'),
             'downloaded' : downloaded,
