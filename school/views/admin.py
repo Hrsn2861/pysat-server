@@ -15,7 +15,7 @@ def approve(package):
     school_id = PermissionHelper.get_user_school(user_id)
     if school_id == 0:
         return Response.error_response("You are not in a school")
-    
+
     params = package.get('params')
     username = params.get(ParamType.Username)
 
