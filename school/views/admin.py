@@ -5,19 +5,23 @@ import utils.response as Response
 from school.models import SchoolApplyHelper
 from utils.params import ParamType
 from user.models import UserHelper
+from user.models import PermissionHelper
 
 def approve(package):
     """ Processing the request of creating a school
     """
     user = package.get('user')
-    userid = user.get('id')
+    user_id = user.get('id')
+    school_id = PermissionHelper.get_user_school(user_id)
+    if school_id == 0:
+        return Response.error_response("You are not in a school")
+
     params = package.get('params')
     username = params.get(ParamType.Username)
 
     apply_user = UserHelper.get_user_by_username(username)
-    apply_userid = apply_user.get('id')
-    schoolid = 1
-    apply = SchoolApplyHelper.get_apply(apply_userid, schoolid)
+    apply_user_id = apply_user.get('id')
+    apply = SchoolApplyHelper.get_apply(apply_user_id, school_id)
 
     if apply is None:
         return Response.error_response('No Apply')
@@ -30,15 +34,17 @@ def approve(package):
     else:
         status = 0
 
-    SchoolApplyHelper.judge_apply(apply_id, userid, status)
+    SchoolApplyHelper.judge_apply(apply_id, user_id, status)
     return Response.checked_response('Approve Successed')
 
 def get_apply_list(package):
     """ Processing the request of getting apply list
     """
-    # user = package.get('user')
-    # user_id = user.get('id')
-    school_id = 1 # 需要改成user所在学校
+    user = package.get('user')
+    user_id = user.get('id')
+    school_id = PermissionHelper.get_user_school(user_id)
+    if school_id == 0:
+        return Response.error_response("You are not in a school")
 
     params = package.get('params')
     list_type = params.get(ParamType.ApplyListType)
