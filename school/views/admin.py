@@ -52,7 +52,7 @@ def get_apply_list(package):
         page_num = 1
     if list_type not in [0, 1, 2]:
         return Response.error_response('Invalid list type')
-    if page_num < 1:
+    if int(page_num) < 1:
         return Response.error_response('Invalid page number')
     apply_list = SchoolApplyHelper.get_applies(school_id, list_type, page_num)
     return Response.success_response({'list': apply_list})

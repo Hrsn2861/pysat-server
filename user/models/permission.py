@@ -100,6 +100,6 @@ class PermissionHelper:
         """ get a school's headmaster(permission = 4)
         """
         perms = Permission.objects.filter(school_id=school_id, permission=4)
-        if perms.exist():
+        if perms.exists():
             return perms.last().user_id
         return 0
