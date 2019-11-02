@@ -9,6 +9,7 @@ from utils.permission import PermissionManager
 from user.models import PermissionHelper
 from user.models import UserHelper
 from user.models import VerifyHelper
+from program.models import DownloadLogHelper
 
 def get_info(package):
     """process the request of getting user's info
@@ -30,11 +31,14 @@ def get_info(package):
     school = SchoolHelper.get_school(school_id)
     schoolname = school.get('schoolname')
 
+    download = DownloadLogHelper.count_user_downloadlog(user_id)
+
     del user['permission']
     user.update({
         'school_name' : schoolname,
         'permission_public' : permission_public,
-        'permission_pirvate' : permission_private
+        'permission_pirvate' : permission_private,
+        'download' : download
     })
     return Response.success_response({'user' : user})
 

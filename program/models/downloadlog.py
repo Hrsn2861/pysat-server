@@ -1,6 +1,7 @@
 """models for download log
 """
 from django.db import models
+from program.models import Program
 
 class DownloadLog(models.Model):
     """Download Log Model
@@ -35,3 +36,16 @@ class DownloadLogHelper:
         """
         logs = DownloadLog.objects.filter(program_id=program_id)
         return logs.count()
+
+    @staticmethod
+    def count_user_downloadlog(user_id):
+        """count user's program downloads
+        """
+        ret = 0
+        progs = Program.objects.filter(**{
+            'author' : user_id
+        })
+        for prog in progs:
+            ret += prog.downloads
+
+        return ret
