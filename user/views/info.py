@@ -27,9 +27,13 @@ def get_info(package):
     permission_public = user.get('permission')
     user_id = user.get('id')
     school_id = PermissionHelper.get_user_school(user_id)
-    permission_private = PermissionHelper.get_permission(user_id, school_id)
-    school = SchoolHelper.get_school(school_id)
-    schoolname = school.get('schoolname')
+    if school_id == 0:
+        schoolname = 'public area'
+        permission_private = -1
+    else:
+        permission_private = PermissionHelper.get_permission(user_id, school_id)
+        school = SchoolHelper.get_school(school_id)
+        schoolname = school.get('schoolname')
 
     download = DownloadLogHelper.count_user_downloadlog(user_id)
 
