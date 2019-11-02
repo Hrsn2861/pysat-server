@@ -5,7 +5,7 @@ from django.db import models
 from user.models.user import User, UserHelper
 
 class Permission(models.Model):
-    """VerifyCode
+    """Permission
     """
     user_id = models.IntegerField()
     school_id = models.IntegerField()
