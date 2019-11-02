@@ -15,7 +15,7 @@ urlpatterns = [
         ParamType.Description
     ], [
         ParamType.SchoolName
-    ], action=ActionType.CreateSchool))
+    ], action=ActionType.CreateSchool)),
     path('get_list', view_maker(school.get_school_list, 'GET', [
         ParamType.Page,
         ParamType.SearchText

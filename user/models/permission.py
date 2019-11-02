@@ -94,7 +94,7 @@ class PermissionHelper:
         """
         perms = Permission.objects.filter(school_id=school_id)
         return perms.count()
-    
+
     @staticmethod
     def get_school_headmaster(school_id):
         """ get a school's headmaster(permission = 4)
