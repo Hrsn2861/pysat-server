@@ -100,3 +100,5 @@ class ParamType(Enum):
     ApplyId = ('Apply Id', 'apply_id', False, True, 'integer', UserInfoType.Pass)
     SchoolIdWithDefault = ('School Id', 'school_id', False, False, 'integer', UserInfoType.Pass)
     SchoolId = ('School Id', 'school_id', False, True, 'integer', UserInfoType.Pass)
+
+    SearchText = ('Search Text', 'search_text', False, False, 'string', UserInfoType.Pass)
