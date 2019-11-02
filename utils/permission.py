@@ -12,7 +12,7 @@ class ActionType(Enum):
     GetUserList = 1
     GetAllUserList = 4
 
-    SubmitProgram = 1
+    UserAction = 1
 
     AdminUploadProgram = 4
     AdminJudge = 4

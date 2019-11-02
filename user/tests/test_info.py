@@ -69,7 +69,7 @@ class TestUserInfoByRequest(TestCase):
         })
         self.assertEqual(response.status_code, 200)
         msg = analyse_response(response).get('msg')
-        self.assertEqual(msg, 'Success')
+        self.assertEqual(msg, 'Modify Success')
 
     def test0005(self):
         """test user info modify_info with error
@@ -83,7 +83,7 @@ class TestUserInfoByRequest(TestCase):
         })
         self.assertEqual(response.status_code, 200)
         msg = analyse_response(response).get('msg')
-        self.assertEqual(msg, 'No User')
+        self.assertEqual(msg, 'Access Denied')
 
     def test0006(self):
         """test user info set_phone

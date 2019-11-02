@@ -61,11 +61,11 @@ def download(package):
         ProgramHelper.judging(program_id)
 
     info = {
-        'code' : program['code'],
+        'content' : program['code'],
         'readme' : program['doc']
     }
 
-    return Response.success_response(info)
+    return Response.success_response({'code' : info})
 
 def change_status(package):
     """proecess the request of change status

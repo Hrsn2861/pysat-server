@@ -5,6 +5,7 @@ from utils.params import ParamType
 from program.models import ProgramHelper
 from program.models import ProgramLikeHelper
 from program.models import DownloadLogHelper
+from user.models import PermissionHelper
 
 def submit(package):
     """process the request of submitting program
@@ -14,9 +15,14 @@ def submit(package):
     program_name = params.get(ParamType.ProgramName)
     program_code = params.get(ParamType.ProgramCode)
     program_doc = params.get(ParamType.ProgramDoc)
-    program_school = int(params.get(ParamType.SubmitSchoolid))
+    program_school = int(params.get(ParamType.SchoolId))
+    program_subject = int(params.get(ParamType.ThemeId))
 
-    program_subject = int(params.get(ParamType.SubmitTheme))
+    school = PermissionHelper.get_user_school(user['id'])
+    if program_school != 0:
+        if school != program_school:
+            return Response.error_response('Access Denied')
+
     ProgramHelper.add_program(
         user['id'], program_name, program_code,
         program_doc, program_school, program_subject
@@ -34,7 +40,7 @@ def like(package):
     if program is None:
         return Response.error_response('No Program')
 
-    if program.get('status') != 3:
+    if program.get('status') != 5:
         return Response.error_response('Program not valid')
 
     user_id = user.get('id')
@@ -70,11 +76,11 @@ def download(package):
         ProgramHelper.set_downloads(prog_id, log_count)
 
     info = {
-        'code' : program.get('code'),
+        'content' : program.get('code'),
         'readme' : program.get('doc')
     }
 
     # program = ProgramHelper.get_program(prog_id)
     # return Response.checked_response(str(program.get('downloads')))
 
-    return Response.success_response(info)
+    return Response.success_response({'code' : info})

@@ -13,7 +13,7 @@ def apply_for_school(package):
     user = package.get('user')
     if user is None:
         return Response.error_response('No User')
-    apply_message = params.get(ParamType.ApplyMessage)
+    apply_message = params.get(ParamType.ApplyReason)
     schoolid = params.get(ParamType.SchoolId)
 
     school = SchoolHelper.get_school(schoolid)

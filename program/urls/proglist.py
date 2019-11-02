@@ -10,11 +10,11 @@ from program.views import proglist
 urlpatterns = [
     path('get', view_maker(proglist.get_program_list, 'GET', [
         ParamType.Mine,
-        ParamType.School,
+        ParamType.SchoolIdWithDefault,
         ParamType.StatusUp,
         ParamType.StatusDown,
         ParamType.Listype,
-        ParamType.Theme,
+        ParamType.ThemeIdWithDefault,
         ParamType.Page
     ], action=ActionType.UserGet))
 ]

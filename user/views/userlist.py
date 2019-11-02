@@ -4,7 +4,7 @@ import utils.response as Response
 
 from utils.params import ParamType
 from user.models import UserHelper, PermissionHelper
-from program.models import DownloadLogHelper
+from program.models import ProgramHelper
 
 def getlist(package):
     #pylint: disable-msg=too-many-locals
@@ -32,7 +32,7 @@ def getlist(package):
             return Response.success_response(data)
 
         for user in user_list:
-            download = DownloadLogHelper.count_user_downloadlog(user.get('id'))
+            download = ProgramHelper.count_user_downloadlog(user.get('id'))
             ret_list.append({
                 'username' : user.get('username'),
                 'motto' : user.get('motto'),
@@ -56,7 +56,7 @@ def getlist(package):
         school = PermissionHelper.get_user_school(user_id)
         if school_id != school:
             continue
-        download = DownloadLogHelper.count_user_downloadlog(user.get('id'))
+        download = ProgramHelper.count_user_downloadlog(user.get('id'))
         permission_private = PermissionHelper.get_permission(user_id, school)
         print('permission private', permission_private)
         userlist.append({

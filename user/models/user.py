@@ -170,27 +170,21 @@ class UserHelper:
             return False
 
         realname = info.get('realname')
-        # school = info.get('school')
-        # schoolid = info.get('schoolid')
         motto = info.get('motto')
-        # permission = info.get('permission')
         password = info.get('password')
         phone = info.get('phone')
+        permission = info.get('permission')
 
         if isinstance(realname, str):
             user.realname = realname
-        # if isinstance(school, str):
-        #     user.school = school
         if isinstance(motto, str):
             user.motto = motto
-        # if isinstance(permission, int):
-        #    user.permission = permission
         if UserInfoChecker.check_password(password):
             user.password = make_password(password)
         if UserInfoChecker.check_phone(phone):
             user.phone = phone
-        # if isinstance(schoolid, int):
-        #     user.schoolid = schoolid
+        if isinstance(permission, int):
+            user.permission = permission
 
         user.save()
         return True

@@ -65,40 +65,62 @@ class ParamType(Enum):
     Page = ('Page', 'page', False, False, 'integer', UserInfoType.Pass)
 
     RealnameForModify = ('Name', 'realname', False, False, 'string', UserInfoType.RealName)
-    SchoolForModify = ('School', 'school', False, False, 'string', UserInfoType.School)
     MottoForModify = ('Motto', 'motto', False, False, 'string', UserInfoType.Pass)
-    PermissionForModify = ('Permission', 'permission', False, False, 'integer', UserInfoType.Pass)
+    PermissionPublicForModify = (
+        'Public Permission', 'permission_public', False, False, 'integer', UserInfoType.Pass
+        )
+    PermissionPrivateForModify = (
+        'Private Permission', 'permission_private', False, False, 'integer', UserInfoType.Pass
+        )
 
-    ProgramName = ('Program Name', 'codename', False, True, 'string', UserInfoType.Pass)
-    ProgramCode = ('Program Code', 'code', False, True, 'string', UserInfoType.Pass)
-    ProgramDoc = ('Program Document', 'readme', False, False, 'string', UserInfoType.Pass)
+    ProgramName = ('Program Name', 'code_name', False, True, 'string', UserInfoType.Pass)
+    ProgramCode = ('Program Code', 'code_content', False, True, 'string', UserInfoType.Pass)
+    ProgramDoc = ('Program Document', 'code_readme', False, False, 'string', UserInfoType.Pass)
 
-    ProgramId = ('Program ID', 'codeid', False, True, 'integer', UserInfoType.Pass)
+    ProgramId = ('Program ID', 'code_id', False, True, 'integer', UserInfoType.Pass)
     ProgramJudge = ('Program Judge', 'judge', False, True, 'integer', UserInfoType.Pass)
 
-    Listype = ('List Type', 'type', False, False, 'integer', UserInfoType.Pass)
+    Listype = ('List Type', 'sort_type', False, False, 'integer', UserInfoType.Pass)
 
     SchoolName = ('School Name', 'schoolname', False, True, 'string', UserInfoType.Pass)
     Description = ('Description', 'description', False, False, 'string', UserInfoType.Pass)
-    ApplyMessage = ('Apply Message', 'reason', False, True, 'string', UserInfoType.Pass)
 
     Mine = ('List Mine', 'mine', False, True, 'boolean', UserInfoType.Pass)
     School = ('School', 'school', False, False, 'integer', UserInfoType.Pass)
-    StatusUp = ('Status Upper Limit', 'statusup', False, False, 'integer', UserInfoType.Pass)
-    StatusDown = ("Status Lower Limit", 'statuslow', False, False, 'integer', UserInfoType.Pass)
+    StatusUp = ('Status Upper Limit', 'status_up', False, False, 'integer', UserInfoType.Pass)
+    StatusDown = ("Status Lower Limit", 'status_low', False, False, 'integer', UserInfoType.Pass)
     Theme = ('Theme', 'theme', False, False, 'integer', UserInfoType.Pass)
-
-    SubmitTheme = ('Theme', 'theme', False, True, 'integer', UserInfoType.Pass)
-    SubmitSchoolid = ('Schoolid', 'schoolid', False, True, 'integer', UserInfoType.Pass)
 
     Approve = ('Approve', 'approve', False, True, 'boolean', UserInfoType.Pass)
     SourceStatus = ('Source Status', 'source', False, True, 'integer', UserInfoType.Pass)
     TargetStatus = ('Target Status', 'target', False, True, 'integer', UserInfoType.Pass)
 
     ApplyListType = ('Apply List Type', 'listtype', False, False, 'integer', UserInfoType.Pass)
-
     ApplyId = ('Apply Id', 'apply_id', False, True, 'integer', UserInfoType.Pass)
+    ApplyReason = ('Apply Message', 'apply_reason', False, True, 'string', UserInfoType.Pass)
+    ApplySchoolId = (
+        'Apply School Id', 'apply_school_id', False, True, 'integer', UserInfoType.Pass
+        )
+
     SchoolIdWithDefault = ('School Id', 'school_id', False, False, 'integer', UserInfoType.Pass)
     SchoolId = ('School Id', 'school_id', False, True, 'integer', UserInfoType.Pass)
 
+    ThemeId = ('Theme Id', 'theme_id', False, True, 'integer', UserInfoType.Pass)
+    ThemeIdWithDefault = ('Theme Id', 'theme_id', False, False, 'integer', UserInfoType.Pass)
+    ThemeName = ('Theme name', 'theme_name', False, True, 'string', UserInfoType.Pass)
+    ThemeNameWithDefault = ('Theme name', 'theme_name', False, False, 'string', UserInfoType.Pass)
+    ThemeDescription = (
+        'Theme Description', 'theme_description', False, True, 'string', UserInfoType.Pass
+    )
+    ThemeDescriptionWithDefault = (
+        'Theme Description', 'theme_description', False, False, 'string', UserInfoType.Pass
+        )
+    ThemeDeadline = (
+        'Theme Deadline', 'theme_deadline', False, True, 'string', UserInfoType.Pass
+    )
+    ThemeDeadlineWithDefault = (
+        'Theme Deadline', 'theme_deadline', False, True, 'string', UserInfoType.Pass
+    )
+
     SearchText = ('Search Text', 'search_text', False, False, 'string', UserInfoType.Pass)
+    TypeWithDefault = ('Type', 'type', False, False, 'integer', UserInfoType.Pass)
