@@ -1,7 +1,7 @@
 """models for download log
 """
 from django.db import models
-from program.models import Program #pylint: disable-msg=cyclic-import
+from program.models.program import Program
 
 class DownloadLog(models.Model):
     """Download Log Model
