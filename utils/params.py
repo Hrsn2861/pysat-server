@@ -98,7 +98,9 @@ class ParamType(Enum):
     ApplyListType = ('Apply List Type', 'listtype', False, False, 'integer', UserInfoType.Pass)
     ApplyId = ('Apply Id', 'apply_id', False, True, 'integer', UserInfoType.Pass)
     ApplyReason = ('Apply Message', 'apply_reason', False, True, 'string', UserInfoType.Pass)
-    ApplySchoolId = ('Apply School Id', 'apply_school_id', False, True, 'integer', UserInfoType.Pass)
+    ApplySchoolId = (
+        'Apply School Id', 'apply_school_id', False, True, 'integer', UserInfoType.Pass
+        )
 
     SchoolIdWithDefault = ('School Id', 'school_id', False, False, 'integer', UserInfoType.Pass)
     SchoolId = ('School Id', 'school_id', False, True, 'integer', UserInfoType.Pass)
