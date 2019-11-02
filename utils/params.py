@@ -84,7 +84,6 @@ class ParamType(Enum):
 
     SchoolName = ('School Name', 'schoolname', False, True, 'string', UserInfoType.Pass)
     Description = ('Description', 'description', False, False, 'string', UserInfoType.Pass)
-    ApplyMessage = ('Apply Message', 'reason', False, True, 'string', UserInfoType.Pass)
 
     Mine = ('List Mine', 'mine', False, True, 'boolean', UserInfoType.Pass)
     School = ('School', 'school', False, False, 'integer', UserInfoType.Pass)
@@ -97,11 +96,29 @@ class ParamType(Enum):
     TargetStatus = ('Target Status', 'target', False, True, 'integer', UserInfoType.Pass)
 
     ApplyListType = ('Apply List Type', 'listtype', False, False, 'integer', UserInfoType.Pass)
-
     ApplyId = ('Apply Id', 'apply_id', False, True, 'integer', UserInfoType.Pass)
+    ApplyReason = ('Apply Message', 'apply_reason', False, True, 'string', UserInfoType.Pass)
+    ApplySchoolId = ('Apply School Id', 'apply_school_id', False, True, 'integer', UserInfoType.Pass)
+
     SchoolIdWithDefault = ('School Id', 'school_id', False, False, 'integer', UserInfoType.Pass)
     SchoolId = ('School Id', 'school_id', False, True, 'integer', UserInfoType.Pass)
+
     ThemeId = ('Theme Id', 'theme_id', False, True, 'integer', UserInfoType.Pass)
     ThemeIdWithDefault = ('Theme Id', 'theme_id', False, False, 'integer', UserInfoType.Pass)
+    ThemeName = ('Theme name', 'theme_name', False, True, 'string', UserInfoType.Pass)
+    ThemeNameWithDefault = ('Theme name', 'theme_name', False, False, 'string', UserInfoType.Pass)
+    ThemeDescription = (
+        'Theme Description', 'theme_description', False, True, 'string', UserInfoType.Pass
+    )
+    ThemeDescriptionWithDefault = (
+        'Theme Description', 'theme_description', False, False, 'string', UserInfoType.Pass
+        )
+    ThemeDeadline = (
+        'Theme Deadline', 'theme_deadline', False, True, 'string', UserInfoType.Pass
+    )
+    ThemeDeadlineWithDefault = (
+        'Theme Deadline', 'theme_deadline', False, True, 'string', UserInfoType.Pass
+    )
 
     SearchText = ('Search Text', 'search_text', False, False, 'string', UserInfoType.Pass)
+    TypeWithDefault = ('Type', 'type', False, False, 'integer', UserInfoType.Pass)

@@ -46,6 +46,9 @@ def get_info(package):
     return Response.success_response({'user' : user})
 
 def modify_info(package):
+    # pylint: disable-msg=too-many-locals
+    # pylint: disable-msg=too-many-return-statements
+    # pylint: disable-msg=too-many-branches
     """Process the request of modyfying user's info
     """
     user = package.get('user')
