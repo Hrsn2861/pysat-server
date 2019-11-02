@@ -3,6 +3,7 @@
 from django.db import models
 
 from user.models import UserHelper
+from user.models import PermissionHelper
 
 class School(models.Model):
     """School
@@ -64,7 +65,7 @@ class SchoolHelper:
         qs = qs[(page - 1) * 20 : page * 20]
         schools = []
         for school in qs:
-            schools.append(SchoolHelper.school_to_dict(school))
+            schools.append(SchoolHelper.get_school(school.id))
         return schools
 
     @staticmethod
@@ -72,12 +73,14 @@ class SchoolHelper:
         """get school
         """
         schools = School.objects.filter(id=school_id)
+        headmaster_id = PermissionHelper.get_school_headmaster(school_id)
         if schools.exists():
             school = schools.last()
             return {
                 'id' : school_id,
-                'schoolname' : school.schoolname,
+                'name' : school.schoolname,
                 'description' : school.description,
-                'creator' : UserHelper.get_name_by_id(school.creator)
+                'headmaster' : UserHelper.get_name_by_id(headmaster_id),
+                'population' : PermissionHelper.get_school_population(school_id)
             }
         return None

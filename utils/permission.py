@@ -36,6 +36,7 @@ class ActionType(Enum):
 
     CreateSchool = 8
     ApplyForSchool = 1
+    GetSchoolList = 1
 
     Approve = 2
     GetApplyList = 2

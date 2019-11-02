@@ -87,3 +87,19 @@ class PermissionHelper:
             user.save()
             return True
         return False
+
+    @staticmethod
+    def get_school_population(school_id):
+        """ get a school's population
+        """
+        perms = Permission.objects.filter(school_id=school_id)
+        return perms.count()
+    
+    @staticmethod
+    def get_school_headmaster(school_id):
+        """ get a school's headmaster(permission = 4)
+        """
+        perms = Permission.objects.filter(school_id=school_id, permission=4)
+        if perms.exist():
+            return perms.last().user_id
+        return 0

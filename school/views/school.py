@@ -22,3 +22,22 @@ def create_school(package):
 
     school_id = SchoolHelper.add_school(user.get('id'), school_name, description)
     return Response.success_response({'school_id' : school_id})
+
+def get_school_list(package):
+    """ Processing the request of getting school list
+    """
+    params = package.get('params')
+    page = params.get(ParamType.Page)
+    search_text = params.get(ParamType.SearchText)
+    if page is None:
+        page = 1
+    if page < 0:
+        return Response.error_response('Invalid Page Number')
+    
+    school_list = SchoolHelper.get_school_list(page, search_text)
+    tot_count = SchoolHelper.get_school_count(search_text)
+    return Response.success_response({
+        'tot_count' : tot_count,
+        'now_count' : len(school_list),
+        'school_list' : school_list
+        })

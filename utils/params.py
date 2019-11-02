@@ -100,3 +100,4 @@ class ParamType(Enum):
     ApplyListType = ('Apply List Type', 'listtype', False, False, 'integer', UserInfoType.Pass)
 
     ApplyId = ('Apply Id', 'apply_id', False, True, 'integer', UserInfoType.Pass)
+    SearchText = ('Search Text', 'search', False, False, 'string', UserInfoType.Pass)
