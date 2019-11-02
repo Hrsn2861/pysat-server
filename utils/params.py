@@ -65,9 +65,13 @@ class ParamType(Enum):
     Page = ('Page', 'page', False, False, 'integer', UserInfoType.Pass)
 
     RealnameForModify = ('Name', 'realname', False, False, 'string', UserInfoType.RealName)
-    SchoolForModify = ('School', 'school', False, False, 'string', UserInfoType.School)
     MottoForModify = ('Motto', 'motto', False, False, 'string', UserInfoType.Pass)
-    PermissionForModify = ('Permission', 'permission', False, False, 'integer', UserInfoType.Pass)
+    PermissionPublicForModify = (
+        'Public Permission', 'permission_public', False, False, 'integer', UserInfoType.Pass
+        )
+    PermissionPrivateForModify = (
+        'Private Permission', 'permission_private', False, False, 'integer', UserInfoType.Pass
+        )
 
     ProgramName = ('Program Name', 'codename', False, True, 'string', UserInfoType.Pass)
     ProgramCode = ('Program Code', 'code', False, True, 'string', UserInfoType.Pass)
