@@ -8,7 +8,7 @@ from utils.params import ParamType
 from user.models import PermissionHelper
 from user.models import UserHelper
 from user.models import VerifyHelper
-from program.models import DownloadLogHelper
+from program.models import ProgramHelper
 
 def get_info(package):
     """process the request of getting user's info
@@ -34,7 +34,7 @@ def get_info(package):
         school = SchoolHelper.get_school(school_id)
         schoolname = school.get('schoolname')
 
-    download = DownloadLogHelper.count_user_downloadlog(user_id)
+    download = ProgramHelper.count_user_downloadlog(user_id)
 
     del user['permission']
     user.update({

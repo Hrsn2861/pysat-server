@@ -22,5 +22,5 @@ urlpatterns = [
 
     path('download', view_maker(user.download, 'GET', [
         ParamType.ProgramId
-    ], action=ActionType.UserDownload))
+    ], action=ActionType.UserAction))
 ]

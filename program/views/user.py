@@ -40,7 +40,7 @@ def like(package):
     if program is None:
         return Response.error_response('No Program')
 
-    if program.get('status') != 3:
+    if program.get('status') != 5:
         return Response.error_response('Program not valid')
 
     user_id = user.get('id')
@@ -76,11 +76,11 @@ def download(package):
         ProgramHelper.set_downloads(prog_id, log_count)
 
     info = {
-        'code' : program.get('code'),
+        'content' : program.get('code'),
         'readme' : program.get('doc')
     }
 
     # program = ProgramHelper.get_program(prog_id)
     # return Response.checked_response(str(program.get('downloads')))
 
-    return Response.success_response(info)
+    return Response.success_response({'code' : info})

@@ -5,8 +5,8 @@ from utils.params import ParamType
 from program.models import ProgramHelper
 from program.models import ProgramLikeHelper
 from program.models import DownloadLogHelper
-
-from user.models import UserHelper
+from school.models import SchoolHelper
+from user.models import UserHelper, PermissionHelper
 
 def get_program_list(package):
     #pylint: disable-msg=too-many-locals
@@ -18,10 +18,10 @@ def get_program_list(package):
     params = package.get('params')
     user = package.get('user')
     mine = params.get(ParamType.Mine)
-    schoolid = params.get(ParamType.School)
+    schoolid = params.get(ParamType.SchoolIdWithDefault)
     status_up = params.get(ParamType.StatusUp)
     status_low = params.get(ParamType.StatusDown)
-    subjectid = params.get(ParamType.Theme)
+    subjectid = params.get(ParamType.ThemeIdWithDefault)
     listtype = params.get(ParamType.Listype)
     page = params.get(ParamType.Page)
 
@@ -60,7 +60,7 @@ def get_program_list(package):
             data = {
                 'tot_count' : 0,
                 'now_count' : 0,
-                'codelist' : []
+                'code_list' : []
             }
             return Response.success_response(data)
 
@@ -70,15 +70,17 @@ def get_program_list(package):
             prog_id = prog.get('id')
             liked = ProgramLikeHelper.check_like(user_id, prog_id)
             downloaded = DownloadLogHelper.check_download(user_id, prog_id)
+            schoolid = PermissionHelper.get_user_school(user_id)
+            schoolname = SchoolHelper.get_school_name(schoolid)
             info = ProgramHelper.prog_filter(
-                prog, username, downloaded, liked
+                prog, username, downloaded, liked, schoolname
                 )
             codelist.append(info)
 
         data = {
             'tot_count' : ProgramHelper.get_user_programs_count(user_id),
             'now_count' : len(progs_list),
-            'codelist' : codelist
+            'code_list' : codelist
         }
 
         return Response.success_response(data)
@@ -95,7 +97,7 @@ def get_program_list(package):
         data = {
             'tot_count' : 0,
             'now_count' : 0,
-            'codelist' : []
+            'code_list' : []
         }
         return Response.success_response(data)
 
@@ -106,8 +108,10 @@ def get_program_list(package):
         prog_id = prog.get('id')
         liked = ProgramLikeHelper.check_like(user_id, prog_id)
         downloaded = DownloadLogHelper.check_download(user_id, prog_id)
+        schoolid = PermissionHelper.get_user_school(user_id)
+        schoolname = SchoolHelper.get_school_name(schoolid)
         info = ProgramHelper.prog_filter(
-            prog, username, downloaded, liked
+            prog, username, downloaded, liked, schoolname
             )
         codelist.append(info)
     data = {
@@ -115,6 +119,6 @@ def get_program_list(package):
             status_up, status_low, schoolid, subjectid
         ),
         'now_count' : len(progs_list),
-        'codelist' : codelist
+        'code_list' : codelist
     }
     return Response.success_response(data)

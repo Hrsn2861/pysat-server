@@ -77,10 +77,10 @@ class ParamType(Enum):
     ProgramCode = ('Program Code', 'code_content', False, True, 'string', UserInfoType.Pass)
     ProgramDoc = ('Program Document', 'code_readme', False, False, 'string', UserInfoType.Pass)
 
-    ProgramId = ('Program ID', 'codeid', False, True, 'integer', UserInfoType.Pass)
+    ProgramId = ('Program ID', 'code_id', False, True, 'integer', UserInfoType.Pass)
     ProgramJudge = ('Program Judge', 'judge', False, True, 'integer', UserInfoType.Pass)
 
-    Listype = ('List Type', 'type', False, False, 'integer', UserInfoType.Pass)
+    Listype = ('List Type', 'sort_type', False, False, 'integer', UserInfoType.Pass)
 
     SchoolName = ('School Name', 'schoolname', False, True, 'string', UserInfoType.Pass)
     Description = ('Description', 'description', False, False, 'string', UserInfoType.Pass)
@@ -88,8 +88,8 @@ class ParamType(Enum):
 
     Mine = ('List Mine', 'mine', False, True, 'boolean', UserInfoType.Pass)
     School = ('School', 'school', False, False, 'integer', UserInfoType.Pass)
-    StatusUp = ('Status Upper Limit', 'statusup', False, False, 'integer', UserInfoType.Pass)
-    StatusDown = ("Status Lower Limit", 'statuslow', False, False, 'integer', UserInfoType.Pass)
+    StatusUp = ('Status Upper Limit', 'status_up', False, False, 'integer', UserInfoType.Pass)
+    StatusDown = ("Status Lower Limit", 'status_low', False, False, 'integer', UserInfoType.Pass)
     Theme = ('Theme', 'theme', False, False, 'integer', UserInfoType.Pass)
 
     Approve = ('Approve', 'approve', False, True, 'boolean', UserInfoType.Pass)
@@ -102,5 +102,6 @@ class ParamType(Enum):
     SchoolIdWithDefault = ('School Id', 'school_id', False, False, 'integer', UserInfoType.Pass)
     SchoolId = ('School Id', 'school_id', False, True, 'integer', UserInfoType.Pass)
     ThemeId = ('Theme Id', 'theme_id', False, True, 'integer', UserInfoType.Pass)
+    ThemeIdWithDefault = ('Theme Id', 'theme_id', False, False, 'integer', UserInfoType.Pass)
 
     SearchText = ('Search Text', 'search_text', False, False, 'string', UserInfoType.Pass)

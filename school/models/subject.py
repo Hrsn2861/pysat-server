@@ -114,7 +114,7 @@ class SubjectHelper:
             if school is None:
                 schoolname = '-'
             else:
-                schoolname = school['schoolname']
+                schoolname = school.get('schoolname')
             return {
                 'id' : subject.id,
                 'title' : subject.title,

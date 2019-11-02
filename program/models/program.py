@@ -5,6 +5,8 @@ from django.db import models
 from utils import getdate_now, getdate_none, date_to_string
 from school.models import SubjectHelper
 from school.models import SchoolHelper
+from program.models.downloadlog import DownloadLogHelper
+from program.models.like import LikeHelper
 
 class Program(models.Model):
     """Program Model
@@ -42,6 +44,7 @@ class ProgramHelper:
         upload_time = program.upload_time
         if upload_time == getdate_none():
             upload_time = None
+        ProgramHelper.refresh(program.id)
         return {
             'id' : program.id,
             'name' : program.name,
@@ -60,7 +63,7 @@ class ProgramHelper:
         }
 
     @staticmethod
-    def prog_filter(program, username, downloaded, liked):
+    def prog_filter(program, username, downloaded, liked, schoolname):
         """match the list data
         """
         school = SchoolHelper.get_school(program.get('schoolid'))
@@ -70,6 +73,7 @@ class ProgramHelper:
             schoolname = school.get('schoolname')
         if program.get('schoolid') == 0:
             schoolname = '在野'
+
         subject = SubjectHelper.get_subject(program.get('subjectid'))
         if subject is None:
             subjectname = None
@@ -79,13 +83,13 @@ class ProgramHelper:
             'id' : program.get('id'),
             'name' : program.get('name'),
             'author' : username,
+            'author_school_name' : schoolname,
+            'theme_name' : subjectname,
+            'status' : program.get('status'),
             'downloads' : program.get('downloads'),
             'likes' : program.get('likes'),
             'upload_time' : program.get('upload_time'),
             'submit_time' : program.get('submit_time'),
-            'school' : schoolname,
-            'theme' : subjectname,
-            'status' : program.get('status'),
             'judge_time' : program.get('judge_time'),
             'downloaded' : downloaded,
             'liked' : liked
@@ -329,3 +333,25 @@ class ProgramHelper:
         program.downloads = download_count
         program.save()
         return True
+
+    @staticmethod
+    def count_user_downloadlog(user_id):
+        """count user's program downloads
+        """
+        ret = 0
+        progs = Program.objects.filter(**{
+            'author' : user_id
+        })
+        for prog in progs:
+            ret += prog.downloads
+
+        return ret
+
+    @staticmethod
+    def refresh(program_id):
+        """refresh
+        """
+        count = DownloadLogHelper.count_downloadlog(program_id)
+        likes = LikeHelper.count_like(program_id)
+        ProgramHelper.set_downloads(program_id, count)
+        ProgramHelper.set_likes(program_id, likes)
