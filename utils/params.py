@@ -73,9 +73,9 @@ class ParamType(Enum):
         'Private Permission', 'permission_private', False, False, 'integer', UserInfoType.Pass
         )
 
-    ProgramName = ('Program Name', 'codename', False, True, 'string', UserInfoType.Pass)
-    ProgramCode = ('Program Code', 'code', False, True, 'string', UserInfoType.Pass)
-    ProgramDoc = ('Program Document', 'readme', False, False, 'string', UserInfoType.Pass)
+    ProgramName = ('Program Name', 'code_name', False, True, 'string', UserInfoType.Pass)
+    ProgramCode = ('Program Code', 'code_content', False, True, 'string', UserInfoType.Pass)
+    ProgramDoc = ('Program Document', 'code_readme', False, False, 'string', UserInfoType.Pass)
 
     ProgramId = ('Program ID', 'codeid', False, True, 'integer', UserInfoType.Pass)
     ProgramJudge = ('Program Judge', 'judge', False, True, 'integer', UserInfoType.Pass)
@@ -92,9 +92,6 @@ class ParamType(Enum):
     StatusDown = ("Status Lower Limit", 'statuslow', False, False, 'integer', UserInfoType.Pass)
     Theme = ('Theme', 'theme', False, False, 'integer', UserInfoType.Pass)
 
-    SubmitTheme = ('Theme', 'theme', False, True, 'integer', UserInfoType.Pass)
-    SubmitSchoolid = ('Schoolid', 'schoolid', False, True, 'integer', UserInfoType.Pass)
-
     Approve = ('Approve', 'approve', False, True, 'boolean', UserInfoType.Pass)
     SourceStatus = ('Source Status', 'source', False, True, 'integer', UserInfoType.Pass)
     TargetStatus = ('Target Status', 'target', False, True, 'integer', UserInfoType.Pass)
@@ -104,5 +101,6 @@ class ParamType(Enum):
     ApplyId = ('Apply Id', 'apply_id', False, True, 'integer', UserInfoType.Pass)
     SchoolIdWithDefault = ('School Id', 'school_id', False, False, 'integer', UserInfoType.Pass)
     SchoolId = ('School Id', 'school_id', False, True, 'integer', UserInfoType.Pass)
+    ThemeId = ('Theme Id', 'theme_id', False, True, 'integer', UserInfoType.Pass)
 
     SearchText = ('Search Text', 'search_text', False, False, 'string', UserInfoType.Pass)
