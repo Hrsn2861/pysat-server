@@ -3,10 +3,13 @@
 
 import utils.response as Response
 
+from school.models import SchoolHelper
 from utils.params import ParamType
 from utils.permission import PermissionManager
+from user.models import PermissionHelper
 from user.models import UserHelper
 from user.models import VerifyHelper
+from program.models import DownloadLogHelper
 
 def get_info(package):
     """process the request of getting user's info
@@ -19,7 +22,28 @@ def get_info(package):
         user = UserHelper.get_user_by_username(username)
     if user is None:
         return Response.error_response("No User")
+
     user = UserHelper.user_filter(user)
+    permission_public = user.get('permission')
+    user_id = user.get('id')
+    school_id = PermissionHelper.get_user_school(user_id)
+    if school_id == 0:
+        schoolname = 'public area'
+        permission_private = -1
+    else:
+        permission_private = PermissionHelper.get_permission(user_id, school_id)
+        school = SchoolHelper.get_school(school_id)
+        schoolname = school.get('schoolname')
+
+    download = DownloadLogHelper.count_user_downloadlog(user_id)
+
+    del user['permission']
+    user.update({
+        'school_name' : schoolname,
+        'permission_public' : permission_public,
+        'permission_pirvate' : permission_private,
+        'download' : download
+    })
     return Response.success_response({'user' : user})
 
 def modify_info(package):

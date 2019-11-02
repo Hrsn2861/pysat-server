@@ -54,7 +54,6 @@ def get_program_list(package):
 
     if mine == 'true':
         user_id = user.get('id')
-        print('userid', user_id)
         progs_list = ProgramHelper.get_user_programs(user_id, page, listtype)
 
         if len(progs_list) == 0:

@@ -10,7 +10,7 @@ from school.views import admin
 
 urlpatterns = [
     path('approve', view_maker(admin.approve, 'POST', [
-        ParamType.Username,
+        ParamType.ApplyId,
         ParamType.Approve
     ], action=ActionType.Approve)),
     path('applylist', view_maker(admin.get_apply_list, 'POST', [

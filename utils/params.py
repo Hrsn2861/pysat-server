@@ -98,3 +98,5 @@ class ParamType(Enum):
     TargetStatus = ('Target Status', 'target', False, True, 'integer', UserInfoType.Pass)
 
     ApplyListType = ('Apply List Type', 'listtype', False, False, 'integer', UserInfoType.Pass)
+
+    ApplyId = ('Apply Id', 'apply_id', False, True, 'integer', UserInfoType.Pass)

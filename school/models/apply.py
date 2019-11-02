@@ -40,10 +40,10 @@ class SchoolApplyHelper:
     def apply_to_dict(apply):
         """apply to dict
         """
+        print(apply, type(apply))
         if apply is None:
             return None
         data = {
-            'id' : apply.id,
             'userid' : apply.user_id,
             'schoolid' : apply.school_id,
             'message' : apply.message,
@@ -54,11 +54,20 @@ class SchoolApplyHelper:
         return data
 
     @staticmethod
+    def get_apply_by_id(apply_id):
+        """get apply by id
+        """
+        apply = SchoolApply.objects.filter(id=apply_id)
+        if not apply.exists():
+            return None
+        return SchoolApplyHelper.apply_to_dict(apply.last())
+
+    @staticmethod
     def get_apply(user_id, school_id):
         """get apply
         """
         apply = SchoolApply.objects.filter(user_id=user_id, school_id=school_id)
-        if apply is None:
+        if not apply.exists():
             return None
         return SchoolApplyHelper.apply_to_dict(apply.last())
 
