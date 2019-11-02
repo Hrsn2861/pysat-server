@@ -82,9 +82,7 @@ class ParamType(Enum):
     Description = ('Description', 'description', False, False, 'string', UserInfoType.Pass)
     ApplyMessage = ('Apply Message', 'reason', False, True, 'string', UserInfoType.Pass)
 
-    SchoolIdWithoutDefault = ('School Id', 'schoolid', False, True, 'integer', UserInfoType.Pass)
     Mine = ('List Mine', 'mine', False, True, 'boolean', UserInfoType.Pass)
-    Schoolid = ('Schoolid', 'schoolid', False, False, 'integer', UserInfoType.Pass)
     School = ('School', 'school', False, False, 'integer', UserInfoType.Pass)
     StatusUp = ('Status Upper Limit', 'statusup', False, False, 'integer', UserInfoType.Pass)
     StatusDown = ("Status Lower Limit", 'statuslow', False, False, 'integer', UserInfoType.Pass)
@@ -100,3 +98,5 @@ class ParamType(Enum):
     ApplyListType = ('Apply List Type', 'listtype', False, False, 'integer', UserInfoType.Pass)
 
     ApplyId = ('Apply Id', 'apply_id', False, True, 'integer', UserInfoType.Pass)
+    SchoolIdWithDefault = ('School Id', 'school_id', False, False, 'integer', UserInfoType.Pass)
+    SchoolId = ('School Id', 'school_id', False, True, 'integer', UserInfoType.Pass)

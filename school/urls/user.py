@@ -11,6 +11,6 @@ from school.views import user
 urlpatterns = [
     path('apply', view_maker(user.apply_for_school, 'POST', [
         ParamType.ApplyMessage,
-        ParamType.SchoolIdWithoutDefault
+        ParamType.SchoolId
     ], action=ActionType.ApplyForSchool))
 ]
