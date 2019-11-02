@@ -12,6 +12,7 @@ urlpatterns = [
     path('get', view_maker(userlist.getlist, 'GET', [
         ParamType.ShowInvalid,
         ParamType.ManagerFirst,
+        ParamType.SchoolId,
         ParamType.Page
     ], action=ActionType.GetAllUserList))
 ]

@@ -14,7 +14,7 @@ def apply_for_school(package):
     if user is None:
         return Response.error_response('No User')
     apply_message = params.get(ParamType.ApplyMessage)
-    schoolid = params.get(ParamType.SchoolIdWithoutDefault)
+    schoolid = params.get(ParamType.SchoolId)
 
     school = SchoolHelper.get_school(schoolid)
 

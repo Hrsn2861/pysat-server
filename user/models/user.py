@@ -226,3 +226,21 @@ class UserHelper:
             user = UserHelper.query_to_user(user)
             ret.append(UserHelper.user_filter(user))
         return ret
+
+    @staticmethod
+    def get_all(show_invalid, manager_first):
+        """get user list in school
+        """
+        if show_invalid is True:
+            qs = User.objects.all()
+        else:
+            qs = User.objects.filter(permission__gt=0)
+        if manager_first is True:
+            qs = qs.order_by('-permission', 'id')
+        else:
+            qs = qs.order_by('id')
+        ret = []
+        for user in qs:
+            user = UserHelper.query_to_user(user)
+            ret.append(user)
+        return ret
