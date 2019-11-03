@@ -81,11 +81,11 @@ class SchoolApplyHelper:
         - 2 to show pending
         """
         ret = {'school_id' : school_id}
-        if type == 0:
+        if list_type == 0:
             pass
-        elif type == 1:
+        elif list_type == 1:
             ret['status__gt'] = 0
-        elif type == 2:
+        elif list_type == 2:
             ret['status'] = 0
         else:
             return None
