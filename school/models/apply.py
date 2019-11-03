@@ -72,10 +72,10 @@ class SchoolApplyHelper:
         return SchoolApplyHelper.apply_to_dict(apply.last())
 
     @staticmethod
-    def get_applies_filter(school_id, type):
+    def get_applies_filter(school_id, list_type):
         """get school's applies filter
 
-        type:
+        list_type:
         - 0 to show all
         - 1 to show solved
         - 2 to show pending
@@ -92,19 +92,19 @@ class SchoolApplyHelper:
         return ret
 
     @staticmethod
-    def get_applies_count(school_id, type):
+    def get_applies_count(school_id, list_type):
         """get school's applies count
         """
-        params = SchoolApplyHelper.get_applies_filter(school_id, type)
+        params = SchoolApplyHelper.get_applies_filter(school_id, list_type)
         if params is None:
             return 0
         return SchoolApply.objects.filter(**params).count()
 
     @staticmethod
-    def get_applies(school_id, type, page):
+    def get_applies(school_id, list_type, page):
         """get school's applies
         """
-        params = SchoolApplyHelper.get_applies_filter(school_id, type)
+        params = SchoolApplyHelper.get_applies_filter(school_id, list_type)
         if params is None:
             return 0
         qs = SchoolApply.objects.filter(**params)
