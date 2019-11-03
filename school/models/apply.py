@@ -117,9 +117,9 @@ class SchoolApplyHelper:
             applies.append({
                 'id' : apply.id,
                 'username' : username,
-                'message' : apply.message,
+                'reason' : apply.message,
                 'time' : apply.apply_time,
-                'judge' : judge,
+                'judger' : judge,
                 'status' : apply.status
             })
         return applies
