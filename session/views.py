@@ -16,7 +16,7 @@ def check_session(package):
     user = package.get('user')
     user = UserHelper.user_filter(user)
     if user is None:
-        return Response.success_response({'user' : {}})
+        return Response.success_response({'user' : None})
 
     user_id = user.get('id')
     permission_public = user.get('permission')
