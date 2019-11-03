@@ -55,4 +55,9 @@ def get_apply_list(package):
     if int(page_num) < 1:
         return Response.error_response('Invalid page number')
     apply_list = SchoolApplyHelper.get_applies(school_id, list_type, page_num)
-    return Response.success_response({'list': apply_list})
+
+    return Response.success_response({
+        'tot_count': SchoolApplyHelper.get_applies_count(),
+        'now_count': len(apply_list),
+        'apply_list': apply_list
+        })

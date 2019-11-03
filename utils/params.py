@@ -94,7 +94,7 @@ class ParamType(Enum):
     SourceStatus = ('Source Status', 'source', False, True, 'integer', UserInfoType.Pass)
     TargetStatus = ('Target Status', 'target', False, True, 'integer', UserInfoType.Pass)
 
-    ApplyListType = ('Apply List Type', 'listtype', False, False, 'integer', UserInfoType.Pass)
+    ApplyListType = ('Apply List Type', 'type', False, False, 'integer', UserInfoType.Pass)
     ApplyId = ('Apply Id', 'apply_id', False, True, 'integer', UserInfoType.Pass)
     ApplyReason = ('Apply Message', 'apply_reason', False, True, 'string', UserInfoType.Pass)
     ApplySchoolId = (
