@@ -10,9 +10,9 @@ def create_school(package):
     """ Processing the request of creating a school
     """
     params = package.get('params')
-    user_name = params.get(ParamType.UsernameWithDefault)
+    user_name = params.get(ParamType.Username)
     school_name = params.get(ParamType.SchoolName)
-    description = params.get(ParamType.Description)
+    description = params.get(ParamType.SchoolDescription)
     if user_name is None:
         user = package.get('user')
     else:
@@ -20,8 +20,8 @@ def create_school(package):
     if user is None:
         return Response.error_response("No User")
 
-    school_id = SchoolHelper.add_school(user.get('id'), school_name, description)
-    return Response.success_response({'school_id' : school_id})
+    SchoolHelper.add_school(user.get('id'), school_name, description)
+    return Response.checked_response('Create Succeessful')
 
 def get_school_list(package):
     """ Processing the request of getting school list

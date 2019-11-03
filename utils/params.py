@@ -82,7 +82,6 @@ class ParamType(Enum):
 
     Listype = ('List Type', 'sort_type', False, False, 'integer', UserInfoType.Pass)
 
-    SchoolName = ('School Name', 'schoolname', False, True, 'string', UserInfoType.Pass)
     Description = ('Description', 'description', False, False, 'string', UserInfoType.Pass)
 
     Mine = ('List Mine', 'mine', False, True, 'boolean', UserInfoType.Pass)
@@ -102,8 +101,12 @@ class ParamType(Enum):
         'Apply School Id', 'apply_school_id', False, True, 'integer', UserInfoType.Pass
         )
 
+    SchoolName = ('School Name', 'school_name', False, True, 'string', UserInfoType.Pass)
     SchoolIdWithDefault = ('School Id', 'school_id', False, False, 'integer', UserInfoType.Pass)
     SchoolId = ('School Id', 'school_id', False, True, 'integer', UserInfoType.Pass)
+    SchoolDescription = (
+        'School Description', 'school_description', False, True, 'string', UserInfoType.Pass
+        )
 
     ThemeId = ('Theme Id', 'theme_id', False, True, 'integer', UserInfoType.Pass)
     ThemeIdWithDefault = ('Theme Id', 'theme_id', False, False, 'integer', UserInfoType.Pass)
