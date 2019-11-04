@@ -10,9 +10,9 @@ class SchoolApply(models.Model):
     """
     user_id = models.IntegerField()
     school_id = models.IntegerField()
-    reason = models.CharField(max_length=256)
+    message = models.CharField(max_length=256)
     apply_time = models.DateTimeField()
-    judger = models.IntegerField(default=0)
+    judge = models.IntegerField(default=0)
     status = models.IntegerField(default=0)
 
     class Meta:
@@ -25,13 +25,13 @@ class SchoolApplyHelper:
     """
 
     @staticmethod
-    def add_apply(user_id, school_id, reason):
+    def add_apply(user_id, school_id, message):
         """add school
         """
         apply = SchoolApply(
             user_id=user_id,
             school_id=school_id,
-            reason=reason,
+            message=message,
             apply_time=getdate_now())
         apply.save()
         return True
@@ -46,9 +46,9 @@ class SchoolApplyHelper:
         data = {
             'userid' : apply.user_id,
             'schoolid' : apply.school_id,
-            'reason' : apply.reason,
+            'reason' : apply.message,
             'apply_time' : apply.apply_time,
-            'judger' : apply.judger,
+            'judger' : apply.judge,
             'status' : apply.status
         }
         return data
@@ -113,7 +113,7 @@ class SchoolApplyHelper:
         applies = []
         for apply in qs:
             username = UserHelper.get_name_by_id(apply.user_id)
-            judger = UserHelper.get_name_by_id(apply.judger)
+            judger = UserHelper.get_name_by_id(apply.judge)
             applies.append({
                 'id' : apply.id,
                 'username' : username,
@@ -131,7 +131,7 @@ class SchoolApplyHelper:
         qs = SchoolApply.objects.filter(id=apply_id, status=0)
         if qs.exists():
             apply = qs.last()
-            apply.judger = judger
+            apply.judge = judger
             apply.status = status
             apply.save()
             return True
