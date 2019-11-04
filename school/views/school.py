@@ -31,6 +31,7 @@ def get_school_list(package):
     search_text = params.get(ParamType.SearchText)
     if page is None:
         page = 1
+    page = int(page)
     if int(page) < 1:
         return Response.error_response('Invalid Page Number')
 

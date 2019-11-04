@@ -355,3 +355,17 @@ class ProgramHelper:
         likes = LikeHelper.count_like(program_id)
         ProgramHelper.set_downloads(program_id, count)
         ProgramHelper.set_likes(program_id, likes)
+
+    @staticmethod
+    def change_status(program_id, source, target):
+        """change the status
+        """
+        program = ProgramHelper.get_program(program_id)
+        if program.get('status') != source:
+            return False
+        program = Program.objects.filter(id=program_id)
+        prog = program.last()
+        prog.status = target
+
+        prog.save()
+        return True

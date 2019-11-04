@@ -3,6 +3,7 @@
 import utils.response as Response
 from utils.params import ParamType
 from program.models import ProgramHelper
+from user.models import PermissionHelper
 
 def upload(package):
     """process the request of uploading program
@@ -70,3 +71,27 @@ def download(package):
 def change_status(package):
     """proecess the request of change status
     """
+    user = package.get('user')
+    params = package.get('params')
+    code_id = int(params.get(ParamType.ProgramId))
+    source = int(params.get(ParamType.SourceStatus))
+    target = int(params.get(ParamType.TargetStatus))
+
+    check = (source, target)
+
+    user_id = user.get('id')
+    school_id = PermissionHelper.get_user_school(user_id)
+    permission = PermissionHelper.get_permission(user_id, school_id)
+
+    if permission < 4:                      #如果只是普通管理员
+        if check not in [(0, 1), (1, 2), (1, -1), (2, 3)]:
+            return Response.error_response('Can\'t change status')
+        if ProgramHelper.change_status(code_id, source, target) is False:
+            return Response.error_response('Source Status Wrong')
+        return Response.checked_response('Status Changed Successful')
+
+    if check not in [(0, 1), (1, 2), (1, -1), (2, 3), (3, 4), (4, 5)]:
+        return Response.error_response('Cannot Change Status')
+    if ProgramHelper.change_status(code_id, source, target) is False:
+        return Response.error_response('Source Status Wrong')
+    return Response.checked_response('Status Changed Successful')
