@@ -71,3 +71,29 @@ def get_list(package):
     }
 
     return Response.success_response(ret)
+
+def delete_theme(package):
+    """delete theme
+    """
+    user = package.get('user')
+    user_id = user.get('id')
+    school_id = PermissionHelper.get_user_school(user_id)
+
+    params = package.get('params')
+    theme_id = int(params.get(ParamType.ThemeId))
+
+    theme = SubjectHelper.get_subject_with_schoolid(theme_id)
+    if theme is None:
+        return Response.error_response('No Subject')
+    theme_schoolid = theme.get('school_id')
+
+    private_permission = PermissionHelper.get_permission(user_id, school_id)
+
+    if private_permission < 4:                                  #非高级管理员
+        return Response.error_response('Access Denied')
+
+    if private_permission < 8:                                  #非超级用户
+        if school_id != theme_schoolid:                         #学校必须匹配
+            return Response.error_response('Acess Denied')
+    SubjectHelper.delete_subject(theme_id)
+    return Response.checked_response('Delete Success')

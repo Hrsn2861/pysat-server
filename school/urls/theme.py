@@ -18,5 +18,8 @@ urlpatterns = [
     path('list', view_maker(theme.get_list, 'GET', [
         ParamType.SchoolId,
         ParamType.Page
-    ], action=ActionType.UserGet))
+    ], action=ActionType.UserGet)),
+    path('delete', view_maker(theme.delete_theme, 'POST', [
+        ParamType.ThemeId
+    ], action=ActionType.AdminDelete))
 ]

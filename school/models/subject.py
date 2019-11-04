@@ -104,6 +104,23 @@ class SubjectHelper:
         return subjects
 
     @staticmethod
+    def get_subject_with_schoolid(subject_id):
+        """get a subject
+        """
+        qs = Subject.objects.filter(id=subject_id)
+        if qs.exists():
+            subject = qs.last()
+            return {
+                'id' : subject.id,
+                'title' : subject.title,
+                'school_id' : subject.school_id,
+                'description' : subject.description,
+                'create_time' : subject.create_time,
+                'deadline' : subject.deadline
+            }
+        return None
+
+    @staticmethod
     def get_subject(subject_id):
         """get a subject
         """
@@ -124,3 +141,15 @@ class SubjectHelper:
                 'deadline' : subject.deadline
             }
         return None
+
+    @staticmethod
+    def delete_subject(subject_id):
+        """delete a subject
+        """
+        qs = Subject.objects.filter(id=subject_id)
+        if qs.exists():
+            subject = qs.last()
+        else:
+            return False
+        subject.delete()
+        return True
