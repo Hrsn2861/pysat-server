@@ -14,6 +14,7 @@ urlpatterns = [
         ParamType.Approve
     ], action=ActionType.Approve)),
     path('applylist', view_maker(admin.get_apply_list, 'POST', [
+        ParamType.SchoolId,
         ParamType.ApplyListType,
         ParamType.Page
     ], action=ActionType.GetApplyList))
