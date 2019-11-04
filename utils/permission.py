@@ -42,6 +42,8 @@ class ActionType(Enum):
     GetApplyList = 2
 
     ThemeCreate = 1
+    AdminDelete = 4
+    AdminModify = 4
 
 class PermissionManager:
     """Permission Manager

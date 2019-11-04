@@ -14,5 +14,18 @@ urlpatterns = [
         ParamType.ThemeName,
         ParamType.ThemeDescription,
         ParamType.ThemeDeadline
-    ], action=ActionType.ThemeCreate))
+    ], action=ActionType.ThemeCreate)),
+    path('list', view_maker(theme.get_list, 'GET', [
+        ParamType.SchoolId,
+        ParamType.Page
+    ], action=ActionType.UserGet)),
+    path('delete', view_maker(theme.delete_theme, 'POST', [
+        ParamType.ThemeId
+    ], action=ActionType.AdminDelete)),
+    path('modify', view_maker(theme.modify_theme, 'POST', [
+        ParamType.ThemeId,
+        ParamType.ThemeNameWithDefault,
+        ParamType.ThemeDescriptionWithDefault,
+        ParamType.ThemeDeadlineWithDefault
+    ], action=ActionType.AdminDelete))
 ]

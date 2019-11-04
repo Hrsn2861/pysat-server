@@ -22,11 +22,12 @@ class SchoolHelper:
     """
 
     @staticmethod
-    def add_school(user_id, schoolname, description):
+    def add_school(user_id, schoolname, description, headmaster_id):
         """add school
         """
         school = School(schoolname=schoolname, description=description, creator=user_id)
         school.save()
+        PermissionHelper.set_permission(headmaster_id, school.id, 4)
         return school.id
 
     @staticmethod

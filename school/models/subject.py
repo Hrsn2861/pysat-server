@@ -104,6 +104,23 @@ class SubjectHelper:
         return subjects
 
     @staticmethod
+    def get_subject_with_schoolid(subject_id):
+        """get a subject
+        """
+        qs = Subject.objects.filter(id=subject_id)
+        if qs.exists():
+            subject = qs.last()
+            return {
+                'id' : subject.id,
+                'title' : subject.title,
+                'school_id' : subject.school_id,
+                'description' : subject.description,
+                'create_time' : subject.create_time,
+                'deadline' : subject.deadline
+            }
+        return None
+
+    @staticmethod
     def get_subject(subject_id):
         """get a subject
         """
@@ -124,3 +141,41 @@ class SubjectHelper:
                 'deadline' : subject.deadline
             }
         return None
+
+    @staticmethod
+    def delete_subject(subject_id):
+        """delete a subject
+        """
+        qs = Subject.objects.filter(id=subject_id)
+        if qs.exists():
+            subject = qs.last()
+        else:
+            return False
+        subject.delete()
+        return True
+
+    @staticmethod
+    def modify_theme(subject_id, info):
+        """modify user's info
+        """
+        if not isinstance(subject_id, int):
+            return False
+        subjects = Subject.objects.filter(id=subject_id)
+        if subjects.exists():
+            subject = subjects.last()
+        else:
+            return False
+
+        title = info.get('title')
+        description = info.get('description')
+        deadline = info.get('deadline')
+
+        if isinstance(title, str):
+            subject.realname = title
+        if isinstance(description, str):
+            subject.description = description
+        if isinstance(deadline, str):
+            subject.deadline = deadline
+
+        subject.save()
+        return True
