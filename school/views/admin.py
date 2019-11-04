@@ -2,7 +2,7 @@
 """
 import utils.response as Response
 
-from school.models import SchoolApplyHelper
+from school.models import SchoolApplyHelper, SchoolHelper
 from utils.params import ParamType
 from user.models import PermissionHelper
 
@@ -35,6 +35,7 @@ def approve(package):
     return Response.checked_response('Approve Successed')
 
 def get_apply_list(package):
+    # pylint: disable-msg=too-many-return-statements
     """ Processing the request of getting apply list
     """
     user = package.get('user')
@@ -48,6 +49,18 @@ def get_apply_list(package):
     params = package.get('params')
     list_type = params.get(ParamType.ApplyListType)
     page_num = params.get(ParamType.Page)
+    target_schoolid = int(params.get(ParamType.SchoolId))
+
+    if target_schoolid == 0:
+        return Response.error_response('Invalid SchoolId')
+
+    admin_permission = PermissionHelper.get_permission(user_id, school_id)
+
+    if admin_permission < 8:
+        if school_id != target_schoolid:
+            print(school_id, target_schoolid)
+            return Response.error_response('Access Denied')
+
     if list_type is None:
         list_type = 0
     list_type = int(list_type)
@@ -58,10 +71,14 @@ def get_apply_list(package):
         return Response.error_response('Invalid list type')
     if page_num < 1:
         return Response.error_response('Invalid page number')
-    apply_list = SchoolApplyHelper.get_applies(school_id, list_type, page_num)
+    apply_list = SchoolApplyHelper.get_applies(target_schoolid, list_type, page_num)
+
+    school = SchoolHelper.get_school(target_schoolid)
+    if school is None:
+        return Response.error_response('No School')
 
     ret = {
-        'tot_count' : SchoolApplyHelper.get_applies_count(school_id, list_type),
+        'tot_count' : SchoolApplyHelper.get_applies_count(target_schoolid, list_type),
         'now_count' : len(apply_list),
         'apply_list' : apply_list
     }
