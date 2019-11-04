@@ -48,7 +48,7 @@ def get_apply_list(package):
     list_type = params.get(ParamType.ApplyListType)
     page_num = params.get(ParamType.Page)
     target_schoolid = int(params.get(ParamType.SchoolId))
-    
+
     if school_id == 0:
         permission_public = PermissionHelper.get_permission(user_id, 0)
         if permission_public < 8:
