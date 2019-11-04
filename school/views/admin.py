@@ -35,6 +35,7 @@ def approve(package):
     return Response.checked_response('Approve Successed')
 
 def get_apply_list(package):
+    # pylint: disable-msg=too-many-return-statements
     """ Processing the request of getting apply list
     """
     user = package.get('user')
