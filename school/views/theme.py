@@ -97,3 +97,33 @@ def delete_theme(package):
             return Response.error_response('Acess Denied')
     SubjectHelper.delete_subject(theme_id)
     return Response.checked_response('Delete Success')
+
+def modify_theme(package):
+    """modify theme
+    """
+    user = package.get('user')
+    user_id = user.get('id')
+    school_id = PermissionHelper.get_user_school(user_id)
+
+    params = package.get('params')
+    theme_id = int(params.get(ParamType.ThemeId))
+    title = params.get(ParamType.ThemeNameWithDefault)
+    description = params.get(ParamType.ThemeDescriptionWithDefault)
+    deadline = params.get(ParamType.ThemeDeadlineWithDefault)
+
+    theme = SubjectHelper.get_subject_with_schoolid(theme_id)
+    if theme is None:
+        return Response.error_response('No Subject')
+    theme_schoolid = theme.get('school_id')
+
+    private_permission = PermissionHelper.get_permission(user_id, school_id)
+
+    if private_permission < 4:                                  #非高级管理员
+        return Response.error_response('Access Denied')
+
+    if private_permission < 8:                                  #非超级用户
+        if school_id != theme_schoolid:                         #学校必须匹配
+            return Response.error_response('Acess Denied')
+
+    SubjectHelper.mofidy_subject(theme_id, title, description, deadline)
+    return Response.checked_response('Modify Success')

@@ -153,3 +153,29 @@ class SubjectHelper:
             return False
         subject.delete()
         return True
+
+    @staticmethod
+    def modify_theme(subject_id, info):
+        """modify user's info
+        """
+        if not isinstance(subject_id, int):
+            return False
+        subjects = Subject.objects.filter(id=subject_id)
+        if subjects.exists():
+            subject = subjects.last()
+        else:
+            return False
+
+        title = info.get('title')
+        description = info.get('description')
+        deadline = info.get('deadline')
+
+        if isinstance(title, str):
+            subject.realname = title
+        if isinstance(description, str):
+            subject.description = description
+        if isinstance(deadline, str):
+            subject.deadline = deadline
+
+        subject.save()
+        return True

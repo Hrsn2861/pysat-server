@@ -122,7 +122,7 @@ class ParamType(Enum):
         'Theme Deadline', 'theme_deadline', False, True, 'string', UserInfoType.Pass
     )
     ThemeDeadlineWithDefault = (
-        'Theme Deadline', 'theme_deadline', False, True, 'string', UserInfoType.Pass
+        'Theme Deadline', 'theme_deadline', False, False, 'string', UserInfoType.Pass
     )
 
     SearchText = ('Search Text', 'search_text', False, False, 'string', UserInfoType.Pass)
