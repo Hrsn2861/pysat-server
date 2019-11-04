@@ -6,6 +6,7 @@ from django.conf.urls import url, include
 from . import school
 from . import user
 from . import admin
+from . import theme
 
 urlpatterns = [
     url(r'^school/', include(school)),
