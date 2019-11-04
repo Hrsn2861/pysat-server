@@ -10,5 +10,6 @@ from . import admin
 urlpatterns = [
     url(r'^school/', include(school)),
     url(r'^user/', include(user)),
-    url(r'^admin/', include(admin))
+    url(r'^admin/', include(admin)),
+    url(r'^theme/', include(theme))
 ]
