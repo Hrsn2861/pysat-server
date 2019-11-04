@@ -41,6 +41,8 @@ class ActionType(Enum):
     Approve = 2
     GetApplyList = 2
 
+    ThemeCreate = 1
+
 class PermissionManager:
     """Permission Manager
     """
