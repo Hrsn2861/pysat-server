@@ -24,7 +24,10 @@ def check_session(package):
     school_id = PermissionHelper.get_user_school(user_id)
     if school_id == 0:
         school_name = 'public area'
-        permission_private = -1
+        if permission_public > 4:
+            permission_private = permission_public
+        else:
+            permission_private = -1
     else:
         school_name = SchoolHelper.get_school(school_id).get('schoolname')
         permission_private = PermissionHelper.get_permission(user_id, school_id)
