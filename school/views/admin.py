@@ -28,7 +28,7 @@ def approve(package):
     if status == 'true':
         status = 1
     else:
-        status = 0
+        status = 2
 
     SchoolApplyHelper.judge_apply(apply_id, user_id, status)
     PermissionHelper.user_join_school(apply_user_id, school_id)
@@ -38,6 +38,8 @@ def get_apply_list(package):
     """ Processing the request of getting apply list
     """
     user = package.get('user')
+    if user is None:
+        return Response.error_response('No User')
     user_id = user.get('id')
     school_id = PermissionHelper.get_user_school(user_id)
     if school_id == 0:
@@ -48,16 +50,19 @@ def get_apply_list(package):
     page_num = params.get(ParamType.Page)
     if list_type is None:
         list_type = 0
+    list_type = int(list_type)
     if page_num is None:
         page_num = 1
+    page_num = int(page_num)
     if list_type not in [0, 1, 2]:
         return Response.error_response('Invalid list type')
-    if int(page_num) < 1:
+    if page_num < 1:
         return Response.error_response('Invalid page number')
     apply_list = SchoolApplyHelper.get_applies(school_id, list_type, page_num)
-    tot_count = SchoolApplyHelper.get_applies_count(school_id, list_type)
-    return Response.success_response({
-        'tot_count': tot_count,
-        'now_count': len(apply_list),
-        'apply_list': apply_list
-        })
+
+    ret = {
+        'tot_count' : SchoolApplyHelper.get_applies_count(school_id, list_type),
+        'now_count' : len(apply_list),
+        'apply_list' : apply_list
+    }
+    return Response.success_response(ret)
