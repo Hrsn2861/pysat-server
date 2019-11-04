@@ -14,5 +14,9 @@ urlpatterns = [
         ParamType.ThemeName,
         ParamType.ThemeDescription,
         ParamType.ThemeDeadline
-    ], action=ActionType.ThemeCreate))
+    ], action=ActionType.ThemeCreate)),
+    path('list', view_maker(theme.get_list, 'GET', [
+        ParamType.SchoolId,
+        ParamType.Page
+    ], action=ActionType.UserGet))
 ]

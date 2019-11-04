@@ -9,18 +9,20 @@ from user.models import UserHelper
 def create_school(package):
     """ Processing the request of creating a school
     """
+    user = package.get('user')
+    creator_id = user.get('id')
+
     params = package.get('params')
     user_name = params.get(ParamType.Username)
     school_name = params.get(ParamType.SchoolName)
     description = params.get(ParamType.SchoolDescription)
-    if user_name is None:
-        user = package.get('user')
-    else:
-        user = UserHelper.get_user_by_username(user_name)
-    if user is None:
+
+    headmaster = UserHelper.get_user_by_username(user_name)
+
+    if headmaster is None:
         return Response.error_response("No User")
 
-    SchoolHelper.add_school(user.get('id'), school_name, description)
+    SchoolHelper.add_school(creator_id, school_name, description, headmaster.get('id'))
     return Response.checked_response('Create Succeessful')
 
 def get_school_list(package):
