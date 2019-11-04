@@ -28,7 +28,7 @@ def get_info(package):
     school_id = PermissionHelper.get_user_school(user_id)
     if school_id == 0:
         schoolname = 'public area'
-        permission_private = -1
+        permission_private = permission_public
     else:
         permission_private = PermissionHelper.get_permission(user_id, school_id)
         school = SchoolHelper.get_school(school_id)
