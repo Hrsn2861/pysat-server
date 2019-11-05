@@ -7,7 +7,7 @@ class ActionType(Enum):
     """
     GetUserInfo = 1
     ModifyMyInfo = 1
-    ModifyUserInfo = 5
+    ModifyUserInfo = 8
 
     GetUserList = 1
     GetAllUserList = 4
@@ -30,9 +30,9 @@ class ActionType(Enum):
     BannedUser = 0
     NormalUser = 1
     Teacher = 2
-    Master = 3
-    Manager = 4
-    SuperManager = 8
+    Master = 4
+    Manager = 8
+    SuperManager = 16
 
     CreateSchool = 8
     ApplyForSchool = 1
