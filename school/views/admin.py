@@ -46,7 +46,7 @@ def get_apply_list(package):
     if user is None:
         return Response.error_response('No User')
     user_id = user.get('id')
-    school_id = PermissionHelper.get_user_school(user_id)
+    # school_id = PermissionHelper.get_user_school(user_id)
 
     params = package.get('params')
     list_type = params.get(ParamType.ApplyListType)
