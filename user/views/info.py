@@ -52,6 +52,7 @@ def modify_info(package):
     # pylint: disable-msg=too-many-locals
     # pylint: disable-msg=too-many-return-statements
     # pylint: disable-msg=too-many-branches
+    # pylint: disable-msg=too-many-statements
     """Process the request of modyfying user's info
     """
     user = package.get('user')
@@ -88,9 +89,7 @@ def modify_info(package):
     )
     public_permission = user.get('permission')
 
-    if public_permission <= 1:                              #如果是屌丝
-        return Response.error_response('Access Denied')
-    if private_permission <= 1:                             #如果是屌丝
+    if public_permission <= 1 and private_permission <= 1:      #如果是屌丝
         return Response.error_response('Access Denied')
 
     #现在修改人员权限 >= 2
@@ -111,9 +110,10 @@ def modify_info(package):
 
     if schoolid == 0:                                       #如果是在野管理员
         if target_public_permission > public_permission:    #不能改领导权限
-            return Response.error_response('Access Denied')
-        if modify_private_permission is not None:       #不能修改学校权限
-            return Response.error_response('Access Denied')
+            return Response.error_response('Access Denied:  Can\'t modify your superior')
+        if public_permission < 8:
+            if modify_private_permission is not None:       #不能修改学校权限
+                return Response.error_response('Access Denied: Not The Same School')
         if modify_public_permission is not None:        #修改在野权限
             UserHelper.modify_user(target_userid, {
                 'permission' : modify_public_permission
