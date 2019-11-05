@@ -35,4 +35,4 @@ class TestUserListByRequest(TestCase):
             'school_id' : 0
         })
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(analyse_response(response).get('msg'), 'Access Denied')
+        self.assertEqual(analyse_response(response).get('msg'), 'Success')
