@@ -35,7 +35,7 @@ class SchoolHelper:
         """school to dict
         """
         return {
-            'name' : school.school_name,
+            'schoolname' : school.schoolname,
             'description' : school.description,
             'creator' : UserHelper.get_name_by_id(school.creator)
         }
