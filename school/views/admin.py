@@ -43,6 +43,8 @@ def get_apply_list(package):
         return Response.error_response('No User')
     user_id = user.get('id')
     school_id = PermissionHelper.get_user_school(user_id)
+    if school_id == 0 and user['permission'] < 8:
+        return Response.error_response("You are not in a school")
 
     params = package.get('params')
     list_type = params.get(ParamType.ApplyListType)

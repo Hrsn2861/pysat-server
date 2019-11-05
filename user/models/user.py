@@ -238,3 +238,16 @@ class UserHelper:
             user = UserHelper.query_to_user(user)
             ret.append(user)
         return ret
+
+    @staticmethod
+    def modify_permission_for_test(user_id, permission):
+        """modify for unit-test
+        """
+        users = User.objects.filter(id=user_id)
+        if users.exists():
+            user = users.last()
+        else:
+            return False
+        user.permission = permission
+        user.save()
+        return True

@@ -22,6 +22,9 @@ def create_school(package):
     if headmaster is None:
         return Response.error_response("No User")
 
+    if SchoolHelper.get_school_by_name(school_name) is not None:
+        return Response.error_response('School Exist')
+
     SchoolHelper.add_school(creator_id, school_name, description, headmaster.get('id'))
     return Response.checked_response('Create Succeessful')
 
