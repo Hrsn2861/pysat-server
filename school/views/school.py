@@ -2,8 +2,8 @@
 """
 import utils.response as Response
 
-from school.models import SchoolHelper
 from utils.params import ParamType
+from school.models import SchoolHelper
 from user.models import UserHelper
 
 def create_school(package):

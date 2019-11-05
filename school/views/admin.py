@@ -2,8 +2,9 @@
 """
 import utils.response as Response
 
-from school.models import SchoolApplyHelper, SchoolHelper
 from utils.params import ParamType
+from utils.permission import PermissionManager, ActionType
+from school.models import SchoolApplyHelper, SchoolHelper
 from user.models import PermissionHelper
 
 def approve(package):
@@ -15,6 +16,9 @@ def approve(package):
     school_id = PermissionHelper.get_user_school(user_id)
     if school_id == 0:
         return Response.error_response("You are not in a school")
+    permission = PermissionHelper.get_permission(user_id, school_id)
+    if not PermissionManager.check_permission(permission, ActionType.Approve):
+        return Response.error_response('Access Denied')
 
     params = package.get('params')
     apply_id = int(params.get(ParamType.ApplyId))
@@ -49,22 +53,12 @@ def get_apply_list(package):
     page_num = params.get(ParamType.Page)
     target_schoolid = int(params.get(ParamType.SchoolId))
 
-    if school_id == 0:
-        permission_public = PermissionHelper.get_permission(user_id, 0)
-        if permission_public < 8:
-            return Response.error_response(
-                'You are not a super administrator or in a school'
-                )
-
     if target_schoolid == 0:
         return Response.error_response('Invalid SchoolId')
 
-    admin_permission = PermissionHelper.get_permission(user_id, school_id)
-
-    if admin_permission < 8:
-        if school_id != target_schoolid:
-            print(school_id, target_schoolid)
-            return Response.error_response('Access Denied')
+    permission = PermissionHelper.get_permission(user_id, target_schoolid)
+    if not PermissionManager.check_permission(permission, ActionType.GetApplyList):
+        return Response.error_response('Access Denied')
 
     if list_type is None:
         list_type = 0
