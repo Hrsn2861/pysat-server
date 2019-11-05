@@ -143,6 +143,28 @@ class SubjectHelper:
         return None
 
     @staticmethod
+    def get_subject_by_name(themename):
+        """get a subject by name
+        """
+        qs = Subject.objects.filter(title=themename)
+        if qs.exists():
+            subject = qs.last()
+            school = SchoolHelper.get_school(subject.school_id)
+            if school is None:
+                schoolname = '-'
+            else:
+                schoolname = school.get('schoolname')
+            return {
+                'id' : subject.id,
+                'title' : subject.title,
+                'schoolname' : schoolname,
+                'description' : subject.description,
+                'create_time' : subject.create_time,
+                'deadline' : subject.deadline
+            }
+        return None
+
+    @staticmethod
     def delete_subject(subject_id):
         """delete a subject
         """

@@ -4,6 +4,7 @@ add some items into database for test
 """
 from session.models import SessionHelper
 from user.models import VerifyHelper, UserHelper
+from school.models import SchoolHelper
 from utils.response import analyse_response
 from utils.cipher import encrypt
 
@@ -103,3 +104,31 @@ class Initialization:
         })
 
         testcase.assertEqual(response.status_code, 200)
+
+    @staticmethod
+    def create_theme(testcase, schoolname, themename, description, deadline):
+        """create a theme
+        """
+        school = SchoolHelper.get_school_by_name(schoolname)
+        schoolid = int(school.get('id'))
+        response = testcase.client.post('/school/theme/create', {
+            'token' : testcase.token,
+            'school_id' : schoolid,
+            'theme_name' : themename,
+            'theme_description' : description,
+            'theme_deadline' : deadline
+        })
+
+        testcase.assertEqual(response.status_code, 200)
+
+    @staticmethod
+    def promote_user(testcase, permission):
+        """promote a user
+        """
+        response = testcase.client.get('/user/info/get', {
+            'token' : testcase.token
+        })
+        response = analyse_response(response)
+        data = response.get('data')
+        user_id = data.get('user').get('id')
+        UserHelper.modify_permission_for_test(user_id, permission)
