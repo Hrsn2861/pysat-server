@@ -2,7 +2,7 @@
 """
 from django.db import models
 
-from utils import getdate_now
+from utils import getdate_now, date_to_string
 from user.models import UserHelper
 
 class SchoolApply(models.Model):
@@ -47,7 +47,7 @@ class SchoolApplyHelper:
             'userid' : apply.user_id,
             'schoolid' : apply.school_id,
             'reason' : apply.message,
-            'apply_time' : apply.apply_time,
+            'apply_time' : date_to_string(apply.apply_time),
             'judger' : apply.judge,
             'status' : apply.status
         }
@@ -118,7 +118,7 @@ class SchoolApplyHelper:
                 'id' : apply.id,
                 'username' : username,
                 'reason' : apply.message,
-                'time' : apply.apply_time,
+                'time' : date_to_string(apply.apply_time),
                 'judger' : judger,
                 'status' : apply.status
             })
