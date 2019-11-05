@@ -43,7 +43,7 @@ def get_info(package):
     user.update({
         'school_name' : schoolname,
         'permission_public' : permission_public,
-        'permission_pirvate' : permission_private,
+        'permission_private' : permission_private,
         'download' : download
     })
     return Response.success_response({'user' : user})
