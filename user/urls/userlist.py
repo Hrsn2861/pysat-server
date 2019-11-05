@@ -14,5 +14,5 @@ urlpatterns = [
         ParamType.ManagerFirst,
         ParamType.SchoolId,
         ParamType.Page
-    ], action=ActionType.GetAllUserList))
+    ]))
 ]
