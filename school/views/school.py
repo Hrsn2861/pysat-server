@@ -22,6 +22,9 @@ def create_school(package):
     if headmaster is None:
         return Response.error_response("No User")
 
+    if SchoolHelper.get_school_by_name(school_name) is not None:
+        return Response.error_response('School Exist')
+
     SchoolHelper.add_school(creator_id, school_name, description, headmaster.get('id'))
     return Response.checked_response('Create Succeessful')
 
@@ -38,6 +41,14 @@ def get_school_list(package):
         return Response.error_response('Invalid Page Number')
 
     school_list = SchoolHelper.get_school_list(page, search_text)
+
+    for school in school_list:
+        buf_name = school.get('schoolname')
+        del school['schoolname']
+        school.update({
+            'name' : buf_name
+        })
+
     tot_count = SchoolHelper.get_school_count(search_text)
     return Response.success_response({
         'tot_count' : tot_count,

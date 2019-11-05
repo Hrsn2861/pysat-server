@@ -67,7 +67,7 @@ def get_list(package):
     ret = {
         'tot_count' : SubjectHelper.get_subject_count(target_schoolid, 0),
         'now_count' : len(theme_list),
-        'list' : theme_list
+        'theme_list' : theme_list
     }
 
     return Response.success_response(ret)

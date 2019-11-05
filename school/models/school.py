@@ -79,7 +79,7 @@ class SchoolHelper:
             school = schools.last()
             return {
                 'id' : school_id,
-                'name' : school.schoolname,
+                'schoolname' : school.schoolname,
                 'description' : school.description,
                 'headmaster' : UserHelper.get_name_by_id(headmaster_id),
                 'population' : PermissionHelper.get_school_population(school_id)
@@ -94,4 +94,21 @@ class SchoolHelper:
         if schools.exists():
             school = schools.last()
             return school.schoolname
+        return None
+
+    @staticmethod
+    def get_school_by_name(school_name):
+        """get schoolname
+        """
+        schools = School.objects.filter(schoolname=school_name)
+        if schools.exists():
+            school = schools.last()
+            headmaster_id = PermissionHelper.get_school_headmaster(school.id)
+            return {
+                'id' : school.id,
+                'schoolname' : school.schoolname,
+                'description' : school.description,
+                'headmaster' : UserHelper.get_name_by_id(headmaster_id),
+                'population' : PermissionHelper.get_school_population(school.id)
+            }
         return None

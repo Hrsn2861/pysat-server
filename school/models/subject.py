@@ -2,7 +2,7 @@
 """
 from django.db import models
 
-from utils import getdate_now
+from utils import getdate_now, date_to_string
 from school.models.school import SchoolHelper
 
 class Subject(models.Model):
@@ -98,8 +98,8 @@ class SubjectHelper:
                 'id' : subject.id,
                 'title' : subject.title,
                 'description' : subject.description,
-                'create_time' : subject.create_time,
-                'deadline' : subject.deadline
+                'create_time' : date_to_string(subject.create_time),
+                'deadline' : date_to_string(subject.deadline)
             })
         return subjects
 
@@ -115,8 +115,8 @@ class SubjectHelper:
                 'title' : subject.title,
                 'school_id' : subject.school_id,
                 'description' : subject.description,
-                'create_time' : subject.create_time,
-                'deadline' : subject.deadline
+                'create_time' : date_to_string(subject.create_time),
+                'deadline' : date_to_string(subject.deadline)
             }
         return None
 
@@ -137,8 +137,30 @@ class SubjectHelper:
                 'title' : subject.title,
                 'schoolname' : schoolname,
                 'description' : subject.description,
-                'create_time' : subject.create_time,
-                'deadline' : subject.deadline
+                'create_time' : date_to_string(subject.create_time),
+                'deadline' : date_to_string(subject.deadline)
+            }
+        return None
+
+    @staticmethod
+    def get_subject_by_name(themename):
+        """get a subject by name
+        """
+        qs = Subject.objects.filter(title=themename)
+        if qs.exists():
+            subject = qs.last()
+            school = SchoolHelper.get_school(subject.school_id)
+            if school is None:
+                schoolname = '-'
+            else:
+                schoolname = school.get('schoolname')
+            return {
+                'id' : subject.id,
+                'title' : subject.title,
+                'schoolname' : schoolname,
+                'description' : subject.description,
+                'create_time' : date_to_string(subject.create_time),
+                'deadline' : date_to_string(subject.deadline)
             }
         return None
 
