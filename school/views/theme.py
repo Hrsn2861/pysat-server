@@ -5,7 +5,6 @@ import utils.response as Response
 from school.models import SubjectHelper
 from program.models import ProgramHelper
 from utils.params import ParamType
-from utils import date_to_string
 from user.models import PermissionHelper
 
 def create_theme(package):
