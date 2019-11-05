@@ -133,3 +133,4 @@ class ParamType(Enum):
     VideoTitle = ('Video Title', 'video_title', False, True, 'string', UserInfoType.Pass)
     FileKey = ('File Key', 'key', False, True, 'string', UserInfoType.Pass)
     ChunkId = ('Chunk ID', 'chunk', False, True, 'integer', UserInfoType.Pass)
+    VideoID = ('Video ID', 'video_id', False, True, 'integer', UserInfoType.Pass)
