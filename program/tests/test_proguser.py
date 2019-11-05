@@ -78,11 +78,9 @@ class TestProgramUserByRequest(TestCase):
 
         data = analyse_response(response)
         self.assertEqual(data.get('msg'), 'Program not valid')
-    
+
     def test_0003(self):
         """this is a test of user download
-        """
-        """this is a test of like
         """
         school = SchoolHelper.get_school_by_name('测试大学')
         school_id = school.get('id')

@@ -79,7 +79,7 @@ class SchoolHelper:
             school = schools.last()
             return {
                 'id' : school_id,
-                'name' : school.schoolname,
+                'schoolname' : school.schoolname,
                 'description' : school.description,
                 'headmaster' : UserHelper.get_name_by_id(headmaster_id),
                 'population' : PermissionHelper.get_school_population(school_id)
