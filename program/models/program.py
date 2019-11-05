@@ -147,6 +147,16 @@ class ProgramHelper:
         return None
 
     @staticmethod
+    def get_program_by_name(title):
+        """get a program by title
+        """
+        programs = Program.objects.filter(name=title)
+        if programs.exists():
+            program = programs.last()
+            return ProgramHelper.program_to_dict(program)
+        return None
+
+    @staticmethod
     def get_programs_count(params):
         """get programs count with params
         """
