@@ -2,8 +2,8 @@
 """
 import utils.response as Response
 
-from school.models import SchoolHelper
 from utils.params import ParamType
+from school.models import SchoolHelper
 from user.models import UserHelper
 
 def create_school(package):
@@ -41,6 +41,14 @@ def get_school_list(package):
         return Response.error_response('Invalid Page Number')
 
     school_list = SchoolHelper.get_school_list(page, search_text)
+
+    for school in school_list:
+        buf_name = school.get('schoolname')
+        del school['schoolname']
+        school.update({
+            'name' : buf_name
+        })
+
     tot_count = SchoolHelper.get_school_count(search_text)
     return Response.success_response({
         'tot_count' : tot_count,
