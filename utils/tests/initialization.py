@@ -90,3 +90,16 @@ class Initialization:
             'token' : testcase.token
         })
         testcase.assertEqual(response.status_code, 200)
+
+    @staticmethod
+    def create_school(testcase, schoolname, description, headmaster):
+        """create a school
+        """
+        response = testcase.client.post('/school/school/create', {
+            'token' : testcase.token,
+            'username' : headmaster,
+            'school_name' : schoolname,
+            'school_description' : description
+        })
+
+        testcase.assertEqual(response.status_code, 200)
