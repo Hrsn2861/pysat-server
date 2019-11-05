@@ -35,3 +35,10 @@ class ConfigHelper:
         """
         text = ConfigHelper.get_config(name='phone_verify_able', default_value="false")
         return text == 'true'
+
+    @staticmethod
+    def get_size_per_page():
+        """get the size of a page
+        """
+        text = ConfigHelper.get_config(name='size_per_page', default_value='20')
+        return int(text)

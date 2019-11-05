@@ -20,7 +20,7 @@ def store_file(filename, chunks, filetype, chunkpath=None):
             else:
                 with open(os.path.join(chunkpath, chunk), 'rb') as src:
                     dest.write(src.read())
-    return filename, pwd
+    return filename, pwd, os.path.getsize(pwd)
 
 def store_chunk(key, index, file):
     """ to store a chunk

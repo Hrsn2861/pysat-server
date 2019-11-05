@@ -7,9 +7,8 @@ import glob
 
 import utils.file as File
 import utils.response as Response
-from utils import getdate_now, randkey
 from utils.params import ParamType
-from file.models import AttechmentHelper
+from file.models import AttechmentHelper, VideoHelper
 
 def test(package):
     """method for uploading
@@ -17,7 +16,7 @@ def test(package):
     file = package.get('file')
     if not file:
         return Response.error_response('NoFILE')
-    name, pwd = File.store_file(file.name, file.chunks(), 'file')
+    name, pwd, _ = File.store_file(file.name, file.chunks(), 'file')
     AttechmentHelper.add_file(0, pwd, name)
     return Response.checked_response('Upload')
 
@@ -54,16 +53,16 @@ def chunk(package):
 def done(package):
     """method for merge chunks
     """
+    user = package.get('user')
     params = package.get('params')
     key = params.get(ParamType.FileKey)
     filepath = os.path.join('/mnt/media', 'chunks')
     filepath = os.path.join(filepath, key)
     with open(os.path.join(filepath, 'config'), 'rb') as file:
         (school_id, category_id, filename, video_title, description) = pickle.load(file)
-    print(school_id, category_id)
-    #  File.store_file(filename, [str(i + 1) for range()])
     number = len(glob.glob(os.path.join(filepath, 'chunk') + '*'))
     chunks = ['chunk' + str(i) for i in range(number)]
-    filename, pwd = File.store_file(filename, chunks, 'video', filepath)
-    print(filename, pwd)
+    _, pwd, filesize = File.store_file(filename, chunks, 'video', filepath)
+    VideoHelper.add_video(
+        user['id'], video_title, description, filename, pwd, school_id, category_id, filesize)
     return Response.success_response(None)
