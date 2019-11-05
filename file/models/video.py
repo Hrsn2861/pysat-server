@@ -57,7 +57,7 @@ class VideoHelper:
             'filename' : video.filename,
             'filepath' : video.filepath,
             'school' : video.school,
-            'user' : UserHelper.get_name_by_id(video.user_id),
+            'user' : UserHelper.get_name_by_id(video.uploader),
             'category' : video.category
         }
 
