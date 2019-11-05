@@ -6,6 +6,7 @@ from utils.params import ParamType
 from utils.permission import PermissionManager, ActionType
 from school.models import SchoolApplyHelper, SchoolHelper
 from user.models import PermissionHelper
+from utils import date_to_string
 
 def approve(package):
     """ Processing the request of creating a school
