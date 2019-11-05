@@ -3,6 +3,7 @@ module for uploading file
 """
 import os
 import pickle
+import glob
 
 import utils.file as File
 import utils.response as Response
@@ -29,9 +30,9 @@ def start(package):
     filename = params.get(ParamType.Filename)
     video_title = params.get(ParamType.VideoTitle)
     description = params.get(ParamType.Description)
+    key = params.get(ParamType.FileKey)
 
     filepath = os.path.join('/mnt/media', 'chunks')
-    key = getdate_now().strftime('%Y%m%d%H%M%S') + randkey(length=12)
     filepath = os.path.join(filepath, key)
     os.makedirs(filepath)
     with open(os.path.join(filepath, 'config'), 'wb') as file:
@@ -41,20 +42,28 @@ def start(package):
 def chunk(package):
     """method for upload a chunk
     """
-    # params = package.get('params')
-    # key = params.get(ParamType.FileKey)
-    # print('chunk', key)
-    request = package# package.get('request')
-    for k, _ in request.POST.items():
-        print(k)
-    print('id' + str(request.POST.get('chunk')))
-    print('key' + str(request.POST.get('key')))
-    return Response.error_response(str(request.POST.get('key')))
+    params = package.get('params')
+    key = params.get(ParamType.FileKey)
+    index = params.get(ParamType.ChunkId)
+    file = package.get('file')
+    if not file:
+        return Response.error_response('NoFILE')
+    File.store_chunk(key, index, file)
+    return Response.checked_response('Success')
 
 def done(package):
     """method for merge chunks
     """
     params = package.get('params')
     key = params.get(ParamType.FileKey)
-    print('key' + str(key))
+    filepath = os.path.join('/mnt/media', 'chunks')
+    filepath = os.path.join(filepath, key)
+    with open(os.path.join(filepath, 'config'), 'rb') as file:
+        (school_id, category_id, filename, video_title, description) = pickle.load(file)
+    print(school_id, category_id)
+    #  File.store_file(filename, [str(i + 1) for range()])
+    number = len(glob.glob(os.path.join(filepath, 'chunk') + '*'))
+    chunks = ['chunk' + str(i) for i in range(number)]
+    filename, pwd = File.store_file(filename, chunks, 'video', filepath)
+    print(filename, pwd)
     return Response.success_response(None)

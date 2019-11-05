@@ -13,9 +13,13 @@ urlpatterns = [
         ParamType.CategoryId,
         ParamType.Filename,
         ParamType.VideoTitle,
-        ParamType.Description
+        ParamType.Description,
+        ParamType.FileKey
     ])),
-    path('chunk', views.chunk),
+    path('chunk', view_maker(views.chunk, 'POST', [
+        ParamType.FileKey,
+        ParamType.ChunkId
+    ])),
     path('done', view_maker(views.done, 'POST', [
         ParamType.FileKey
     ]))
