@@ -127,3 +127,9 @@ class ParamType(Enum):
 
     SearchText = ('Search Text', 'search_text', False, False, 'string', UserInfoType.Pass)
     TypeWithDefault = ('Type', 'type', False, False, 'integer', UserInfoType.Pass)
+
+    CategoryId = ('Category ID', 'category_id', False, True, 'integer', UserInfoType.Pass)
+    Filename = ('Filename', 'filename', False, True, 'string', UserInfoType.Pass)
+    VideoTitle = ('Video Title', 'video_title', False, True, 'string', UserInfoType.Pass)
+    FileKey = ('File Key', 'key', False, True, 'string', UserInfoType.Pass)
+    ChunkId = ('Chunk ID', 'chunk', False, True, 'integer', UserInfoType.Pass)
