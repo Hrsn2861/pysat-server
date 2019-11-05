@@ -35,7 +35,7 @@ class SchoolHelper:
         """school to dict
         """
         return {
-            'schoolname' : school.school_name,
+            'name' : school.school_name,
             'description' : school.description,
             'creator' : UserHelper.get_name_by_id(school.creator)
         }
@@ -79,7 +79,7 @@ class SchoolHelper:
             school = schools.last()
             return {
                 'id' : school_id,
-                'schoolname' : school.schoolname,
+                'name' : school.schoolname,
                 'description' : school.description,
                 'headmaster' : UserHelper.get_name_by_id(headmaster_id),
                 'population' : PermissionHelper.get_school_population(school_id)
