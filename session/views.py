@@ -29,7 +29,11 @@ def check_session(package):
         else:
             permission_private = -1
     else:
-        school_name = SchoolHelper.get_school(school_id).get('schoolname')
+        school = SchoolHelper.get_school(school_id)
+        if school is None:
+            school_name = '-'
+        else:
+            school_name = school.get('schoolname')
         permission_private = PermissionHelper.get_permission(user_id, school_id)
 
     school = {
