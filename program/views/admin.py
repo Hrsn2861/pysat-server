@@ -9,12 +9,38 @@ def download(package):
     """process the request of downloading
     """
     user = package.get('user')
+    user_id = user.get('id')
     params = package.get('params')
     program_id = (int)(params.get(ParamType.ProgramId))
     program = ProgramHelper.get_program(program_id)
 
     if program is None:
         return Response.error_response('No Program')
+
+    prog_schoolid = program.get('schoolid')
+    prog_status = program.get('status')
+
+    if prog_status not in [0, 1, 2, 3]:
+        return Response.error_response('Status not Valid')
+
+    school_id = PermissionHelper.get_user_school(user_id)
+    permission = PermissionHelper.get_permission(user_id, school_id)
+
+    if permission > 4:
+        if program.get('status') == 0:
+            ProgramHelper.judging(program_id)
+        info = {
+            'content' : program['code'],
+            'readme' : program['doc']
+        }
+        return Response.success_response({'code' : info})
+
+    if prog_schoolid == 0:
+        if user.get('permission') < 2:
+            return Response.error_response('Access Denied')
+
+    if school_id != prog_schoolid or permission < 2:
+        return Response.error_response('Access Denied')
 
     if program.get('status') == 0:
         ProgramHelper.judging(program_id)
