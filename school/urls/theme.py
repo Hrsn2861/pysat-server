@@ -27,5 +27,5 @@ urlpatterns = [
         ParamType.ThemeNameWithDefault,
         ParamType.ThemeDescriptionWithDefault,
         ParamType.ThemeDeadlineWithDefault
-    ], action=ActionType.AdminDelete))
+    ]))
 ]

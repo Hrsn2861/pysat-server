@@ -36,7 +36,7 @@ class SubjectHelper:
         subject.save()
 
     @staticmethod
-    def mofidy_subject(subject_id, title=None, description=None, deadline=None):
+    def modify_subject(subject_id, title=None, description=None, deadline=None):
         """modify subject
         """
         qs = Subject.objects.filter(id=subject_id)
