@@ -34,13 +34,28 @@ class TestProgramUserByRequest(TestCase):
         """
         Initialization.disconnect(self)
 
-    #def test_0001(self):
-    #    """this is a test for admin download
-    #    """
-    #    code_id = ProgramHelper.get_program_by_name('测试代码')
-    #    response = self.client.get('/program/admin/download', {
-    #        'token' : self.token,
-    #        'code_id' : code_id
-    #    })
-    #    data = analyse_response(response)
-    #    self.assertEqual(data.get('msg'), 'Success')
+    def test_0001(self):
+        """this is a test for admin download
+        """
+        code_id = ProgramHelper.get_program_by_name('测试代码').get('id')
+        response = self.client.get('/program/admin/download', {
+            'token' : self.token,
+            'code_id' : code_id
+        })
+        data = analyse_response(response)
+        self.assertEqual(data.get('msg'), 'Success')
+
+    def test0002(self):
+        """this is a test for admin status
+        """
+        code_id = ProgramHelper.get_program_by_name('测试代码').get('id')
+        source = 0
+        target = 1
+        response = self.client.post('/program/admin/status', {
+            'token' : self.token,
+            'code_id' : code_id,
+            'source' : source,
+            'target' : target
+        })
+        data = analyse_response(response)
+        self.assertEqual(data.get('msg'), 'Status Changed Successful')
