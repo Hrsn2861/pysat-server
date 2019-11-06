@@ -89,12 +89,20 @@ def change_status(package):
                 return Response.error_response('Can\'t change status')
             if ProgramHelper.change_status(code_id, source, target) is False:
                 return Response.error_response('Source Status Wrong')
+            if check == (4, 5):
+                ProgramHelper.upload(code_id)
+            if check == (1, 2):
+                ProgramHelper.judge_program(code_id, 2, user_id)
             return Response.checked_response('Status Changed Successful')
         #如果是 在野头目 则可以进行上传
         if check not in [(0, 1), (1, 2), (1, -1), (2, 3), (3, 4), (4, 5)]:
             return Response.error_response('Cannot Change Status')
         if ProgramHelper.change_status(code_id, source, target) is False:
             return Response.error_response('Source Status Wrong')
+        if check == (4, 5):
+            ProgramHelper.upload(code_id)
+        if check == (1, 2):
+            ProgramHelper.judge_program(code_id, 2, user_id)
         return Response.checked_response('Status Changed Successful')
 
     if school_id != program_schoolid:
@@ -107,10 +115,18 @@ def change_status(package):
             return Response.error_response('Can\'t change status')
         if ProgramHelper.change_status(code_id, source, target) is False:
             return Response.error_response('Source Status Wrong')
+        if check == (4, 5):
+            ProgramHelper.upload(code_id)
+        if check == (1, 2):
+            ProgramHelper.judge_program(code_id, 2, user_id)
         return Response.checked_response('Status Changed Successful')
 
     if check not in [(0, 1), (1, 2), (1, -1), (2, 3), (3, 4), (4, 5)]:
         return Response.error_response('Cannot Change Status')
     if ProgramHelper.change_status(code_id, source, target) is False:
         return Response.error_response('Source Status Wrong')
+    if check == (4, 5):
+        ProgramHelper.upload(code_id)
+    if check == (1, 2):
+        ProgramHelper.judge_program(code_id, 2, user_id)
     return Response.checked_response('Status Changed Successful')
