@@ -32,6 +32,8 @@ def store_chunk(key, index, file):
             dest.write(chunk)
 
 def file_iterator(filename, chunk_size=8192, offset=0, length=None):
+    """ get a file iterator for downloading
+    """
     with open(filename, 'rb') as file:
         file.seek(offset, os.SEEK_SET)
         remaining = length
