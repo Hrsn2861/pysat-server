@@ -27,6 +27,21 @@ def store_chunk(key, index, file):
     """
     filepath = os.path.join('/mnt/media', 'chunks')
     filepath = os.path.join(filepath, key)
-    with open(os.path.join(filepath, 'chunk' + str(index)), 'wb+') as dest:
+    with open(os.path.join(filepath, 'chunk' + str(index)), 'wb') as dest:
         for chunk in file.chunks():
             dest.write(chunk)
+
+def file_iterator(filename, chunk_size=8192, offset=0, length=None):
+    """ get a file iterator for downloading
+    """
+    with open(filename, 'rb') as file:
+        file.seek(offset, os.SEEK_SET)
+        remaining = length
+        while True:
+            bytes_length = chunk_size if remaining is None else min(remaining, chunk_size)
+            data = file.read(bytes_length)
+            if not data:
+                break
+            if remaining:
+                remaining -= len(data)
+            yield data
