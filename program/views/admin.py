@@ -63,10 +63,13 @@ def change_status(package):
 
     check = (source, target)
 
+    program = ProgramHelper.get_program(code_id)
+    program_schoolid = program.get('schoolid')
+
     user_id = user.get('id')
     school_id = PermissionHelper.get_user_school(user_id)
     permission = PermissionHelper.get_permission(user_id, school_id)
-    public_permission = user('permission')
+    public_permission = user.get('permission')
 
     if permission > 4:
         if check not in [(0, 1), (1, 2), (1, -1), (2, 3), (3, 4), (4, 5)]:
@@ -75,7 +78,7 @@ def change_status(package):
             return Response.error_response('Source Status Wrong')
         return Response.checked_response('Status Changed Successful')
 
-    if school_id == 0:
+    if program_schoolid == 0:
         if public_permission < 2:
             return Response.error_response('Access Denied')
         #如果是 在野审查员 不能上传
@@ -91,6 +94,9 @@ def change_status(package):
         if ProgramHelper.change_status(code_id, source, target) is False:
             return Response.error_response('Source Status Wrong')
         return Response.checked_response('Status Changed Successful')
+
+    if school_id != program_schoolid:
+        return Response.error_response('Access Denied: Not the same School')
 
     if permission < 2:
         return Response.error_response('Access Denied')
