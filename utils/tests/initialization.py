@@ -41,7 +41,7 @@ class Initialization:
         })
         testcase.assertEqual(response.status_code, 200)
         data = analyse_response(response)
-        testcase.assertEqual(data.get('status'), 1)
+        testcase.assertEqual(data.get('msg'), 'Success')
 
         session = SessionHelper.get_session_id(testcase.token, testcase.ip_addr)
         verifycode = VerifyHelper.get_latest_code(session, phone)
@@ -110,7 +110,10 @@ class Initialization:
         """create a theme
         """
         school = SchoolHelper.get_school_by_name(schoolname)
-        schoolid = int(school.get('id'))
+        if school is None:
+            schoolid = 0
+        else:
+            schoolid = int(school.get('id'))
         response = testcase.client.post('/school/theme/create', {
             'token' : testcase.token,
             'school_id' : schoolid,
@@ -126,7 +129,11 @@ class Initialization:
         #pylint: disable-msg=too-many-arguments
         """submit a program for test
         """
-        schoolid = SchoolHelper.get_school_by_name(schoolname).get('id')
+        school = SchoolHelper.get_school_by_name(schoolname)
+        if school is None:
+            schoolid = 0
+        else:
+            schoolid = school.get('id')
         themeid = SubjectHelper.get_subject_by_name(themename).get('id')
         response = testcase.client.post('/program/user/submit', {
             'token' : testcase.token,
@@ -164,3 +171,16 @@ class Initialization:
         data = response.get('data')
         user_id = data.get('user').get('id')
         UserHelper.modify_permission_for_test(user_id, permission)
+
+    @staticmethod
+    def promote_user_in_school(testcase, permission):
+        """promote a user in school
+        """
+        response = testcase.client.get('/user/info/get', {
+            'token' : testcase.token
+        })
+        response = analyse_response(response)
+        data = response.get('data')
+        user_id = data.get('user').get('id')
+        school = PermissionHelper.get_user_school(user_id)
+        PermissionHelper.set_permission(user_id, school, permission)
