@@ -10,13 +10,7 @@ class ActionType(Enum):
     ModifyUserInfo = 8
 
     GetUserList = 1
-    GetAllUserList = 4
-
     UserAction = 1
-
-    AdminUploadProgram = 4
-    AdminJudge = 4
-    AdminChangeStatus = 2
 
     UserLike = 1
     UserDownload = 1
