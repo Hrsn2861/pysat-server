@@ -53,6 +53,8 @@ def download(package):
     return Response.success_response({'code' : info})
 
 def change_status(package):
+    #pylint: disable-msg=too-many-return-statements
+    #pylint: disable-msg=too-many-branches
     """proecess the request of change status
     """
     user = package.get('user')
