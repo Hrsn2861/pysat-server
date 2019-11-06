@@ -3,8 +3,8 @@
 add some items into database for test
 """
 from session.models import SessionHelper
-from user.models import VerifyHelper, UserHelper
-from school.models import SchoolHelper
+from user.models import VerifyHelper, UserHelper, PermissionHelper
+from school.models import SchoolHelper, SubjectHelper
 from utils.response import analyse_response
 from utils.cipher import encrypt
 
@@ -120,6 +120,38 @@ class Initialization:
         })
 
         testcase.assertEqual(response.status_code, 200)
+
+    @staticmethod
+    def submit_program(testcase, name, content, readme, schoolname, themename):
+        #pylint: disable-msg=too-many-arguments
+        """submit a program for test
+        """
+        schoolid = SchoolHelper.get_school_by_name(schoolname).get('id')
+        themeid = SubjectHelper.get_subject_by_name(themename).get('id')
+        response = testcase.client.post('/program/user/submit', {
+            'token' : testcase.token,
+            'code_name' : name,
+            'code_content' : content,
+            'code_readme' : readme,
+            'school_id' : schoolid,
+            'theme_id' : themeid
+        })
+
+        testcase.assertEqual(response.status_code, 200)
+
+    @staticmethod
+    def add_user_to_school(testcase, schoolname):
+        """add a user to school
+        """
+        school = SchoolHelper.get_school_by_name(schoolname)
+        school_id = school.get('id')
+        response = testcase.client.get('/user/info/get', {
+            'token' : testcase.token
+        })
+        response = analyse_response(response)
+        data = response.get('data')
+        user_id = data.get('user').get('id')
+        PermissionHelper.user_join_school(user_id, school_id)
 
     @staticmethod
     def promote_user(testcase, permission):

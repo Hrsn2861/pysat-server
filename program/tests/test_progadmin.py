@@ -24,12 +24,23 @@ class TestProgramUserByRequest(TestCase):
         Initialization.promote_user(self, 16)
         Initialization.create_school(self, '测试大学', '世界一流大学', 'testuser')
         Initialization.create_theme(self, '测试大学', '计算机科学与技术', '贵系', '2099-10-30 00:00:00.000000')
+        Initialization.add_user_to_school(self, '测试大学')
+        Initialization.submit_program(
+            self, '测试代码', 'print("Hello World")', 'I am stupid', '测试大学', '计算机科学与技术'
+            )
 
     def tearDown(self):
         """This will be called after test
         """
         Initialization.disconnect(self)
 
-    def test_0001(self):
-        """this is a test for admin download
-        """
+    #def test_0001(self):
+    #    """this is a test for admin download
+    #    """
+    #    code_id = ProgramHelper.get_program_by_name('测试代码')
+    #    response = self.client.get('/program/admin/download', {
+    #        'token' : self.token,
+    #        'code_id' : code_id
+    #    })
+    #    data = analyse_response(response)
+    #    self.assertEqual(data.get('msg'), 'Success')

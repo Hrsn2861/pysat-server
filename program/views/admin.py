@@ -8,6 +8,7 @@ from user.models import PermissionHelper
 def download(package):
     """process the request of downloading
     """
+    user = package.get('user')
     params = package.get('params')
     program_id = (int)(params.get(ParamType.ProgramId))
     program = ProgramHelper.get_program(program_id)
