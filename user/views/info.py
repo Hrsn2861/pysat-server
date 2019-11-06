@@ -123,6 +123,10 @@ def modify_info(package):
             return Response.error_response(
                 'Modify Denied: Cannot Demote or Promote Headmaster Here'
                 )
+        if target_schoolid == 0 and modify_private_permission is not None:
+            return Response.error_response(
+                'Access Denied: Cannot Modify Schoolless User\'s private permission'
+                )
         UserHelper.modify_user(target_userid, {
             'permission' : modify_public_permission,
             'realname' : realname,
