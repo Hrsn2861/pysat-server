@@ -110,6 +110,8 @@ def modify_info(package):
     if modify_private_permission is not None:
         if modify_private_permission >= private_permission:     #不能越界
             return Response.error_response('Access Denied: Cannot Promote Someone to Superior')
+        if modify_private_permission < 0:
+            return Response.error_response('Access Denied: Cannot Tuixue Student Here')
     if modify_public_permission is not None:
         if modify_public_permission >= public_permission:       #不能越界
             return Response.error_response('Access Denied: Cannot Promote Someone to Superior')
