@@ -25,6 +25,10 @@ def approve(package):
 
     apply = SchoolApplyHelper.get_apply_by_id(apply_id)
     apply_user_id = apply.get('userid')
+    apply_user_school = PermissionHelper.get_user_school(apply_user_id)
+    if apply_user_school != school_id:
+        return Response.error_response('Access Denied: Not The Same School')
+
     if apply is None:
         return Response.error_response('No Apply')
 
@@ -35,7 +39,8 @@ def approve(package):
         status = 2
 
     SchoolApplyHelper.judge_apply(apply_id, user_id, status)
-    PermissionHelper.user_join_school(apply_user_id, school_id)
+    if status == 1:
+        PermissionHelper.user_join_school(apply_user_id, school_id)
     return Response.checked_response('Approve Successed')
 
 def get_apply_list(package):
