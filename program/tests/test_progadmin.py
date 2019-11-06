@@ -105,6 +105,26 @@ class TestProgramUserByRequest(TestCase):
         self.assertEqual(data.get('msg'), 'Status Changed Successful')
 
     def test0005(self):
+        """this is a test for some error
+        """
+        Initialization.disconnect(self)
+        self.token, self.ip_addr = Initialization.start_session(self)
+        Initialization.register(self, 'testadmin', 'Test666', '11011011011')
+        Initialization.login(self, 'testadmin', 'Test666')
+        Initialization.promote_user(self, 4)
+        code_id = ProgramHelper.get_program_by_name('在野代码').get('id')
+        source = 4
+        target = 6
+        response = self.client.post('/program/admin/status', {
+            'token' : self.token,
+            'code_id' : code_id,
+            'source' : source,
+            'target' : target
+        })
+        data = analyse_response(response)
+        self.assertEqual(data.get('status'), 0)
+
+    def test0006(self):
         """this is a test for admin status
         """
         Initialization.disconnect(self)
@@ -125,3 +145,18 @@ class TestProgramUserByRequest(TestCase):
         })
         data = analyse_response(response)
         self.assertEqual(data.get('msg'), 'Status Changed Successful')
+
+    def test0007(self):
+        """test for some errors
+        """
+        code_id = ProgramHelper.get_program_by_name('测试代码').get('id')
+        source = 0
+        target = 2
+        response = self.client.post('/program/admin/status', {
+            'token' : self.token,
+            'code_id' : code_id,
+            'source' : source,
+            'target' : target
+        })
+        data = analyse_response(response)
+        self.assertEqual(data.get('status'), 0)
