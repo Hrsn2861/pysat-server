@@ -114,6 +114,10 @@ def modify_info(package):
     if public_permission > 4:                                   #现在是超级用户，可以随意修改
         if target_public_permission >= public_permission:        #超级用户也不能修改root权限
             return Response.error_response('Access Denied: Can\'t modify your superior')
+        if target_private_permission == 4:
+            return Response.error_response(
+                'Modify Denied: Cannot Demote or Promote Headmaster Here'
+                )
         UserHelper.modify_user(target_userid, {
             'permission' : modify_public_permission,
             'realname' : realname,
