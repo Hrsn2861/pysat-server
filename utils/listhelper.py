@@ -12,7 +12,7 @@ def get_list(model, selector, convertor, page, hide_list=None, order_list=None):
     if hide_list is None:
         hide_list = []
 
-    qs = model.objects.filter(selector)
+    qs = model.objects.filter(**selector)
     count = qs.count()
     if order_list is not None:
         qs = qs.order_by(**order_list)

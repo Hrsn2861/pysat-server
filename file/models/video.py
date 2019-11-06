@@ -2,7 +2,7 @@
 """
 from django.db import models
 
-from utils import getdate_now
+from utils import getdate_now, date_to_string
 from user.models import UserHelper
 
 class Video(models.Model):
@@ -52,12 +52,12 @@ class VideoHelper:
             'id' : video.id,
             'name' : video.title,
             'description' : video.description,
-            'upload_time' : video.upload_time,
+            'upload_time' : date_to_string(video.upload_time),
             'size' : video.video_size,
             'filename' : video.filename,
             'filepath' : video.filepath,
             'school' : video.school,
-            'user' : UserHelper.get_name_by_id(video.uploader),
+            'uploader' : UserHelper.get_name_by_id(video.uploader),
             'category' : video.category
         }
 
