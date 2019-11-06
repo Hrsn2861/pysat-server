@@ -131,8 +131,8 @@ def modify_info(package):
     if motto is not None:
         return Response.error_response('Access Denied: Cannot Modify User Motto')
 
-    if schoolid == 0 or public_permission > 1:             #如果是在野管理员，此时管理员可能有学校
-        if target_public_permission >= public_permission:    #不能改领导权限 或者 同事
+    if schoolid == 0 and private_permission <= 1:             #如果是在野管理员，在学校是屌丝, 则只能修改在野权限
+        if target_public_permission >= public_permission:    #不能改领导权限 或者 同事s
             return Response.error_response('Access Denied:  Can\'t modify your superior')
         if modify_private_permission is not None and schoolid == 0:           #在野管理员不能修改学校权限
             return Response.error_response('Access Denied: Not The Same School')
@@ -142,6 +142,22 @@ def modify_info(package):
             })
         return Response.checked_response('Modify Success')
 
+    if modify_private_permission is not None and modify_public_permission is not None:
+        if private_permission < 2 or public_permission < 2:
+            return Response.error_response('Access Denied: Permission Error')
+        if target_private_permission > private_permission:
+            return Response.error_response('Access Denied: Cannot Modify Your Superior')
+        if target_public_permission > public_permission:
+            return Response.error_response('Access Denied: Cannot Modify Your Superior')
+        UserHelper.modify_user(target_userid, {
+            'permission' : modify_public_permission
+        })
+        PermissionHelper.set_permission(
+            target_userid, target_schoolid, modify_private_permission
+        )
+        return Response.checked_response('Modify Success')
+
+    #现在完全是在野屌丝
     if target_private_permission >= private_permission:  #不能该领导权限 或者 同事
         return Response.error_response('Access Denied: Can\'t modify your superior')
     #现在是有学校的管理员
