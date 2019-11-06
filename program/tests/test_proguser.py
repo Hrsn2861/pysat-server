@@ -70,6 +70,7 @@ class TestProgramUserByRequest(TestCase):
 
         program = ProgramHelper.get_program_by_name('TestProgram')
         code_id = program.get('id')
+        ProgramHelper.upload(code_id)
 
         response = self.client.post('/program/user/like', {
             'token' : self.token,
@@ -77,7 +78,7 @@ class TestProgramUserByRequest(TestCase):
         })
 
         data = analyse_response(response)
-        self.assertEqual(data.get('msg'), 'Program not valid')
+        self.assertEqual(data.get('status'), 1)
 
     def test_0003(self):
         """this is a test of user download

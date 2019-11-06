@@ -317,7 +317,7 @@ class ProgramHelper:
         else:
             return False
 
-        program.status = 3
+        program.status = 5
         program.upload_time = getdate_now()
         program.save()
         return True
