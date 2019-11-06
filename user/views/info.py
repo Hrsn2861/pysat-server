@@ -35,7 +35,10 @@ def get_info(package):
     else:
         permission_private = PermissionHelper.get_permission(user_id, school_id)
         school = SchoolHelper.get_school(school_id)
-        schoolname = school.get('schoolname')
+        if school is None:
+            schoolname = '-'
+        else:
+            schoolname = school.get('schoolname')
 
     download = ProgramHelper.count_user_downloadlog(user_id)
 
