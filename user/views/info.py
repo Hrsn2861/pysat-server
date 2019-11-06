@@ -72,7 +72,7 @@ def modify_info(package):
         modify_public_permission = int(modify_public_permission)
 
     if username is None:                    #修改本人信息
-        if modify_private_permission is not None:
+        if modify_private_permission is not None:               #不能修改个人权限
             return Response.error_response('Access Denied')
         if modify_public_permission is not None:
             return Response.error_response('Access Denied')
@@ -92,7 +92,10 @@ def modify_info(package):
     if public_permission <= 1 and private_permission <= 1:      #如果是屌丝
         return Response.error_response('Access Denied')
 
-    #现在修改人员权限 >= 2
+    if modify_private_permission == 4:
+        return Response.error_response('Can\'t Promote Someone to Headmaster')
+
+    #现在修改人员有一个权限 >= 2
     target_user = UserHelper.get_user_by_username(username)
     target_userid = target_user.get('id')
     target_schoolid = PermissionHelper.get_user_school(target_userid)
@@ -101,7 +104,16 @@ def modify_info(package):
         target_userid, target_schoolid
     )
 
-    if public_permission > 4:                                  #现在是超级用户
+    if modify_private_permission is not None:
+        if modify_private_permission >= private_permission:     #不能越界
+            return Response.error_response('Access Denied')
+    if modify_public_permission is not None:
+        if modify_public_permission >= public_permission:       #不能越界
+            return Response.error_response('Access Denied')
+
+    if public_permission > 4:                                   #现在是超级用户，可以随意修改
+        if target_public_permission > public_permission:        #超级用户也不能修改root权限
+            return Response.error_response('Access Denied: Can\'t modify your superior')
         UserHelper.modify_user(target_userid, {
             'permission' : modify_public_permission,
             'realname' : realname,
@@ -113,34 +125,20 @@ def modify_info(package):
         return Response.checked_response('Modify Success')
 
     #之后都是管理员
-    if modify_private_permission is not None:
-        if modify_private_permission >= private_permission:     #不能越界
-            return Response.error_response('Access Denied')
-    if modify_public_permission is not None:
-        if modify_public_permission >= public_permission:       #不能越界
-            return Response.error_response('Access Denied')
 
     if schoolid == 0:                                       #如果是在野管理员
         if target_public_permission > public_permission:    #不能改领导权限
             return Response.error_response('Access Denied:  Can\'t modify your superior')
-        if modify_private_permission is not None:       #不能修改学校权限
+        if modify_private_permission is not None:           #在野管理员不能修改学校权限
             return Response.error_response('Access Denied: Not The Same School')
-        if modify_public_permission is not None:        #修改在野权限
+        if modify_public_permission is not None:            #只可修改在野权限
             UserHelper.modify_user(target_userid, {
                 'permission' : modify_public_permission
             })
-        if public_permission <= 4:
-            if realname is not None:
-                return Response.error_response('Access Denied')
-            if motto is not None:
-                return Response.error_response('Access Denied')
-            return Response.checked_response('Modify Success')
-        #现在管理员的权限 >= 8 可以随意修改
-        UserHelper.modify_user(target_userid, {
-            'permission' : modify_public_permission,
-            'realname' : realname,
-            'motto' : motto
-        })
+        if realname is not None:
+            return Response.error_response('Access Denied')
+        if motto is not None:
+            return Response.error_response('Access Denied')
         return Response.checked_response('Modify Success')
 
     if target_private_permission > private_permission:  #不能该领导权限
