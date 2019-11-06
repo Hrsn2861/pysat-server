@@ -11,8 +11,6 @@ def apply_for_school(package):
     """
     params = package.get('params')
     user = package.get('user')
-    if user is None:
-        return Response.error_response('No User')
     apply_reason = params.get(ParamType.ApplyReason)
     school_id = int(params.get(ParamType.ApplySchoolId))
 

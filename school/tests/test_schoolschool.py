@@ -31,26 +31,37 @@ class TestSchoolUser(TestCase):
         Initialization.disconnect(self)
 
     def test0001(self):
-        """test for school user
+        """this is the test for create school
         """
-        school = SchoolHelper.get_school_by_name('测试大学')
-        schoolid = school.get('id')
-        response = self.client.post('/school/user/apply', {
+        response = self.client.post('/school/school/create', {
             'token' : self.token,
-            'apply_reason' : 'I am Stupid',
-            'apply_school_id' : schoolid
+            'username' : 'testuser',
+            'school_name' : '新建大学',
+            'school_description' : '新建一个大学'
         })
         data = analyse_response(response)
         self.assertEqual(data.get('status'), 1)
 
     def test0002(self):
-        """test for school user with some error
+        """this is a school with duplicated name
         """
-        schoolid = -1
-        response = self.client.post('/school/user/apply', {
+        response = self.client.post('/school/school/create', {
             'token' : self.token,
-            'apply_reason' : 'I am Stupid',
-            'apply_school_id' : schoolid
+            'username' : 'testuser',
+            'school_name' : '测试大学',
+            'school_description' : '重复的名字'
+        })
+        data = analyse_response(response)
+        self.assertEqual(data.get('status'), 0)
+
+    def test0003(self):
+        """this is a school with no headmaster
+        """
+        response = self.client.post('/school/school/create', {
+            'token' : self.token,
+            'username' : 'No User',
+            'school_name' : '新建大学',
+            'school_description' : '没有校长的大学'
         })
         data = analyse_response(response)
         self.assertEqual(data.get('status'), 0)

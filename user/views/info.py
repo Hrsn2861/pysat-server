@@ -107,10 +107,13 @@ def modify_info(package):
         target_userid, target_schoolid
     )
 
+    if target_private_permission == 4 and modify_private_permission is not None:        #如果更改人是校长
+        return Response.error_response('Cannot Modify Headmaster')
+
     if modify_private_permission is not None:
         if modify_private_permission >= private_permission:     #不能越界
             return Response.error_response('Access Denied: Cannot Promote Someone to Superior')
-        if modify_private_permission < 0:
+        if modify_private_permission < 0:                       #不能直接退学
             return Response.error_response('Access Denied: Cannot Tuixue Student Here')
     if modify_public_permission is not None:
         if modify_public_permission >= public_permission:       #不能越界
@@ -122,6 +125,10 @@ def modify_info(package):
         if target_private_permission == 4:
             return Response.error_response(
                 'Modify Denied: Cannot Demote or Promote Headmaster Here'
+                )
+        if target_schoolid == 0 and modify_private_permission is not None:
+            return Response.error_response(
+                'Access Denied: Cannot Modify Schoolless User\'s private permission'
                 )
         UserHelper.modify_user(target_userid, {
             'permission' : modify_public_permission,
