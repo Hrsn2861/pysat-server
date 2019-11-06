@@ -31,7 +31,8 @@ def video(package):
         if last_byte >= filesize:
             last_byte = filesize - 1
         length = last_byte - first_byte + 1
-        response = StreamingHttpResponse(file_iterator(filepath, offset=first_byte, length=length), status=206)
+        response = StreamingHttpResponse(
+            file_iterator(filepath, offset=first_byte, length=length), status=206)
         response['Content-Length'] = str(length)
         response['Content-Range'] = 'bytes %s-%s/%s' % (first_byte, last_byte, filesize)
     else:
@@ -41,5 +42,3 @@ def video(package):
     response['Content-Disposition'] = 'attachment;filename="' + videoinfo['filename'] + '"'
     response['Accept-Ranges'] = 'bytes'
     return response
-
-# http://127.0.0.1:8080/api/file/download/video?token=XVXPRVPIRNQGBNAUVULMCDCGYJTLLZVJNCWMSXOPOGCNZHRKJEVGPQYOYHCDYTBNTFEXSKXWLTYHMTVQLCBNVXAFUIBFUQUEMABHOMMQOXEHBAJWUNQSIEIDUMNQSEAK&video_id=1
