@@ -1,4 +1,4 @@
-"""pytest for school.views.user
+"""pytest for school.views.school
 """
 from django.test import TestCase
 
