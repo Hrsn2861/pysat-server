@@ -66,7 +66,34 @@ def change_status(package):
     user_id = user.get('id')
     school_id = PermissionHelper.get_user_school(user_id)
     permission = PermissionHelper.get_permission(user_id, school_id)
+    public_permission = user('permission')
 
+    if permission > 4:
+        if check not in [(0, 1), (1, 2), (1, -1), (2, 3), (3, 4), (4, 5)]:
+            return Response.error_response('Cannot Change Status')
+        if ProgramHelper.change_status(code_id, source, target) is False:
+            return Response.error_response('Source Status Wrong')
+        return Response.checked_response('Status Changed Successful')
+
+    if school_id == 0:
+        if public_permission < 2:
+            return Response.error_response('Access Denied')
+        #如果是 在野审查员 不能上传
+        if public_permission < 4:
+            if check not in [(0, 1), (1, 2), (1, -1), (2, 3)]:
+                return Response.error_response('Can\'t change status')
+            if ProgramHelper.change_status(code_id, source, target) is False:
+                return Response.error_response('Source Status Wrong')
+            return Response.checked_response('Status Changed Successful')
+        #如果是 在野头目 则可以进行上传
+        if check not in [(0, 1), (1, 2), (1, -1), (2, 3), (3, 4), (4, 5)]:
+            return Response.error_response('Cannot Change Status')
+        if ProgramHelper.change_status(code_id, source, target) is False:
+            return Response.error_response('Source Status Wrong')
+        return Response.checked_response('Status Changed Successful')
+
+    if permission < 2:
+        return Response.error_response('Access Denied')
     if permission < 4:                      #如果只是普通管理员
         if check not in [(0, 1), (1, 2), (1, -1), (2, 3)]:
             return Response.error_response('Can\'t change status')

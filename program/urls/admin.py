@@ -16,5 +16,5 @@ urlpatterns = [
         ParamType.ProgramId,
         ParamType.SourceStatus,
         ParamType.TargetStatus
-    ], action=ActionType.AdminChangeStatus))
+    ]))
 ]
