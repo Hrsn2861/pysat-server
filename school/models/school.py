@@ -73,6 +73,14 @@ class SchoolHelper:
     def get_school(school_id):
         """get school
         """
+        if school_id == 0:
+            return {
+                'id' : 0,
+                'schoolname' : '-',
+                'description' : '-',
+                'headmaster' : '-',
+                'population' : -1
+            }
         schools = School.objects.filter(id=school_id)
         headmaster_id = PermissionHelper.get_school_headmaster(school_id)
         if schools.exists():
