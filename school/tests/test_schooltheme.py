@@ -21,7 +21,7 @@ class TestSchoolUser(TestCase):
         self.token, self.ip_addr = Initialization.start_session(self)
         Initialization.register(self, 'testuser', 'Test666', '11011011011')
         Initialization.login(self, 'testuser', 'Test666')
-        Initialization.promote_user(self, 2)
+        Initialization.promote_user(self, 4)
         # Initialization.create_school(self, '测试大学', '世界一流大学', 'testuser')
         Initialization.create_theme(self, 0, '计算机科学与技术', '贵系', '2099-10-30 00:00:00.000000')
 
