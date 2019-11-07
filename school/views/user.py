@@ -11,14 +11,12 @@ def apply_for_school(package):
     """
     params = package.get('params')
     user = package.get('user')
-    if user is None:
-        return Response.error_response('No User')
-    apply_message = params.get(ParamType.ApplyMessage)
-    schoolid = params.get(ParamType.SchoolIdWithoutDefault)
+    apply_reason = params.get(ParamType.ApplyReason)
+    school_id = int(params.get(ParamType.ApplySchoolId))
 
-    school = SchoolHelper.get_school(schoolid)
+    school = SchoolHelper.get_school(school_id)
 
     if school is None:
         return Response.error_response('No School Found')
-    SchoolApplyHelper.add_apply(user.get('id'), schoolid, apply_message)
+    SchoolApplyHelper.add_apply(user.get('id'), school_id, apply_reason)
     return Response.checked_response('Applied Successed')

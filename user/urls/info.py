@@ -16,12 +16,12 @@ urlpatterns = [
         ParamType.UsernameWithDefault,
         ParamType.RealnameForModify,
         ParamType.MottoForModify,
-        ParamType.PermissionForModify
+        ParamType.PermissionPrivateForModify,
+        ParamType.PermissionPublicForModify
     ], [
         ParamType.RealnameForModify,
         ParamType.MottoForModify,
-        ParamType.PermissionForModify
-    ])),
+    ], action=ActionType.ModifyMyInfo)),
     path('setphone', view_maker(info.set_phone, 'POST', [
         ParamType.Phone,
         ParamType.CAPTCHA

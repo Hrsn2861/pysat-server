@@ -170,27 +170,21 @@ class UserHelper:
             return False
 
         realname = info.get('realname')
-        # school = info.get('school')
-        # schoolid = info.get('schoolid')
         motto = info.get('motto')
-        # permission = info.get('permission')
         password = info.get('password')
         phone = info.get('phone')
+        permission = info.get('permission')
 
         if isinstance(realname, str):
             user.realname = realname
-        # if isinstance(school, str):
-        #     user.school = school
         if isinstance(motto, str):
             user.motto = motto
-        # if isinstance(permission, int):
-        #    user.permission = permission
         if UserInfoChecker.check_password(password):
             user.password = make_password(password)
         if UserInfoChecker.check_phone(phone):
             user.phone = phone
-        # if isinstance(schoolid, int):
-        #     user.schoolid = schoolid
+        if isinstance(permission, int):
+            user.permission = permission
 
         user.save()
         return True
@@ -226,3 +220,34 @@ class UserHelper:
             user = UserHelper.query_to_user(user)
             ret.append(UserHelper.user_filter(user))
         return ret
+
+    @staticmethod
+    def get_all(show_invalid, manager_first):
+        """get user list in school
+        """
+        if show_invalid is True:
+            qs = User.objects.all()
+        else:
+            qs = User.objects.filter(permission__gt=0)
+        if manager_first is True:
+            qs = qs.order_by('-permission', 'id')
+        else:
+            qs = qs.order_by('id')
+        ret = []
+        for user in qs:
+            user = UserHelper.query_to_user(user)
+            ret.append(user)
+        return ret
+
+    @staticmethod
+    def modify_permission_for_test(user_id, permission):
+        """modify for unit-test
+        """
+        users = User.objects.filter(id=user_id)
+        if users.exists():
+            user = users.last()
+        else:
+            return False
+        user.permission = permission
+        user.save()
+        return True

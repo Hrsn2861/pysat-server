@@ -7,15 +7,10 @@ class ActionType(Enum):
     """
     GetUserInfo = 1
     ModifyMyInfo = 1
-    ModifyUserInfo = 5
+    ModifyUserInfo = 8
 
     GetUserList = 1
-    GetAllUserList = 4
-
-    SubmitProgram = 1
-
-    AdminUploadProgram = 4
-    AdminJudge = 4
+    UserAction = 1
 
     UserLike = 1
     UserDownload = 1
@@ -29,12 +24,20 @@ class ActionType(Enum):
     BannedUser = 0
     NormalUser = 1
     Teacher = 2
-    Master = 3
-    Manager = 4
-    SuperManager = 8
+    Master = 4
+    Manager = 8
+    SuperManager = 16
 
     CreateSchool = 8
     ApplyForSchool = 1
+    GetSchoolList = 1
+
+    Approve = 2
+    GetApplyList = 2
+
+    ThemeCreate = 1
+    AdminDelete = 4
+    AdminModify = 4
 
 class PermissionManager:
     """Permission Manager

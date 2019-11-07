@@ -3,7 +3,8 @@
 add some items into database for test
 """
 from session.models import SessionHelper
-from user.models import VerifyHelper, UserHelper
+from user.models import VerifyHelper, UserHelper, PermissionHelper
+from school.models import SchoolHelper, SubjectHelper
 from utils.response import analyse_response
 from utils.cipher import encrypt
 
@@ -40,7 +41,7 @@ class Initialization:
         })
         testcase.assertEqual(response.status_code, 200)
         data = analyse_response(response)
-        testcase.assertEqual(data.get('status'), 1)
+        testcase.assertEqual(data.get('msg'), 'Success')
 
         session = SessionHelper.get_session_id(testcase.token, testcase.ip_addr)
         verifycode = VerifyHelper.get_latest_code(session, phone)
@@ -90,3 +91,96 @@ class Initialization:
             'token' : testcase.token
         })
         testcase.assertEqual(response.status_code, 200)
+
+    @staticmethod
+    def create_school(testcase, schoolname, description, headmaster):
+        """create a school
+        """
+        response = testcase.client.post('/school/school/create', {
+            'token' : testcase.token,
+            'username' : headmaster,
+            'school_name' : schoolname,
+            'school_description' : description
+        })
+
+        testcase.assertEqual(response.status_code, 200)
+
+    @staticmethod
+    def create_theme(testcase, schoolname, themename, description, deadline):
+        """create a theme
+        """
+        school = SchoolHelper.get_school_by_name(schoolname)
+        if school is None:
+            schoolid = 0
+        else:
+            schoolid = int(school.get('id'))
+        response = testcase.client.post('/school/theme/create', {
+            'token' : testcase.token,
+            'school_id' : schoolid,
+            'theme_name' : themename,
+            'theme_description' : description,
+            'theme_deadline' : deadline
+        })
+
+        testcase.assertEqual(response.status_code, 200)
+
+    @staticmethod
+    def submit_program(testcase, name, content, readme, schoolname, themename):
+        #pylint: disable-msg=too-many-arguments
+        """submit a program for test
+        """
+        school = SchoolHelper.get_school_by_name(schoolname)
+        if school is None:
+            schoolid = 0
+        else:
+            schoolid = school.get('id')
+        themeid = SubjectHelper.get_subject_by_name(themename).get('id')
+        response = testcase.client.post('/program/user/submit', {
+            'token' : testcase.token,
+            'code_name' : name,
+            'code_content' : content,
+            'code_readme' : readme,
+            'school_id' : schoolid,
+            'theme_id' : themeid
+        })
+
+        testcase.assertEqual(response.status_code, 200)
+
+    @staticmethod
+    def add_user_to_school(testcase, schoolname):
+        """add a user to school
+        """
+        school = SchoolHelper.get_school_by_name(schoolname)
+        school_id = school.get('id')
+        response = testcase.client.get('/user/info/get', {
+            'token' : testcase.token
+        })
+        response = analyse_response(response)
+        data = response.get('data')
+        user_id = data.get('user').get('id')
+        PermissionHelper.user_join_school(user_id, school_id)
+
+    @staticmethod
+    def promote_user(testcase, permission):
+        """promote a user
+        """
+        response = testcase.client.get('/user/info/get', {
+            'token' : testcase.token
+        })
+        response = analyse_response(response)
+        data = response.get('data')
+        user_id = data.get('user').get('id')
+        UserHelper.modify_permission_for_test(user_id, permission)
+
+    @staticmethod
+    def promote_user_in_school(testcase, permission):
+        """promote a user in school
+        """
+        response = testcase.client.get('/user/info/get', {
+            'token' : testcase.token
+        })
+        response = analyse_response(response)
+        data = response.get('data')
+        user_id = data.get('user').get('id')
+        school = PermissionHelper.get_user_school(user_id)
+        PermissionHelper.set_permission(user_id, school, permission)

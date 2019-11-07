@@ -5,7 +5,7 @@ from django.db import models
 from user.models.user import User, UserHelper
 
 class Permission(models.Model):
-    """VerifyCode
+    """Permission
     """
     user_id = models.IntegerField()
     school_id = models.IntegerField()
@@ -49,8 +49,34 @@ class PermissionHelper:
             perm = perms.last()
             return perm.permission
         if school_id == 0:
-            return user['permission']
+            if user['permission'] > 4:
+                return user['permission']
+            return -1
+        return -1
+
+    @staticmethod
+    def get_user_school(user_id):
+        """get user's school
+        """
+        perms = Permission.objects.filter(user_id=user_id, school_id__gt=0)
+        if perms.exists():
+            return perms.last().school_id
         return 0
+
+    @staticmethod
+    def user_quit_school(user_id):
+        """quit school
+        """
+        perms = Permission.objects.filter(user_id=user_id, school_id__gt=0)
+        for perm in perms:
+            perm.delete()
+
+    @staticmethod
+    def user_join_school(user_id, school_id):
+        """ join school
+        """
+        PermissionHelper.user_quit_school(user_id)
+        PermissionHelper.set_permission(user_id, school_id, 1)
 
     @staticmethod
     def set_user_permission(user_id, permission):
@@ -63,3 +89,19 @@ class PermissionHelper:
             user.save()
             return True
         return False
+
+    @staticmethod
+    def get_school_population(school_id):
+        """ get a school's population
+        """
+        perms = Permission.objects.filter(school_id=school_id)
+        return perms.count()
+
+    @staticmethod
+    def get_school_headmaster(school_id):
+        """ get a school's headmaster(permission = 4)
+        """
+        perms = Permission.objects.filter(school_id=school_id, permission=4)
+        if perms.exists():
+            return perms.last().user_id
+        return 0

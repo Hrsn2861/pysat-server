@@ -10,10 +10,14 @@ from school.views import school
 
 urlpatterns = [
     path('create', view_maker(school.create_school, 'POST', [
-        ParamType.UsernameWithDefault,
+        ParamType.Username,
         ParamType.SchoolName,
-        ParamType.Description
+        ParamType.SchoolDescription
     ], [
         ParamType.SchoolName
-    ], action=ActionType.CreateSchool))
+    ], action=ActionType.CreateSchool)),
+    path('get_list', view_maker(school.get_school_list, 'GET', [
+        ParamType.Page,
+        ParamType.SearchText
+    ], action=ActionType.GetSchoolList))
 ]
