@@ -51,7 +51,7 @@ class PermissionHelper:
         if school_id == 0:
             if user['permission'] > 4:
                 return user['permission']
-            return 0
+            return -1
         return -1
 
     @staticmethod
