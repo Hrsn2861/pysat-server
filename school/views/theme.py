@@ -8,6 +8,7 @@ from utils.params import ParamType
 from user.models import PermissionHelper
 
 def create_theme(package):
+    #pylint: disable-msg=too-many-return-statements
     """create a theme
     """
     user = package.get('user')
@@ -22,17 +23,27 @@ def create_theme(package):
     private_permission = PermissionHelper.get_permission(userid, school_id)
     public_permission = user['permission']
 
-    if public_permission > 1 and private_permission > 1:
+    if public_permission < 2 and private_permission < 2:
+        return Response.error_response('Access Denied')
+
+    if public_permission > 1 and private_permission > 1:            #如果这是一个双重管理员
         if target_schoolid is None:
-            return Response.error_response('Invalid SchoolId')
+            SubjectHelper.add_subject(0, name, msg, deadline)
+            return Response.checked_response('Create Successful')
         target_schoolid = (int)(target_schoolid)
         SubjectHelper.add_subject(target_schoolid, name, msg, deadline)
         return Response.checked_response('Create Successful')
 
-    if public_permission > 1:
+    if public_permission > 1:                                       #如果这只是一个在野管理员
+        if school_id is not None:
+            return Response.error_response('Access Denied')
         SubjectHelper.add_subject(0, name, msg, deadline)
         return Response.checked_response('Create Successful')
 
+    if school_id is None:                                           #此时必须一个schoolid
+        return Response.error_response('Invalid School Id')
+    if school_id != target_schoolid:
+        return Response.error_response('Not the Same School')
     SubjectHelper.add_subject(school_id, name, msg, deadline)
     return Response.checked_response('Create Successful')
 

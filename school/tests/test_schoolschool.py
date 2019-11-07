@@ -1,4 +1,4 @@
-"""pytest for school.views.user
+"""pytest for school.views.school
 """
 from django.test import TestCase
 
@@ -62,6 +62,27 @@ class TestSchoolUser(TestCase):
             'username' : 'No User',
             'school_name' : '新建大学',
             'school_description' : '没有校长的大学'
+        })
+        data = analyse_response(response)
+        self.assertEqual(data.get('status'), 0)
+
+    def test0004(self):
+        """this is a schoolist
+        """
+        response = self.client.get('/school/school/get_list', {
+            'token' : self.token,
+            'search_text' : '大学'
+        })
+        data = analyse_response(response)
+        self.assertEqual(data.get('status'), 1)
+    
+    def test0005(self):
+        """this is a list with invalid page
+        """
+        response = self.client.get('/school/school/get_list', {
+            'token' : self.token,
+            'page' : -1,
+            'search_text' : '大学'
         })
         data = analyse_response(response)
         self.assertEqual(data.get('status'), 0)

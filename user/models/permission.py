@@ -49,7 +49,9 @@ class PermissionHelper:
             perm = perms.last()
             return perm.permission
         if school_id == 0:
-            return user['permission']
+            if user['permission'] > 4:
+                return user['permission']
+            return 0
         return -1
 
     @staticmethod
